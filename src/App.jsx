@@ -1,34 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import LoginPage from './pages/LoginPage'
+import NotFoundPage from './pages/NotFoundPage'
+import SignupPage from './pages/SignupPage'
+import HomePage from './pages/HomePage'
+import LogoutPage from './pages/LogoutPage'
+import ToplistsPage from './pages/ToplistsPage'
+import {Routes, Route} from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
+	return (
+		<>
+		{/* <Navigation/> */}
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+		<Routes>
+			{/* -------------------------------- GUEST -------------------------------- */}
+			<Route path={"/"} element={<LoginPage />} />
+			<Route path={"*"} element={<NotFoundPage />} />
+			<Route path={"/signup"} element={<SignupPage />} />
+
+			{/* ------------------------------ LOGGED IN ------------------------------ */}
+			<Route path={"/home"} element={<HomePage />} />
+			<Route path={"/logout"} element={<LogoutPage />} />
+			{/* <Route path={"/shared"} element={<SharedPage />} /> */}
+
+			<Route path={"/toplists"} element={<ToplistsPage />} />
+			{/* <Route path={"/toplists/most-active"} element={<MostActivePage />} /> */}
+			{/* <Route path={"/toplists/most-watched"} element={<MostWatchedPage />} /> */}
+			{/* <Route path={"/toplists/most-wanted"} element={<MostWantedPage />} /> */}
+
+			{/* <Route path={"/create/movie"} element={<CreateMoviePage />} /> */}
+			{/* <Route path={"/create/tvshow"} element={<CreateTvshowPage />} /> */}
+			{/* <Route path={"/edit-review"} element={<EditReviewPage />} /> */}
+
+			{/* <Route path={"/movies"} element={<MoviesPage />} /> */}
+			{/* <Route path={"/movies/genres/:genreId"} element={<MoviesGenrePage />} /> */}
+			{/* <Route path={"/movies/:movieId"} element={<MoviePage />} /> */}
+			{/* <Route path={"/tvshows"} element={<TvshowsPage />} /> */}
+			{/* <Route path={"/tvshows/genres/:genreId"} element={<TvshowsGenrePage />} /> */}
+			{/* <Route path={"/tvshows/:tvshowId"} element={<TvshowPage />} /> */}
+
+			{/* <Route path={"/my-reviews"} element={<MyReviewsPage />} /> */}
+			{/* <Route path={"/my-reviews/:reviewId"} element={<MyReviewPage />} /> */}
+
+			{/* <Route path={"/my-wish-list"} element={<MyWishListPage />} /> */}
+
+		</Routes>
+		</>
+	)
 }
 
 export default App
