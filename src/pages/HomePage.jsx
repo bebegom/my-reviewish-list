@@ -1,10 +1,13 @@
 import React from 'react'
+import { useAuthContext } from '../contexts/AuthContext'
 
 const HomePage = () => {
+    const {currentUser} = useAuthContext()
     return (
-        <div>
+        <>
             <p>Homepage</p>
-        </div>
+            <p>Current user: {currentUser ? currentUser.email : 'null'}</p>
+        </>
     )
 }
 

@@ -1,6 +1,11 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { auth, db } from '../firebase'
-import { createUserWithEmailAndPassword} from 'firebase/auth'
+import { 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+} from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 
 const AuthContext = createContext()
@@ -11,9 +16,9 @@ const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
+    const [currentUser, setCurrentUser] = useState(null)
 
     const signup = async (email, password) => {
-        console.log('create account with: ', email, password)
 		await createUserWithEmailAndPassword(auth, email, password)
 
 		const docRef = doc(db, 'users', auth.currentUser.uid) 
@@ -22,19 +27,33 @@ const AuthContextProvider = ({ children }) => {
 		})
 	}
 
+    const login = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password)
+    }
+
+    const logout = () => {
+        return signOut(auth)
+    }
+
+    useEffect(() => {
+        // listen for auth-state changes
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user)
+        })
+
+        return unsubscribe
+    }, [])
+
     const contextValues = {
+        currentUser,
 		signup,
+        login,
+        logout,
     }
 
     return (
 		<AuthContext.Provider value={contextValues}>
-			{loading ? (
-				<div id="initial-loader">
-					Loading...
-				</div>
-			) : (
-				children
-			)}
+			{children}
 		</AuthContext.Provider>
 	)
 }
