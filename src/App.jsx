@@ -5,10 +5,13 @@ import SignupPage from './pages/SignupPage'
 import HomePage from './pages/HomePage'
 import LogoutPage from './pages/LogoutPage'
 import ToplistsPage from './pages/ToplistsPage'
+import MovieGenrePage from './pages/MovieGenrePage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import RequireAuth from './components/RequireAuth'
 import { useAuthContext } from './contexts/AuthContext'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import TvshowGenrePage from './pages/TvshowGenrePage'
 
 function App() {
 	const { currentUser } = useAuthContext()
@@ -55,10 +58,13 @@ function App() {
 				{/* <Route path={"/create/tvshow"} element={<CreateTvshowPage />} /> */}
 				{/* <Route path={"/edit-review"} element={<EditReviewPage />} /> */}
 
-				{/* <Route path={"/movies"} element={<MoviesPage />} /> */}
-				{/* <Route path={"/movies/genres/:genreId"} element={<MoviesGenrePage />} /> */}
+				<Route path={"/movies/:movieGenreId"} element={
+					<RequireAuth>
+						<MovieGenrePage />
+					</RequireAuth>
+				} />
 				{/* <Route path={"/movies/:movieId"} element={<MoviePage />} /> */}
-				{/* <Route path={"/tvshows"} element={<TvshowsPage />} /> */}
+				<Route path={"/tvshows/:tvshowGenreId"} element={<TvshowGenrePage />} />
 				{/* <Route path={"/tvshows/genres/:genreId"} element={<TvshowsGenrePage />} /> */}
 				{/* <Route path={"/tvshows/:tvshowId"} element={<TvshowPage />} /> */}
 
@@ -68,6 +74,8 @@ function App() {
 				{/* <Route path={"/my-wish-list"} element={<MyWishListPage />} /> */}
 
 			</Routes>
+
+			<ReactQueryDevtools />
 		</div>
 	)
 }
