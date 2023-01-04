@@ -6,6 +6,9 @@ import HomePage from './pages/HomePage'
 import LogoutPage from './pages/LogoutPage'
 import ToplistsPage from './pages/ToplistsPage'
 import MovieGenrePage from './pages/MovieGenrePage'
+import SharedPage from './pages/SharedPage'
+import MyWishlistPage from './pages/MyWishlistPage'
+import MyReviewsPage from './pages/MyReviewsPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import RequireAuth from './components/RequireAuth'
@@ -48,7 +51,24 @@ function App() {
 						<LogoutPage />
 					</RequireAuth>
 				} />
-				{/* <Route path={"/shared"} element={<SharedPage />} /> */}
+
+				<Route path={"/my-reviews"} element={
+					<RequireAuth>
+						<MyReviewsPage />
+					</RequireAuth>
+				} />
+				{/* <Route path={"/my-reviews/:reviewId"} element={<MyReviewPage />} /> */}
+
+				<Route path={"/my-wishlist"} element={
+					<RequireAuth>
+						<MyWishlistPage />
+					</RequireAuth>
+				} />
+				<Route path={"/shared"} element={
+					<RequireAuth>
+						<SharedPage />
+					</RequireAuth>
+				} />
 
 				<Route path={"/toplists"} element={
 					<RequireAuth>
@@ -95,11 +115,6 @@ function App() {
 					<TvshowPage />
 				</RequireAuth>
 				} />
-
-				{/* <Route path={"/my-reviews"} element={<MyReviewsPage />} /> */}
-				{/* <Route path={"/my-reviews/:reviewId"} element={<MyReviewPage />} /> */}
-
-				{/* <Route path={"/my-wish-list"} element={<MyWishListPage />} /> */}
 
 			</Routes>
 
