@@ -22,3 +22,11 @@ export const getMovieGenre = (genre, page) => {
 export const getTvshowGenre = (genre, page) => {
     return get(`/discover/tv?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_genres=${genre}&page=${page}`)
 }
+
+export const getMovie = (id) => {
+    return get(`/movie/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
+}
+
+export const getTvshow = (id) => {
+    return get(`/tv/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import Button from 'react-bootstrap/Button'
 import { useQuery } from 'react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { getMovieGenre, getMovieGenres } from '../services/tmdbAPI'
 
 const MovieGenrePage = () => {
@@ -29,9 +30,14 @@ const MovieGenrePage = () => {
 
             {data && (
                 <>
-                    {nameOfThisGenre}
+                    <h1>
+                        {nameOfThisGenre}
+                    </h1>
                     {data.results.map(movie => (
-                        <p key={movie.id}>{movie.title}</p>
+                        <div key={movie.id}>
+                            <h2>{movie.title}</h2>
+                            <Button as={Link} to={`/movies/${movieGenreId}/${movie.id}`}>details</Button>
+                        </div>
                     ))}
                 </>
             )}

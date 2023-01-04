@@ -12,6 +12,8 @@ import RequireAuth from './components/RequireAuth'
 import { useAuthContext } from './contexts/AuthContext'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import TvshowGenrePage from './pages/TvshowGenrePage'
+import TvshowPage from './pages/TvshowPage'
+import MoviePage from './pages/MoviePage'
 
 function App() {
 	const { currentUser } = useAuthContext()
@@ -63,10 +65,22 @@ function App() {
 						<MovieGenrePage />
 					</RequireAuth>
 				} />
-				{/* <Route path={"/movies/:movieId"} element={<MoviePage />} /> */}
-				<Route path={"/tvshows/:tvshowGenreId"} element={<TvshowGenrePage />} />
+				<Route path={"/movies/:movieGenreId/:movieId"} element={
+					<RequireAuth>
+						<MoviePage />
+					</RequireAuth>
+				} />
+				<Route path={"/tvshows/:tvshowGenreId"} element={
+					<RequireAuth>
+						<TvshowGenrePage />
+					</RequireAuth>
+				} />
 				{/* <Route path={"/tvshows/genres/:genreId"} element={<TvshowsGenrePage />} /> */}
-				{/* <Route path={"/tvshows/:tvshowId"} element={<TvshowPage />} /> */}
+				<Route path={"/tvshows/:tvshowGenreId/:tvshowId"} element={
+				<RequireAuth>
+					<TvshowPage />
+				</RequireAuth>
+				} />
 
 				{/* <Route path={"/my-reviews"} element={<MyReviewsPage />} /> */}
 				{/* <Route path={"/my-reviews/:reviewId"} element={<MyReviewPage />} /> */}

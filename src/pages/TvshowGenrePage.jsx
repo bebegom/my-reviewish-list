@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { getTvshowGenre, getTvshowGenres } from '../services/tmdbAPI'
+import Button from 'react-bootstrap/Button'
 
 const TvshowGenrePage = () => {
     const [nameOfThisGenre, setNameOfThisGenre] = useState('')
@@ -33,9 +34,14 @@ const TvshowGenrePage = () => {
 
             {data && (
                 <>
-                    {nameOfThisGenre}
+                    <h1>
+                        {nameOfThisGenre}
+                    </h1>
                     {data.results.map(tvshow => (
-                        <p key={tvshow.id}>{tvshow.name}</p>
+                        <div key={tvshow.id}>
+                            <h2>{tvshow.name}</h2>
+                            <Button as={Link} to={`/tvshows/${tvshowGenreId}/${tvshow.id}`}>details</Button>
+                        </div>
                     ))}
                 </>
             )}
