@@ -14,6 +14,9 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import TvshowGenrePage from './pages/TvshowGenrePage'
 import TvshowPage from './pages/TvshowPage'
 import MoviePage from './pages/MoviePage'
+import MostWatchedPage from './pages/toplists/MostWatchedPage'
+import MostWantedPage from './pages/toplists/MostWantedPage'
+import MostActiveUserPage from './pages/toplists/MostActiveUserPage'
 
 function App() {
 	const { currentUser } = useAuthContext()
@@ -52,9 +55,21 @@ function App() {
 						<ToplistsPage />
 					</RequireAuth>
 				} />
-				{/* <Route path={"/toplists/most-active"} element={<MostActivePage />} /> */}
-				{/* <Route path={"/toplists/most-watched"} element={<MostWatchedPage />} /> */}
-				{/* <Route path={"/toplists/most-wanted"} element={<MostWantedPage />} /> */}
+				<Route path={"/toplists/most-watched"} element={
+					<RequireAuth>
+						<MostWatchedPage />
+					</RequireAuth>
+				} />
+				<Route path={"/toplists/most-wanted"} element={
+					<RequireAuth>
+						<MostWantedPage />
+					</RequireAuth>
+				} />
+				<Route path={"/toplists/most-active-user"} element={
+					<RequireAuth>
+						<MostActiveUserPage />
+					</RequireAuth>
+				} />
 
 				{/* <Route path={"/create/movie"} element={<CreateMoviePage />} /> */}
 				{/* <Route path={"/create/tvshow"} element={<CreateTvshowPage />} /> */}
@@ -75,7 +90,6 @@ function App() {
 						<TvshowGenrePage />
 					</RequireAuth>
 				} />
-				{/* <Route path={"/tvshows/genres/:genreId"} element={<TvshowsGenrePage />} /> */}
 				<Route path={"/tvshows/:tvshowGenreId/:tvshowId"} element={
 				<RequireAuth>
 					<TvshowPage />
