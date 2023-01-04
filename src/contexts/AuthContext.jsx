@@ -15,8 +15,8 @@ const useAuthContext = () => {
 }
 
 const AuthContextProvider = ({ children }) => {
-    const [loading, setLoading] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const signup = async (email, password) => {
 		await createUserWithEmailAndPassword(auth, email, password)
@@ -38,9 +38,11 @@ const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         // listen for auth-state changes
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log('user: ', user)
             setCurrentUser(user)
+            setLoading(false)
         })
-
+        
         return unsubscribe
     }, [])
 
@@ -53,7 +55,7 @@ const AuthContextProvider = ({ children }) => {
 
     return (
 		<AuthContext.Provider value={contextValues}>
-			{children}
+			{loading ? (<p>loading...</p>) : (children)}
 		</AuthContext.Provider>
 	)
 }

@@ -5,26 +5,48 @@ import SignupPage from './pages/SignupPage'
 import HomePage from './pages/HomePage'
 import LogoutPage from './pages/LogoutPage'
 import ToplistsPage from './pages/ToplistsPage'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation'
+import RequireAuth from './components/RequireAuth'
+import { useAuthContext } from './contexts/AuthContext'
 
 function App() {
+	const { currentUser } = useAuthContext()
+
 	return (
-		<>
+		<div id='App'>
 			<Navigation />
 
 			<Routes>
 				{/* -------------------------------- GUEST -------------------------------- */}
-				<Route path={"/"} element={<LoginPage />} />
+				<Route path={"/"} element={
+					// if user is logged in navigate to home-page
+					currentUser ? <Navigate to={'/home'} /> : <LoginPage />
+				} />
+				<Route path={"/signup"} element={
+					// if user is logged in navigate to home-page
+					currentUser ? <Navigate to={'/home'} /> : <SignupPage />
+				} />
 				<Route path={"*"} element={<NotFoundPage />} />
-				<Route path={"/signup"} element={<SignupPage />} />
 
-				{/* ------------------------------ LOGGED IN ------------------------------ */}
-				<Route path={"/home"} element={<HomePage />} />
-				<Route path={"/logout"} element={<LogoutPage />} />
+				{/* ------------------------------ PROTECTED ------------------------------ */}
+				<Route path={"/home"} element={
+					<RequireAuth>
+						<HomePage />
+					</RequireAuth>
+				} />
+				<Route path={"/logout"} element={
+					<RequireAuth>
+						<LogoutPage />
+					</RequireAuth>
+				} />
 				{/* <Route path={"/shared"} element={<SharedPage />} /> */}
 
-				<Route path={"/toplists"} element={<ToplistsPage />} />
+				<Route path={"/toplists"} element={
+					<RequireAuth>
+						<ToplistsPage />
+					</RequireAuth>
+				} />
 				{/* <Route path={"/toplists/most-active"} element={<MostActivePage />} /> */}
 				{/* <Route path={"/toplists/most-watched"} element={<MostWatchedPage />} /> */}
 				{/* <Route path={"/toplists/most-wanted"} element={<MostWantedPage />} /> */}
@@ -46,7 +68,7 @@ function App() {
 				{/* <Route path={"/my-wish-list"} element={<MyWishListPage />} /> */}
 
 			</Routes>
-		</>
+		</div>
 	)
 }
 
