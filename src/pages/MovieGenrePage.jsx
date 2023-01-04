@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import { useQuery } from 'react-query'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
+import Pagination from '../components/Pagination'
 import { getMovieGenre, getMovieGenres } from '../services/tmdbAPI'
 
 const MovieGenrePage = () => {
@@ -39,6 +40,8 @@ const MovieGenrePage = () => {
                             <Button as={Link} to={`/movies/${movieGenreId}/${movie.id}`}>details</Button>
                         </div>
                     ))}
+
+                    <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
                 </>
             )}
         </div>

@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { getTvshowGenre, getTvshowGenres } from '../services/tmdbAPI'
 import Button from 'react-bootstrap/Button'
+import Pagination from '../components/Pagination'
 
 const TvshowGenrePage = () => {
     const [nameOfThisGenre, setNameOfThisGenre] = useState('')
@@ -22,10 +23,6 @@ const TvshowGenrePage = () => {
         getNameOfThisTvshowGenre()
     }, [page, tvshowGenreId])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     return (
         <div>
 
@@ -43,6 +40,8 @@ const TvshowGenrePage = () => {
                             <Button as={Link} to={`/tvshows/${tvshowGenreId}/${tvshow.id}`}>details</Button>
                         </div>
                     ))}
+
+                    <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
                 </>
             )}
         </div>
