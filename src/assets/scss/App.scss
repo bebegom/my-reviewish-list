@@ -1,1 +1,29 @@
 @import 'bootstrap/scss/bootstrap';
+
+.lightbox {
+    background-color: rgba(0, 0, 0, 0.50);
+    // height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .lightbox-content {
+        background-color: white;
+        border-radius: 10px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        width: 50%;
+    }
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.star {
+    cursor: pointer;
+}

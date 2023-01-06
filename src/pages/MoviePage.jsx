@@ -1,16 +1,16 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { getMovie } from '../services/tmdbAPI'
+import { getMovie, baseIMG } from '../services/tmdbAPI'
 import Button from 'react-bootstrap/Button'
 import {useAuthContext} from '../contexts/AuthContext'
 import { db } from '../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { useState } from 'react'
+import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 
 const MoviePage = () => {
     const { movieId } = useParams()
     const { data, isLoading, error, isError } = useQuery(['movie', movieId], () => getMovie(movieId))
-    const baseIMG = "https://image.tmdb.org/t/p/w300"
     const [showCreateMovieReviewForm, setShowCreateMovieReviewForm] = useState(false)
     
     const {currentUser} = useAuthContext()
@@ -44,7 +44,7 @@ const MoviePage = () => {
                 </p>
             )}
 
-            {/* {showCreateMovieReviewForm && <CreateMovieReviewForm />} */}
+            {showCreateMovieReviewForm && <CreateMovieReviewForm movie={data} />}
         </div>
     )
 }
