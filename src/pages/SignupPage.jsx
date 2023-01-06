@@ -4,8 +4,6 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContext'
-import Navigation from '../components/Navigation'
-
 
 const SignupPage = () => {
     const emailRef = useRef()
