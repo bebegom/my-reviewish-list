@@ -14,10 +14,8 @@ const MoviePage = () => {
     const [showCreateMovieReviewForm, setShowCreateMovieReviewForm] = useState(false)
     
     const {currentUser} = useAuthContext()
-    // console.log(currentUser)
 
     const addToWishlist = async () => {
-        // console.log('wanna watch: ', data)
 
         // add movie to user's wishlist-collection on firestore
         await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {
@@ -44,7 +42,7 @@ const MoviePage = () => {
                 </p>
             )}
 
-            {showCreateMovieReviewForm && <CreateMovieReviewForm movie={data} />}
+            {showCreateMovieReviewForm && <CreateMovieReviewForm showForm={setShowCreateMovieReviewForm} movie={data} />}
         </div>
     )
 }

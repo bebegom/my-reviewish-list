@@ -9,10 +9,9 @@ import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase'
 import {useAuthContext} from '../contexts/AuthContext'
 
-
-
-const CreateMovieReviewForm = ({ movie = null }) => {
+const CreateMovieReviewForm = ({ showForm, movie = null }) => {
     const [myRating, setMyRating] = useState(null)
+    const [loading, setLoading] = useState(false)
     const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
     const myReviewRef = useRef()
 
@@ -20,9 +19,7 @@ const CreateMovieReviewForm = ({ movie = null }) => {
 
     const submitReview = async (e) => {
         e.preventDefault()
-        console.log('submitting')
-        console.log(favoriteCharacter)
-        console.log(myReviewRef.current.value)
+        setLoading(true)
 
         // add review to the user's review-collection
         await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
@@ -37,6 +34,10 @@ const CreateMovieReviewForm = ({ movie = null }) => {
             favorite_character: favoriteCharacter,
             my_review: myReviewRef.current.value
         })
+
+        // hide component
+        showForm(false)
+        setLoading(false)
     }
 
     return (
@@ -58,7 +59,6 @@ const CreateMovieReviewForm = ({ movie = null }) => {
                 )}
 
                 <Form onSubmit={submitReview}>
-
                     <Rating myRating={myRating} setMyRating={setMyRating} />
 
                     <Form.Group>
@@ -82,8 +82,7 @@ const CreateMovieReviewForm = ({ movie = null }) => {
                         <Form.Control ref={myReviewRef} as='textarea' rows={7} />
                     </Form.Group>
 
-
-                    <Button type='submit'>Submit</Button>
+                    <Button disabled={loading} type='submit'>Submit</Button>
                 </Form>
             </div>
         </div>
