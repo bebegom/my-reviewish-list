@@ -5,11 +5,14 @@ import Button from 'react-bootstrap/Button'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
+import { useState } from 'react'
+import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 
 const TvshowPage = () => {
     const { tvshowId } = useParams()
     const { data, isLoading, error, isError } = useQuery(['tvshow', tvshowId], () => getTvshow(tvshowId))
     const { currentUser } = useAuthContext()
+    const [showCreateTvshowReviewForm, setShowCreateTvshowReviewForm] = useState()
 
     const addToWishlist = async () => {
         // add tvshow to user's wishlist-collection on firestore
@@ -32,10 +35,12 @@ const TvshowPage = () => {
             {data && (
                 <p>
                     This tvshow: {data.name}
-                    {/* <Button onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</Button> */}
+                    <Button onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</Button>
                     <Button onClick={addToWishlist}>Add to wishlist</Button>
                 </p>
             )}
+
+            {showCreateTvshowReviewForm && <CreateTvshowReviewForm showForm={setShowCreateTvshowReviewForm} tvshow={data} />}
         </div>
     )
 }
