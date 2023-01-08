@@ -19,7 +19,7 @@ const MoviePage = () => {
     const addToWishlist = async () => {
         // console.log('wanna watch: ', data)
 
-        // add movie to user's wishlist on firestore
+        // add movie to user's wishlist-collection on firestore
         await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {
             is_movie: true,
             is_tvshow: false,

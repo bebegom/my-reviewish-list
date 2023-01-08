@@ -2,21 +2,42 @@ import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
-import { useQuery } from 'react-query'
-import { baseIMG, getMovieGenres } from '../services/tmdbAPI'
+import { baseIMG } from '../services/tmdbAPI'
 import Rating from './Rating'
+import { useRef } from 'react'
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from '../firebase'
+import {useAuthContext} from '../contexts/AuthContext'
+
 
 
 const CreateMovieReviewForm = ({ movie = null }) => {
-    // const [chosenGenres, setChosenGenres] = useState([])
     const [myRating, setMyRating] = useState(null)
+    const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
+    const myReviewRef = useRef()
 
-    const submitReview = (e) => {
+    const {currentUser} = useAuthContext()
+
+    const submitReview = async (e) => {
         e.preventDefault()
         console.log('submitting')
-    }
+        console.log(favoriteCharacter)
+        console.log(myReviewRef.current.value)
 
-    const { data: genres, isLoading, isError, error } = useQuery(["genres to form"], getMovieGenres)
+        // add review to the user's review-collection
+        await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
+            is_movie: true,
+            is_tvshow: false,
+            id: movie.id,
+            title: movie.title,
+            image: `${baseIMG}${movie.poster_path}`,
+            release_date: movie.release_date,
+            genres: movie.genres,
+            my_rating: myRating,
+            favorite_character: favoriteCharacter,
+            my_review: myReviewRef.current.value
+        })
+    }
 
     return (
         <div className='lightbox m-auto'>
@@ -29,7 +50,7 @@ const CreateMovieReviewForm = ({ movie = null }) => {
                         <p>{movie.release_date}</p>
                         {movie.genres.map(genre => (
                             <p key={genre.id}>{genre.name}</p>
-                            ))}
+                        ))}
                         <Image className='d-block' src={`${baseIMG}${movie.poster_path}`} alt="poster" />
                         <h3>Overview</h3>
                         <p>{movie.overview}</p>
@@ -38,59 +59,15 @@ const CreateMovieReviewForm = ({ movie = null }) => {
 
                 <Form onSubmit={submitReview}>
 
-                    {/* <Form.Group id='title'>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control defaultValue={movie ? movie.title : ''} type='text' required />
-                    </Form.Group> */}
-
-                    {/* {movie && (<Image className='d-block' src={`${baseIMG}${movie.poster_path}`} alt="poster" />)} */}
-
-                    {/* <Form.Group>
-                        
-                    </Form.Group> */}
-
-                    {/* {!movie && (
-                        <Form.Group>
-                            <Form.Label>Select img</Form.Label>
-                            <Form.Control type='file'></Form.Control>
-                        </Form.Group>
-                    )} */}
-
-                    {/* <Form.Group id='genres'>
-                        <Form.Label>Genres</Form.Label>
-                        {movie && (
-                            <>
-                                {movie.genres.map(genre => (
-                                    <Form.Control readOnly defaultValue={genre.name} key={genre.id} type='text' />
-                                ))}
-
-                                {!movie && (
-                                    <>
-                                        <Form.Control type='text' />
-                                        <Form.Control type='text' />
-                                        <Form.Control type='text' />
-                                        <Form.Control type='text' />
-                                    </>
-                                )}
-                            </>
-                        )}
-                    </Form.Group> */}
-
-                    {/* <Form.Group>
-                        <Form.Label>Overview</Form.Label>
-                        <Form.Control readOnly={movie} defaultValue={movie ? movie.overview : ''} />
-                    </Form.Group> */}
-
                     <Rating myRating={myRating} setMyRating={setMyRating} />
-
-                    
 
                     <Form.Group>
                         <Form.Label>Favorite character</Form.Label>
                         {movie && (
-                            <Form.Select>
+                            <Form.Select onChange={(e) => setFavoriteCharacter(e.target.value)}>
+                                <option value={'no favorite'}>No favorite</option>
                                {movie.credits.cast.map(i => (
-                                <option key={i.id}>{i.character} ({i.name})</option>
+                                <option value={`${i.character}-${i.name}`} key={i.id}>{i.character} ({i.name})</option>
                                ))}
                             </Form.Select>
                         )}
@@ -102,7 +79,7 @@ const CreateMovieReviewForm = ({ movie = null }) => {
 
                     <Form.Group>
                         <Form.Label>Write something</Form.Label>
-                        <Form.Control as='textarea' rows={7} />
+                        <Form.Control ref={myReviewRef} as='textarea' rows={7} />
                     </Form.Group>
 
 
