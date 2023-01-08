@@ -1,10 +1,22 @@
-import React from 'react'
+import useGetCollection from "../hooks/useGetCollection"
+import { useAuthContext } from "../contexts/AuthContext"
 
 const MyWishlistPage = () => {
+    const { currentUser } = useAuthContext()
+    const { data, loading } = useGetCollection(`users/${currentUser.uid}/wishlist`)
+
+    console.log(data)
+
     return (
-        <div>
-            My wishlist
-        </div>
+        <>
+            {loading && (<p>loading...</p>)}
+
+            {data && (
+                <p>
+                    we have your list
+                </p>
+            )}
+        </>
     )
 }
 
