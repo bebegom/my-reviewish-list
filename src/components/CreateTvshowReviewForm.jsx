@@ -5,12 +5,9 @@ import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import { baseIMG } from '../services/tmdbAPI'
 import { useRef } from 'react'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, doc, updateDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase'
 import {useAuthContext} from '../contexts/AuthContext'
-import { useEffect } from 'react'
-
-
 
 const CreateTvshowReviewForm = ({ showForm, tvshow = null }) => {
     const [myRating, setMyRating] = useState(null)
@@ -32,10 +29,15 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null }) => {
             is_movie: false,
             is_tvshow: true,
             id: tvshow.id,
+            title: tvshow.name,
+            image: `${baseIMG}${tvshow.poster_path}`,
             my_rating: myRating,
             favorite_character: favoriteCharacter,
             favorite_season: favoriteSeason,
             my_review: myReviewRef.current.value
+        }).then((cred) => {
+            const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+            updateDoc(ref, {uid: cred.id})
         })
 
         // hide component

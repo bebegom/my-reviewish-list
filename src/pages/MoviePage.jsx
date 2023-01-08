@@ -4,7 +4,7 @@ import { getMovie, baseIMG } from '../services/tmdbAPI'
 import Button from 'react-bootstrap/Button'
 import {useAuthContext} from '../contexts/AuthContext'
 import { db } from '../firebase'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, doc, updateDoc, collection } from 'firebase/firestore'
 import { useState } from 'react'
 import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 
@@ -26,8 +26,10 @@ const MoviePage = () => {
             image: `${baseIMG}${data.poster_path}`,
             release_date: data.release_date,
             genres: data.genres
+        }).then((cred) => {
+            const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
+            updateDoc(ref, {uid: cred.id})
         })
-        // .then((cred) => console.log(cred))
     }
 
     return (

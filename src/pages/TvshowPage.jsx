@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { getTvshow, baseIMG } from '../services/tmdbAPI'
 import Button from 'react-bootstrap/Button'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, doc, updateDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useState } from 'react'
@@ -24,8 +24,10 @@ const TvshowPage = () => {
             image: `${baseIMG}${data.poster_path}`,
             genres: data.genres,
             number_of_seasons: data.number_of_seasons
+        }).then((cred) => {
+            const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
+            updateDoc(ref, {uid: cred.id})
         })
-        // .then((cred) => console.log(cred))
     }
 
     return (

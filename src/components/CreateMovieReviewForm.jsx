@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import { baseIMG } from '../services/tmdbAPI'
 import Rating from './Rating'
 import { useRef } from 'react'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import {useAuthContext} from '../contexts/AuthContext'
 
@@ -33,6 +33,9 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
             my_rating: myRating,
             favorite_character: favoriteCharacter,
             my_review: myReviewRef.current.value
+        }).then((cred) => {
+            const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+            updateDoc(ref, {uid: cred.id})
         })
 
         // hide component
