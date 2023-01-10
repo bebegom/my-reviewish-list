@@ -20,6 +20,7 @@ import MoviePage from './pages/MoviePage'
 import MostWatchedPage from './pages/toplists/MostWatchedPage'
 import MostWantedPage from './pages/toplists/MostWantedPage'
 import MostActiveUserPage from './pages/toplists/MostActiveUserPage'
+import MyReviewPage from './pages/MyReviewPage'
 
 function App() {
 	const { currentUser } = useAuthContext()
@@ -57,7 +58,7 @@ function App() {
 						<MyReviewsPage />
 					</RequireAuth>
 				} />
-				{/* <Route path={"/my-reviews/:reviewId"} element={<MyReviewPage />} /> */}
+				<Route path={"/my-reviews/:myReviewId"} element={<MyReviewPage />} />
 
 				<Route path={"/my-wishlist"} element={
 					<RequireAuth>
