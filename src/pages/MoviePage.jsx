@@ -7,14 +7,18 @@ import { db } from '../firebase'
 import { addDoc, doc, updateDoc, collection } from 'firebase/firestore'
 import { useState } from 'react'
 import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
+import useGetCollection from '../hooks/useGetCollection'
 
 const MoviePage = () => {
+    const {currentUser} = useAuthContext()
     const { movieId } = useParams()
     const { data, isLoading, error, isError } = useQuery(['movie', movieId], () => getMovie(movieId))
     const [showCreateMovieReviewForm, setShowCreateMovieReviewForm] = useState(false)
-    
-    const {currentUser} = useAuthContext()
+    const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
 
+    const reviewCount = allReviews.filter(review => review.api_id == movieId) 
+    console.log(reviewCount)
+    
     const addToWishlist = async () => {
         // add movie to user's wishlist-collection on firestore
         await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {
@@ -51,11 +55,13 @@ const MoviePage = () => {
             {isLoading && (<p>loading...</p>)}
             {isError && (<p>ERROR: {error.message}</p>)}
             {data && (
-                <p>
-                    This movie: {data.title}
-                    <Button onClick={() => setShowCreateMovieReviewForm(true)}>Add review</Button>
-                    <Button onClick={addToWishlist}>Add to wishlist</Button>
-                </p>
+                <>
+                    <p>
+                        This movie: {data.title} ({reviewCount.length} reviews made on Mr.L)
+                    </p>
+                        <Button onClick={() => setShowCreateMovieReviewForm(true)}>Add review</Button>
+                        <Button onClick={addToWishlist}>Add to wishlist</Button>
+                </>
             )}
 
             {showCreateMovieReviewForm && <CreateMovieReviewForm showForm={setShowCreateMovieReviewForm} movie={data} />}

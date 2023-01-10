@@ -7,12 +7,17 @@ import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useState } from 'react'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
+import useGetCollection from '../hooks/useGetCollection'
 
 const TvshowPage = () => {
     const { tvshowId } = useParams()
     const { data, isLoading, error, isError } = useQuery(['tvshow', tvshowId], () => getTvshow(tvshowId))
     const { currentUser } = useAuthContext()
     const [showCreateTvshowReviewForm, setShowCreateTvshowReviewForm] = useState()
+    const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
+
+    const reviewCount = allReviews.filter(review => review.api_id == tvshowId) 
+    console.log(reviewCount)
 
     const addToWishlist = async () => {
         // add tvshow to user's wishlist-collection on firestore
@@ -50,11 +55,13 @@ const TvshowPage = () => {
             {isLoading && (<p>loading...</p>)}
             {isError && (<p>ERROR: {error.message}</p>)}
             {data && (
-                <p>
-                    This tvshow: {data.name}
-                    <Button onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</Button>
-                    <Button onClick={addToWishlist}>Add to wishlist</Button>
-                </p>
+                <>
+                    <p>
+                        This tvshow: {data.name} ({reviewCount.length} reviews made on Mr.L)
+                    </p>
+                        <Button onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</Button>
+                        <Button onClick={addToWishlist}>Add to wishlist</Button>
+                </>
             )}
 
             {showCreateTvshowReviewForm && <CreateTvshowReviewForm showForm={setShowCreateTvshowReviewForm} tvshow={data} />}
