@@ -19,13 +19,28 @@ const TvshowPage = () => {
         await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {
             is_movie: false,
             is_tvshow: true,
-            id: data.id,
+            api_id: data.id,
             title: data.name,
             image: `${baseIMG}${data.poster_path}`,
             genres: data.genres,
             number_of_seasons: data.number_of_seasons
         }).then((cred) => {
             const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
+            updateDoc(ref, {uid: cred.id})
+        })
+
+        await addDoc(collection(db, 'wishlist'), {
+            user_id: currentUser.uid,
+            user_email: currentUser.email,
+            is_movie: false,
+            is_tvshow: true,
+            api_id: data.id,
+            title: data.name,
+            image: `${baseIMG}${data.poster_path}`,
+            genres: data.genres,
+            number_of_seasons: data.number_of_seasons
+        }).then((cred) => {
+            const ref = doc(db, 'wishlist', cred.id)
             updateDoc(ref, {uid: cred.id})
         })
     }

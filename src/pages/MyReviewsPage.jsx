@@ -23,7 +23,7 @@ const MyReviewsPage = () => {
                 <>
                     <p>We have your reviews</p>
                     {data.map(item => (
-                        <div className="d-flex align-items-center" key={item.id}>
+                        <div className="d-flex align-items-center" key={item.uid}>
                             {item.image && <Image src={item.image} alt='poster' width='100px'/>}
                             <div>
                                 <h2>{item.title}</h2>

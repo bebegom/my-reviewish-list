@@ -25,10 +25,11 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null }) => {
         e.preventDefault()
         setLoading(true)
 
+        // add review to the user's list of reviews
         await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
             is_movie: false,
             is_tvshow: true,
-            id: tvshow.id,
+            api_id: tvshow.id,
             title: tvshow.name,
             image: `${baseIMG}${tvshow.poster_path}`,
             my_rating: myRating,
@@ -37,6 +38,24 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null }) => {
             my_review: myReviewRef.current.value
         }).then((cred) => {
             const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+            updateDoc(ref, {uid: cred.id})
+        })
+
+        // add doc to reviews-collection
+        await addDoc(collection(db, 'reviews'), {
+            user_id: currentUser.uid,
+            user_email: currentUser.email,
+            is_movie: false,
+            is_tvshow: true,
+            api_id: tvshow.id,
+            title: tvshow.name,
+            image: `${baseIMG}${tvshow.poster_path}`,
+            my_rating: myRating,
+            favorite_character: favoriteCharacter,
+            favorite_season: favoriteSeason,
+            my_review: myReviewRef.current.value
+        }).then((cred) => {
+            const ref = doc(db, 'reviews', cred.id)
             updateDoc(ref, {uid: cred.id})
         })
 

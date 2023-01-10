@@ -16,18 +16,32 @@ const MoviePage = () => {
     const {currentUser} = useAuthContext()
 
     const addToWishlist = async () => {
-
         // add movie to user's wishlist-collection on firestore
         await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {
             is_movie: true,
             is_tvshow: false,
-            id: data.id,
+            api_id: data.id,
             title: data.title,
             image: `${baseIMG}${data.poster_path}`,
             release_date: data.release_date,
             genres: data.genres
         }).then((cred) => {
             const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
+            updateDoc(ref, {uid: cred.id})
+        })
+
+        await addDoc(collection(db, 'wishlist'), {
+            user_id: currentUser.uid,
+            user_email: currentUser.email,
+            is_movie: true,
+            is_tvshow: false,
+            api_id: data.id,
+            title: data.title,
+            image: `${baseIMG}${data.poster_path}`,
+            release_date: data.release_date,
+            genres: data.genres
+        }).then((cred) => {
+            const ref = doc(db, 'wishlist', cred.id)
             updateDoc(ref, {uid: cred.id})
         })
     }

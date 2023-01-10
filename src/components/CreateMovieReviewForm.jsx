@@ -25,7 +25,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
         await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
             is_movie: true,
             is_tvshow: false,
-            id: movie.id,
+            api_id: movie.id,
             title: movie.title,
             image: `${baseIMG}${movie.poster_path}`,
             release_date: movie.release_date,
@@ -35,6 +35,25 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
             my_review: myReviewRef.current.value
         }).then((cred) => {
             const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+            updateDoc(ref, {uid: cred.id})
+        })
+
+        // add doc to reviews-collection
+        await addDoc(collection(db, 'reviews'), {
+            user_id: currentUser.uid,
+            user_email: currentUser.email,
+            is_movie: true,
+            is_tvshow: false,
+            api_id: movie.id,
+            title: movie.title,
+            image: `${baseIMG}${movie.poster_path}`,
+            release_date: movie.release_date,
+            genres: movie.genres,
+            my_rating: myRating,
+            favorite_character: favoriteCharacter,
+            my_review: myReviewRef.current.value
+        }).then((cred) => {
+            const ref = doc(db, 'reviews', cred.id)
             updateDoc(ref, {uid: cred.id})
         })
 
