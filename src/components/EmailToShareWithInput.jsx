@@ -26,6 +26,9 @@ const EmailToShareWithInput = ({ setWannaShare, review }) => {
             ...review,
             seen: false,
             from_user: currentUser.email
+        }).then((cred) => {
+            const ref = doc(db, `users/${userToSendTo.id}/received`, cred.id)
+            updateDoc(ref, {received_uid: cred.id})
         })
 
         setLoading(false)
