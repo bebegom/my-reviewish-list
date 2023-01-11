@@ -2,9 +2,11 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import useGetDoc from '../hooks/useGetDoc'
+// import useGetCollection from '../hooks/useGetCollection'
 import Button from 'react-bootstrap/Button'
 import EmailToShareWithInput from '../components/EmailToShareWithInput'
-
+import { doc, deleteDoc, } from 'firebase/firestore'
+import { db } from '../firebase'
 
 const MyReviewPage = () => {
     const { myReviewId } = useParams()
@@ -14,19 +16,32 @@ const MyReviewPage = () => {
 
     console.log('data: ', data)
 
-  return (
-    <div>
-        {loading && <p>loading...</p>}
-        {data && (
-            <>
-                My review of: {data.title}
-                <Button onClick={() => setWannaShare(true)}>Share</Button>
+    const deleteFromReviews = async () => {
+		// delete from users collection of reviews
+		const usersReviewsRef = doc(db, `users/${currentUser.uid}/reviews`, data.uid)
+        await deleteDoc(usersReviewsRef)
+		console.log('deleted from user')
 
-                {wannaShare && <EmailToShareWithInput setWannaShare={setWannaShare} review={data} />}
-            </>
-        )}
-    </div>
-  )
+		// delete from reviews-collection
+		const ref = doc(db, `reviews`, data.uid)
+        await deleteDoc(ref)
+		console.log('deleted from reviews')
+    }
+
+	return (
+	<div>
+		{loading && <p>loading...</p>}
+		{data && (
+			<>
+				My review of: {data.title}
+				<Button onClick={() => setWannaShare(true)}>Share</Button>
+				<Button onClick={deleteFromReviews}>Delete</Button>
+
+				{wannaShare && <EmailToShareWithInput setWannaShare={setWannaShare} review={data} />}
+			</>
+		)}
+	</div>
+	)
 }
 
 export default MyReviewPage

@@ -22,7 +22,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
         setLoading(true)
 
         // add review to the user's review-collection
-        await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
+        const newUserReview = await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
             is_movie: true,
             is_tvshow: false,
             api_id: movie.id,
@@ -33,29 +33,42 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
             my_rating: myRating,
             favorite_character: favoriteCharacter,
             my_review: myReviewRef.current.value
-        }).then((cred) => {
+        }).then(async (cred) => {
             const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
             updateDoc(ref, {uid: cred.id})
+
+            // add doc to reviews-collection
+            await addDoc(collection(db, 'reviews'), {
+                user_id: currentUser.uid,
+                user_email: currentUser.email,
+                is_movie: true,
+                is_tvshow: false,
+                api_id: movie.id,
+                title: movie.title,
+                image: `${baseIMG}${movie.poster_path}`,
+                release_date: movie.release_date,
+                genres: movie.genres,
+                my_rating: myRating,
+                favorite_character: favoriteCharacter,
+                my_review: myReviewRef.current.value
+            }).then((credentials) => {
+                const ref = doc(db, 'reviews', credentials.id)
+                updateDoc(ref, {
+                    uid: credentials.id, 
+                })
+                updateDoc(ref, {
+                    user_review_uid: cred.id
+                })
+            })
         })
 
-        // add doc to reviews-collection
-        await addDoc(collection(db, 'reviews'), {
-            user_id: currentUser.uid,
-            user_email: currentUser.email,
-            is_movie: true,
-            is_tvshow: false,
-            api_id: movie.id,
-            title: movie.title,
-            image: `${baseIMG}${movie.poster_path}`,
-            release_date: movie.release_date,
-            genres: movie.genres,
-            my_rating: myRating,
-            favorite_character: favoriteCharacter,
-            my_review: myReviewRef.current.value
-        }).then((cred) => {
-            const ref = doc(db, 'reviews', cred.id)
-            updateDoc(ref, {uid: cred.id})
-        })
+        
+
+        // console.log(newUserReview)
+
+        // // update review in user's list of reviews and give it reviews_uid
+        // const ref = doc(db, `users/${currentUser.uid}/reviews`, newUserReview.uid)
+        // updateDoc(ref, {reviews_uid: newReview.id})
 
         // hide component
         showForm(false)

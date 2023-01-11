@@ -10,7 +10,12 @@ const MyWishlistPage = () => {
     const { data, loading } = useGetCollection(`users/${currentUser.uid}/wishlist`)
 
     const deleteFromWishlist = async (item) => {
-        const ref = doc(db, `users/${currentUser.uid}/wishlist`, item.uid)
+        // delete from users wishlist-collection 
+        const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, item.uid)
+        await deleteDoc(usersWishlistRef)
+
+        // delete from wishlist-collection
+        const ref = doc(db, `wishlist`, item.uid)
         await deleteDoc(ref)
     }
 
