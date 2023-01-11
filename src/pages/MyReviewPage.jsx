@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import useGetDoc from '../hooks/useGetDoc'
-// import useGetCollection from '../hooks/useGetCollection'
+import useGetCollection from '../hooks/useGetCollection'
 import Button from 'react-bootstrap/Button'
 import EmailToShareWithInput from '../components/EmailToShareWithInput'
 import { doc, deleteDoc, } from 'firebase/firestore'
@@ -13,6 +13,9 @@ const MyReviewPage = () => {
     const { currentUser } = useAuthContext()
     const { data, loading } = useGetDoc(`users/${currentUser.uid}/reviews`, myReviewId)
     const [wannaShare, setWannaShare] = useState(false)
+	const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
+
+	const thisReview = allReviews.find(review => review.user_review_uid)
 
     console.log('data: ', data)
 
@@ -23,7 +26,7 @@ const MyReviewPage = () => {
 		console.log('deleted from user')
 
 		// delete from reviews-collection
-		const ref = doc(db, `reviews`, data.uid)
+		const ref = doc(db, `reviews`, thisReview.uid)
         await deleteDoc(ref)
 		console.log('deleted from reviews')
     }
