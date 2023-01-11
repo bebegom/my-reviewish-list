@@ -22,7 +22,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
         setLoading(true)
 
         // add review to the user's review-collection
-        const newUserReview = await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
+        await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
             is_movie: true,
             is_tvshow: false,
             api_id: movie.id,
@@ -61,14 +61,6 @@ const CreateMovieReviewForm = ({ showForm, movie = null }) => {
                 })
             })
         })
-
-        
-
-        // console.log(newUserReview)
-
-        // // update review in user's list of reviews and give it reviews_uid
-        // const ref = doc(db, `users/${currentUser.uid}/reviews`, newUserReview.uid)
-        // updateDoc(ref, {reviews_uid: newReview.id})
 
         // hide component
         showForm(false)

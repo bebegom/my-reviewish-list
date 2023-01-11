@@ -29,25 +29,27 @@ const MoviePage = () => {
             image: `${baseIMG}${data.poster_path}`,
             release_date: data.release_date,
             genres: data.genres
-        }).then((cred) => {
+        }).then(async (cred) => {
             const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
             updateDoc(ref, {uid: cred.id})
-        })
 
-        await addDoc(collection(db, 'wishlist'), {
-            user_id: currentUser.uid,
-            user_email: currentUser.email,
-            is_movie: true,
-            is_tvshow: false,
-            api_id: data.id,
-            title: data.title,
-            image: `${baseIMG}${data.poster_path}`,
-            release_date: data.release_date,
-            genres: data.genres
-        }).then((cred) => {
-            const ref = doc(db, 'wishlist', cred.id)
-            updateDoc(ref, {uid: cred.id})
+            await addDoc(collection(db, 'wishlist'), {
+                user_id: currentUser.uid,
+                user_email: currentUser.email,
+                is_movie: true,
+                is_tvshow: false,
+                api_id: data.id,
+                title: data.title,
+                image: `${baseIMG}${data.poster_path}`,
+                release_date: data.release_date,
+                genres: data.genres
+            }).then((credentials) => {
+                const ref = doc(db, 'wishlist', credentials.id)
+                updateDoc(ref, {uid: credentials.id})
+                updateDoc(ref, {user_wishlist_uid: cred.id})
+            })
         })
+        
     }
 
     return (

@@ -8,15 +8,19 @@ import { db } from '../firebase'
 const MyWishlistPage = () => {
     const { currentUser } = useAuthContext()
     const { data, loading } = useGetCollection(`users/${currentUser.uid}/wishlist`)
+    const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
 
     const deleteFromWishlist = async (item) => {
         // delete from users wishlist-collection 
         const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, item.uid)
         await deleteDoc(usersWishlistRef)
 
+        const foundWish = allWishes.find(wish => wish.user_wishlist_uid)
+        
         // delete from wishlist-collection
-        const ref = doc(db, `wishlist`, item.uid)
+        const ref = doc(db, `wishlist`, foundWish.uid)
         await deleteDoc(ref)
+
     }
 
     return (
