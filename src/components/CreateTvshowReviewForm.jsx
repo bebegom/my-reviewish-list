@@ -32,32 +32,41 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null }) => {
             api_id: tvshow.id,
             title: tvshow.name,
             image: `${baseIMG}${tvshow.poster_path}`,
+            genres: tvshow.genres,
             my_rating: myRating,
             favorite_character: favoriteCharacter,
             favorite_season: favoriteSeason,
             my_review: myReviewRef.current.value
-        }).then((cred) => {
+        }).then(async (cred) => {
             const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
             updateDoc(ref, {uid: cred.id})
+
+            // add doc to reviews-collection
+            await addDoc(collection(db, 'reviews'), {
+                user_id: currentUser.uid,
+                user_email: currentUser.email,
+                is_movie: false,
+                is_tvshow: true,
+                api_id: tvshow.id,
+                title: tvshow.name,
+                image: `${baseIMG}${tvshow.poster_path}`,
+                genres: tvshow.genres,
+                my_rating: myRating,
+                favorite_character: favoriteCharacter,
+                favorite_season: favoriteSeason,
+                my_review: myReviewRef.current.value
+            }).then((credentials) => {
+                const ref = doc(db, 'reviews', credentials.id)
+                updateDoc(ref, {
+                    uid: credentials.id
+                })
+                updateDoc(ref, {
+                    user_review_uid: cred.id
+                })
+            })
         })
 
-        // add doc to reviews-collection
-        await addDoc(collection(db, 'reviews'), {
-            user_id: currentUser.uid,
-            user_email: currentUser.email,
-            is_movie: false,
-            is_tvshow: true,
-            api_id: tvshow.id,
-            title: tvshow.name,
-            image: `${baseIMG}${tvshow.poster_path}`,
-            my_rating: myRating,
-            favorite_character: favoriteCharacter,
-            favorite_season: favoriteSeason,
-            my_review: myReviewRef.current.value
-        }).then((cred) => {
-            const ref = doc(db, 'reviews', cred.id)
-            updateDoc(ref, {uid: cred.id})
-        })
+        
 
         // hide component
         showForm(false)
