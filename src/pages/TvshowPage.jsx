@@ -28,6 +28,7 @@ const TvshowPage = () => {
             title: data.name,
             image: `${baseIMG}${data.poster_path}`,
             genres: data.genres,
+            overview: data.overview,
             number_of_seasons: data.number_of_seasons
         }).then(async (cred) => {
             const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
@@ -42,6 +43,7 @@ const TvshowPage = () => {
                 title: data.name,
                 image: `${baseIMG}${data.poster_path}`,
                 genres: data.genres,
+                overview: data.overview,
                 number_of_seasons: data.number_of_seasons
             }).then((credentials) => {
                 const ref = doc(db, 'wishlist', credentials.id)

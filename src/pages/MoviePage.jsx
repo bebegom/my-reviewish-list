@@ -27,6 +27,7 @@ const MoviePage = () => {
             api_id: data.id,
             title: data.title,
             image: `${baseIMG}${data.poster_path}`,
+            overview: data.overview,
             release_date: data.release_date,
             genres: data.genres
         }).then(async (cred) => {
@@ -41,6 +42,7 @@ const MoviePage = () => {
                 api_id: data.id,
                 title: data.title,
                 image: `${baseIMG}${data.poster_path}`,
+                overview: data.overview,
                 release_date: data.release_date,
                 genres: data.genres
             }).then((credentials) => {

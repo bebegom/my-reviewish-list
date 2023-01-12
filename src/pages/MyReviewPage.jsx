@@ -7,17 +7,22 @@ import Button from 'react-bootstrap/Button'
 import EmailToShareWithInput from '../components/EmailToShareWithInput'
 import { doc, deleteDoc, } from 'firebase/firestore'
 import { db } from '../firebase'
+import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
+import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 
 const MyReviewPage = () => {
     const { myReviewId } = useParams()
     const { currentUser } = useAuthContext()
     const { data, loading } = useGetDoc(`users/${currentUser.uid}/reviews`, myReviewId)
     const [wannaShare, setWannaShare] = useState(false)
+    const [wannaEdit, setWannaEdit] = useState(false)
 	const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
 
 	const thisReview = allReviews.find(review => review.user_review_uid)
 
-    console.log('data: ', data)
+    const editReview = () => {
+
+	}
 
     const deleteFromReviews = async () => {
 		// delete from users collection of reviews
@@ -39,8 +44,13 @@ const MyReviewPage = () => {
 				My review of: {data.title}
 				<Button onClick={() => setWannaShare(true)}>Share</Button>
 				<Button onClick={deleteFromReviews}>Delete</Button>
+				<Button onClick={() => setWannaEdit(true)}>Edit</Button>
 
 				{wannaShare && <EmailToShareWithInput setWannaShare={setWannaShare} review={data} />}
+
+				{wannaEdit && data.is_movie &&<CreateMovieReviewForm showForm={setWannaEdit} review={data} />}
+
+				{wannaEdit && data.is_tvshow &&<CreateTvshowReviewForm showForm={setWannaEdit} review={data} />}
 			</>
 		)}
 	</div>
