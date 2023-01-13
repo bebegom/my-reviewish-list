@@ -1,8 +1,28 @@
 @import 'bootstrap/scss/bootstrap';
 
+$white: #FFFFFF;
+$card-background-color: #F5F2ED;
+$primary-button-color: #0D6B80;
+$secondary-button-color: #E6AA4B;
+$link-color: #183461;
+$black: #262F3B;
+$alt-text-color: #785720;
+$input-color: #CDC4BC;
+$border-radius: 10px;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+body {
+    font-family: 'Oxygen', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: $font-weight-bold;
+}
+
 .lightbox {
     background-color: rgba(0, 0, 0, 0.50);
-    // height: 100vh;
     width: 100vw;
     position: absolute;
     top: 0;
@@ -12,8 +32,8 @@
     align-items: center;
 
     .lightbox-content {
-        background-color: white;
-        border-radius: 10px;
+        background-color: $white;
+        border-radius: $border-radius;
         margin-top: 50px;
         margin-bottom: 50px;
         width: 50%;
@@ -26,4 +46,11 @@ input[type="radio"] {
 
 .star {
     cursor: pointer;
+}
+
+.card-link {
+    background-color: $card-background-color;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
 }

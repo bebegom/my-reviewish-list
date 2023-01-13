@@ -1,18 +1,21 @@
 import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContext'
+import CardLink from '../components/CardLink'
+import EmptyStarIcon from '../assets/images/empty-rating.png'
 
 const HomePage = () => {
     const {currentUser} = useAuthContext()
+
     return (
         <Container>
-            <h1>Homepage</h1>
+            {/* <h1>Homepage</h1> */}
             <p>Current user: {currentUser ? currentUser.email : 'null'}</p>
 
-            <Button as={Link} to='/my-reviews'>My reviews</Button>
-            <Button as={Link} to='/my-wishlist'>My wish-list</Button>
-            <Button as={Link} to='/shared'>Reviews shared with me</Button>
+            <CardLink endpoint='/my-reviews' icon={EmptyStarIcon} text='My reviews' />
+
+            <CardLink endpoint='/my-wishlist' icon={EmptyStarIcon} text='My wishlist' />
+
+            <CardLink endpoint='/shared' icon={EmptyStarIcon} text='Reviews shared with me' />
         </Container>
     )
 }
