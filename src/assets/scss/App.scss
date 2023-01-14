@@ -25,6 +25,41 @@ p {
 
 }
 
+.btn-primary {
+    background-color: $primary-button-color;
+    border: none;
+    border-radius: $border-radius;
+    color: $white;
+
+    padding-left: 3rem;
+    padding-top: 1rem;
+    padding-right: 3rem;
+    padding-bottom: 1rem;
+
+    margin-bottom: 0.5rem;
+
+    &:hover {
+        background-color: $primary-button-color;
+    }
+
+    &:focus {
+        background-color: $primary-button-color;
+        color: $white;
+    }
+}
+
+.btn-secondary {
+    background-color: $secondary-button-color;
+    border: none;
+    border-radius: $border-radius;
+    color: $white;
+    
+    padding-left: 3rem;
+    padding-top: 1rem;
+    padding-right: 3rem;
+    padding-bottom: 1rem;
+}
+
 .dropdown {
     background-color: $card-background-color;
     color: $black;
@@ -72,31 +107,7 @@ img {
     height: 7rem;
 }
 
-.btn-primary {
-    background-color: $primary-button-color;
-    border: none;
-    border-radius: $border-radius;
-    color: $white;
 
-    padding-left: 3rem;
-    padding-top: 1rem;
-    padding-right: 3rem;
-    padding-bottom: 1rem;
-
-    margin-bottom: 0.5rem;
-}
-
-.btn-secondary {
-    background-color: $secondary-button-color;
-    border: none;
-    border-radius: $border-radius;
-    color: $white;
-    
-    padding-left: 3rem;
-    padding-top: 1rem;
-    padding-right: 3rem;
-    padding-bottom: 1rem;
-}
 
 .full-width {
     width: 100%;
