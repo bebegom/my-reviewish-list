@@ -8,7 +8,6 @@ const HomePage = () => {
 
     return (
         <Container>
-            {/* <h1>Homepage</h1> */}
             <p>Current user: {currentUser ? currentUser.email : 'null'}</p>
 
             <CardLink endpoint='/my-reviews' icon={EmptyStarIcon} text='My reviews' />

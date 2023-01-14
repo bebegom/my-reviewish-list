@@ -13,7 +13,7 @@ const Navigation = () => {
     const { data: tvshowGenreData } = useQuery(['tvshowGenres'], getTvshowGenres)
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="light" variant="light" className="pb-3">
+        <Navbar collapseOnSelect expand="lg" className="nav">
             <Container>
                 <Navbar.Brand as={Link} to="/">My Reviewish List</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -22,11 +22,11 @@ const Navigation = () => {
                         {currentUser && (
                             <>
                                 <Dropdown>
-                                   <Dropdown.Toggle>
+                                   <Dropdown.Toggle className='dropdown'>
                                         Movies
                                     </Dropdown.Toggle>
                                     {movieGenresData && (
-                                        <Dropdown.Menu>
+                                        <Dropdown.Menu className='dropdaown-menu'>
                                             {movieGenresData.genres.map(i => (
                                                 <Dropdown.Item key={i.id} as={NavLink} to={`/movies/${i.id}`}>
                                                     {i.name}
@@ -37,7 +37,7 @@ const Navigation = () => {
                                 </Dropdown>
 
                                 <Dropdown>
-                                   <Dropdown.Toggle>
+                                   <Dropdown.Toggle className='dropdown'>
                                         Tvshows
                                     </Dropdown.Toggle>
                                     {tvshowGenreData && (
