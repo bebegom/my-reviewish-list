@@ -8,6 +8,16 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-bold;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.p-small {
+    font-size: 0.9rem;
+    font-weight: $font-weight-light;
 }
 
 .nav {
@@ -50,10 +60,16 @@ input[type="radio"] {
 
 .star {
     cursor: pointer;
+    width: 1.5rem;
 }
 
 img {
     border-radius: $border-radius;
+}
+
+.poster-img {
+    width: auto;
+    height: 7rem;
 }
 
 .btn-primary {
@@ -82,6 +98,10 @@ img {
     padding-bottom: 1rem;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .card-link {
     background-color: $card-background-color;
     padding: 2rem;
@@ -91,22 +111,22 @@ img {
     cursor: pointer;
 }
 
-.card-item {
+.wishlist-card-item {
     background-color: $card-background-color;
     padding: 1rem;
     margin-bottom: 1rem;
-    // margin-left: 1rem;
-    // margin-right: 1rem;
-    // border-radius: $border-radius;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: $border-radius;
     cursor: pointer;
     display: flex;
     flex-direction: column;
 
-    .info {
+    .wishlist-card-item-info {
         display: flex;
         margin-bottom: 0.5rem;
 
-        .title-and-year {
+        .wishlist-card-item-title-and-year {
             display: flex;
             flex-direction: column;
             margin-left: 0.5rem;
@@ -116,5 +136,23 @@ img {
     .card-item-btns {
         display: flex;
         flex-direction: column;
+    }
+}
+
+.review-card-item {
+    background-color: $card-background-color;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: $border-radius;
+    display: flex;
+    // align-items: flex-start;
+
+    .review-card-item-overview {
+        margin-left: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }

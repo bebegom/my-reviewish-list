@@ -1,12 +1,11 @@
 import useGetCollection from "../hooks/useGetCollection"
 import { useAuthContext } from "../contexts/AuthContext"
-import Image from 'react-bootstrap/Image'
-import Button from 'react-bootstrap/Button'
-import { Link } from "react-router-dom"
+import ReviewItemCard from "../components/ReviewItemCard"
 
 const MyReviewsPage = () => {
     const { currentUser } = useAuthContext()
     const { data, loading } = useGetCollection(`users/${currentUser.uid}/reviews`)
+
 
     return (
         <>
@@ -14,15 +13,9 @@ const MyReviewsPage = () => {
 
             {data && (
                 <>
-                    <p>We have your reviews</p>
+                    <p>we have reviews</p>
                     {data.map(item => (
-                        <div className="d-flex align-items-center" key={item.uid}>
-                            {item.image && <Image src={item.image} alt='poster' width='100px'/>}
-                            <div>
-                                <h2>{item.title}</h2>
-                                <Button as={Link} to={`/my-reviews/${item.uid}`}>Details</Button>
-                            </div>
-                        </div>
+                        <ReviewItemCard item={item} />
                     ))}
                 </>
             )}

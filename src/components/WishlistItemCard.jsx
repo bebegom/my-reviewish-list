@@ -1,5 +1,4 @@
 import useGetCollection from "../hooks/useGetCollection"
-import Container from 'react-bootstrap/Container'
 import { doc, deleteDoc, } from 'firebase/firestore'
 import { db } from '../firebase'
 
@@ -20,12 +19,13 @@ const WishlistItemCard = ({ item }) => {
     }
 
     return (
-        <Container className="card-item" key={item.uid}>
-            <div className="info">
+        <div className="wishlist-card-item" key={item.uid}>
+            <div className="wishlist-card-item-info">
                 {item.image && <img src={item.image} alt='poster' width='100px'/>}
-                <div className="title-and-year">
+                <div className="wishlist-card-item-title-and-year">
                     <h2>{item.title}</h2>
                     <p>{item.is_movie ? item.release_date : 'number of seasons?' }</p>
+                    <p className="p-small">
                     {item.genres.map((genre, index) => {
                         if (index + 1 == item.genres.length) {
                             return `${genre.name}`
@@ -33,6 +33,7 @@ const WishlistItemCard = ({ item }) => {
                             return `${genre.name} - `
                         }
                     })}
+                    </p>
                 </div>
             </div>
             <div className="card-item-btns">
@@ -40,7 +41,7 @@ const WishlistItemCard = ({ item }) => {
                 <button className="btn-secondary">Add review</button>
             </div>
             
-        </Container>
+        </div>
     )
 }
 
