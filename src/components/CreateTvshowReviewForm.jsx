@@ -115,7 +115,6 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null }) => {
             if(e.target.classList.contains('lightbox')) {
                 showForm(false)
             }
-            console.log(e.target)
             }} className='lightbox'>
             <div className='lightbox-content p-3'>
             <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>

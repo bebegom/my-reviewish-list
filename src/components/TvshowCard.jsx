@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { baseIMG, getTvshow } from '../services/tmdbAPI'
-import CreateMovieReviewForm from './CreateMovieReviewForm'
+import CreateTvshowReviewForm from './CreateTvshowReviewForm'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 
@@ -27,7 +27,7 @@ const TvshowCard = ({ tvshow }) => {
                 </div>
             </div>
 
-            {showCreateReviewForm && <CreateMovieReviewForm showForm={setShowCreateReviewForm} movie={data} />}
+            {showCreateReviewForm && <CreateTvshowReviewForm showForm={setShowCreateReviewForm} tvshow={data} />}
         </>
         
     )

@@ -13,7 +13,7 @@ import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 const MyReviewPage = () => {
     const { myReviewId } = useParams()
     const { currentUser } = useAuthContext()
-    const { data, loading } = useGetDoc(`users/${currentUser.uid}/reviews`, myReviewId)
+    const { data, loading } = 	useGetDoc(`users/${currentUser.uid}/reviews`, myReviewId)
     const [wannaShare, setWannaShare] = useState(false)
     const [wannaEdit, setWannaEdit] = useState(false)
 	const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
@@ -46,11 +46,14 @@ const MyReviewPage = () => {
 				<Button onClick={deleteFromReviews}>Delete</Button>
 				<Button onClick={() => setWannaEdit(true)}>Edit</Button>
 
-				{wannaShare && <EmailToShareWithInput setWannaShare={setWannaShare} review={data} />}
+				{wannaShare && <EmailToShareWithInput 
+				setWannaShare={setWannaShare} review={data} />}
 
-				{wannaEdit && data.is_movie &&<CreateMovieReviewForm showForm={setWannaEdit} review={data} />}
+				{wannaEdit && data.is_movie && <CreateMovieReviewForm
+				showForm={setWannaEdit} review={data} />}
 
-				{wannaEdit && data.is_tvshow &&<CreateTvshowReviewForm showForm={setWannaEdit} review={data} />}
+				{wannaEdit && data.is_tvshow && <CreateTvshowReviewForm
+				showForm={setWannaEdit} review={data} />}
 			</>
 		)}
 	</div>
