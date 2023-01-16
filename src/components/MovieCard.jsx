@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Button from 'react-bootstrap/Button'
 import { useQuery } from 'react-query'
 import { useParams, useNavigate } from 'react-router-dom'
 import { baseIMG, getMovie } from '../services/tmdbAPI'
@@ -22,8 +21,9 @@ const MovieCard = ({ movie }) => {
                 <div className='movie-card-overview'>
                     <h2>{movie.title}</h2>
                     <p className='p-small'>{movie.release_date}</p>
-                    <Button className='z-over' onClick={() => setShowCreateReviewForm(true)}>Add review</Button>
-                    <Button className='z-over' onClick={() => console.log('clicked')}>Add to wishlist</Button>
+                    <button className='btn-primary' onClick={() => setShowCreateReviewForm(true)}>Add review</button>
+                    {/* TODO: fix onClick-function */}
+                    <button className='btn-secondary' onClick={() => console.log('clicked')}>Add to wishlist</button> 
                 </div>
             </div>
 

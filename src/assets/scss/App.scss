@@ -60,6 +60,13 @@ p {
     padding-bottom: 1rem;
 }
 
+.btn-tertiary {
+    border: none;
+    background-color: $white;
+    text-decoration: underline;
+    color: $primary-button-color;
+}
+
 .dropdown {
     background-color: $card-background-color;
     color: $black;
@@ -68,6 +75,12 @@ p {
 
 .dropdown-menu {
     background-color: $card-background-color;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .lightbox {
@@ -85,7 +98,7 @@ p {
         border-radius: $border-radius;
         margin-top: 50px;
         margin-bottom: 50px;
-        width: 50%;
+        width: 100%;
     }
 }
 
@@ -111,6 +124,8 @@ img {
 
 .full-width {
     width: 100%;
+    // margin-left: 3rem;
+    // margin-right: 3rem;
 }
 
 .card-link {
@@ -175,7 +190,3 @@ img {
         margin-left: 0.5rem;
     }
 }
-
-// .z-over {
-//     z-index: auto;
-// }

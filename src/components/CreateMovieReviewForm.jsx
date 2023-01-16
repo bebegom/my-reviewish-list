@@ -114,6 +114,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null }) => {
             console.log(e.target)
             }} className='lightbox m-auto'>
             <div className='lightbox-content p-3'>
+                <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
                 <h1>create review</h1>
 
                 {movie && (
