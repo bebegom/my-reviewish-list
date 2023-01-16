@@ -10,11 +10,13 @@ const Rating = ({ myRating, setMyRating = null }) => {
         <div>
             {[...Array(5)].map((star, i) => {
                 const ratingValue = i+1
-                return <label>
-                    <input key={10 + i} type="radio" value={ratingValue} />
+                return <label key={i}>
+                    <input 
+                    // key={10 + i} 
+                    type="radio" value={ratingValue} />
                     <img 
                         className='star' 
-                        key={i} 
+                        // key={i} 
                         src={ ratingValue > (hover || myRating) ? EmptyStarIcon : FullStarIcon} 
                         alt="star" 
                         onClick={() => setMyRating ? setMyRating(ratingValue) : null} 

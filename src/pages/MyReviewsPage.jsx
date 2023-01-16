@@ -15,7 +15,7 @@ const MyReviewsPage = () => {
                 <>
                     <p>we have reviews</p>
                     {data.map(item => (
-                        <ReviewItemCard item={item} />
+                        <ReviewItemCard item={item} key={item.id} />
                     ))}
                 </>
             )}
