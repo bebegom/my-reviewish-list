@@ -36,7 +36,11 @@ const EmailToShareWithInput = ({ setWannaShare, review }) => {
     }
 
   return (
-    <div className='lightbox h-100'>
+    <div className='lightbox h-100' onClick={(e) => {
+        if(e.target.classList.contains('lightbox')) {
+            setWannaShare(false)
+        }
+    }}>
         <div className='lightbox-content'>
             <Form onSubmit={(e)=> handleSubmit(e)}>
                 <Form.Group id='email'>

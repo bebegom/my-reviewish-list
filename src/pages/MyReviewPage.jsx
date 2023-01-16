@@ -1,14 +1,15 @@
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import useGetDoc from '../hooks/useGetDoc'
 import useGetCollection from '../hooks/useGetCollection'
-import Button from 'react-bootstrap/Button'
+import { baseIMG } from '../services/tmdbAPI'
 import EmailToShareWithInput from '../components/EmailToShareWithInput'
 import { doc, deleteDoc, } from 'firebase/firestore'
 import { db } from '../firebase'
 import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
+import Rating from '../components/Rating'
 
 const MyReviewPage = () => {
     const { myReviewId } = useParams()
@@ -36,15 +37,41 @@ const MyReviewPage = () => {
 		console.log('deleted from reviews')
     }
 
+	console.log(data)
+
 	return (
 	<div>
 		{loading && <p>loading...</p>}
 		{data && (
 			<>
-				My review of: {data.title}
-				<Button onClick={() => setWannaShare(true)}>Share</Button>
-				<Button onClick={deleteFromReviews}>Delete</Button>
-				<Button onClick={() => setWannaEdit(true)}>Edit</Button>
+				<div className='d-flex'>
+					<img className='poster-img' src={`${baseIMG}${data.image}`} alt="poster" />
+					<div className='d-flex flex-column justify-content-between'>
+						<h1>{data.title}</h1>
+						<p>{data.is_movie ? data.release_date.split('-')[0] : ''}</p>
+						<Rating myRating={data.my_rating} />
+					</div>
+				</div>
+				<div>
+					<h2>Favorite character</h2>
+					<p>{data.favorite_character}</p>
+				</div>
+				{data.is_tvshow && (
+					<div>
+						<h2>Favorite season</h2>
+						<p>season {data.favorite_season}</p>
+					</div>
+				)}
+				<div>
+					<h2>Review</h2>
+					<div className='review-content'>
+						{data.my_review}
+					</div>
+				</div>
+
+				<button	className='btn-secondary full-width' onClick={() => setWannaShare(true)}>Share</button>
+				<button className='btn-secondary full-width' onClick={() => setWannaEdit(true)}>Edit</button>
+				<button className='btn-primary full-width' onClick={deleteFromReviews}>Delete</button>
 
 				{wannaShare && <EmailToShareWithInput 
 				setWannaShare={setWannaShare} review={data} />}
