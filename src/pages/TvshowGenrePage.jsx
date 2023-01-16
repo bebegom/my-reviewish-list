@@ -4,6 +4,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { getTvshowGenre, getTvshowGenres } from '../services/tmdbAPI'
 import Button from 'react-bootstrap/Button'
 import Pagination from '../components/Pagination'
+import TvshowCard from '../components/TvshowCard'
 
 const TvshowGenrePage = () => {
     const [nameOfThisGenre, setNameOfThisGenre] = useState('')
@@ -31,14 +32,9 @@ const TvshowGenrePage = () => {
 
             {data && (
                 <>
-                    <h1>
-                        {nameOfThisGenre}
-                    </h1>
+                    <h1>Tvshows - {nameOfThisGenre}</h1>
                     {data.results.map(tvshow => (
-                        <div key={tvshow.id}>
-                            <h2>{tvshow.name}</h2>
-                            <Button as={Link} to={`/tvshows/${tvshowGenreId}/${tvshow.id}`}>details</Button>
-                        </div>
+                        <TvshowCard tvshow={tvshow} />
                     ))}
 
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>

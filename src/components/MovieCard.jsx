@@ -7,7 +7,7 @@ import CreateMovieReviewForm from './CreateMovieReviewForm'
 const MovieCard = ({ movie }) => {
     const { movieGenreId } = useParams()
     const navigate = useNavigate()
-    const [showCreateReviewForm, setShowCreateReviewForm] = useState()
+    const [showCreateReviewForm, setShowCreateReviewForm] = useState(false)
     const {data, isLoading, error, isError} = useQuery(['movie', movie.id], () => getMovie(movie.id))
 
     return (
