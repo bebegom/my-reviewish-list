@@ -125,9 +125,7 @@ img {
 .wishlist-card-item {
     background-color: $card-background-color;
     padding: 1rem;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin: 1rem;
     border-radius: $border-radius;
     cursor: pointer;
     display: flex;
@@ -153,9 +151,7 @@ img {
 .review-card-item {
     background-color: $card-background-color;
     padding: 1rem;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin: 1rem;
     border-radius: $border-radius;
     display: flex;
     // align-items: flex-start;
@@ -167,3 +163,19 @@ img {
         justify-content: space-between;
     }
 }
+
+.movie-card {
+    background-color: $card-background-color;
+    border-radius: $border-radius;
+    margin: 1rem;
+    padding: 0.5rem;
+    display: flex;
+
+    .movie-card-overview {
+        margin-left: 0.5rem;
+    }
+}
+
+// .z-over {
+//     z-index: auto;
+// }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import { useQuery } from 'react-query'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
+import MovieCard from '../components/MovieCard'
 import Pagination from '../components/Pagination'
 import { getMovieGenre, getMovieGenres } from '../services/tmdbAPI'
 
@@ -31,14 +32,9 @@ const MovieGenrePage = () => {
 
             {data && (
                 <>
-                    <h1>
-                        {nameOfThisGenre}
-                    </h1>
+                <h1>Movies - {nameOfThisGenre}</h1>
                     {data.results.map(movie => (
-                        <div key={movie.id}>
-                            <h2>{movie.title}</h2>
-                            <Button as={Link} to={`/movies/${movieGenreId}/${movie.id}`}>details</Button>
-                        </div>
+                        <MovieCard movie={movie} />
                     ))}
 
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>

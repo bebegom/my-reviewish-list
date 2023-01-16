@@ -17,7 +17,6 @@ const MoviePage = () => {
     const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
 
     const reviewCount = allReviews.filter(review => review.api_id == movieId) 
-    console.log(reviewCount)
     
     const addToWishlist = async () => {
         // add movie to user's wishlist-collection on firestore

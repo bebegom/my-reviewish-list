@@ -107,7 +107,12 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null }) => {
     }
 
     return (
-        <div className='lightbox m-auto'>
+        <div onClick={(e) => {
+            if(e.target.classList.contains('lightbox')) {
+                showForm(false)
+            }
+            console.log(e.target)
+            }} className='lightbox m-auto'>
             <div className='lightbox-content p-3'>
                 <h1>create review</h1>
 
