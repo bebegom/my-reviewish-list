@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
+import MostActiveUserCard from '../../components/ToplistCard'
 import getOccurrences from '../../helpers/getOccurences'
 import getSortedOccurrences from '../../helpers/getSortedOccurrences'
 import useGetCollection from '../../hooks/useGetCollection'
@@ -28,9 +29,11 @@ const MostActiveUserPage = () => {
 
                     {arraysOfEmailAndCount && (
                         <>
-                            {arraysOfEmailAndCount[1].map((i, index) => (
-                                <p key={i}>{i} with {arraysOfEmailAndCount[0][index]} reviews made</p>
-                            ))}
+                            {arraysOfEmailAndCount[1].map((email, index) => {
+                                if(index < 10) {
+                                    return <MostActiveUserCard key={email} email={email} index={index} arraysOfEmailAndCount={arraysOfEmailAndCount} />
+                                }
+                            })}
                         </>
                     )}
                 </>

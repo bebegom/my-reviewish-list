@@ -229,3 +229,20 @@ img {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
+
+.toplist-card {
+    background-color: $card-background-color;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    display: flex;
+
+    .toplist-place {
+        width: 20%;
+    }
+}
+
+.toplist-star {
+    width: 1rem;
+    height: 1rem;
+}
