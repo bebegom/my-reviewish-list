@@ -5,6 +5,13 @@ import { db } from '../firebase'
 const WishlistItemCard = ({ item }) => {
     const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
 
+    // TODO: create funtion 
+    const addReview = (item) => {
+        // set showForm to true
+
+        // delete from wishlist
+    }
+
     const deleteFromWishlist = async (item) => {
         // delete from users wishlist-collection 
         const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, item.uid)
@@ -38,7 +45,8 @@ const WishlistItemCard = ({ item }) => {
             </div>
             <div className="card-item-btns">
                 <button className="btn-primary" onClick={() => deleteFromWishlist(item)}>Delete</button>
-                <button className="btn-secondary">Add review</button>
+
+                <button onClick={() => addReview(item)} className="btn-secondary">Add review</button>
             </div>
             
         </div>

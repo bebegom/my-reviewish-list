@@ -21,10 +21,6 @@ const MyReviewPage = () => {
 
 	const thisReview = allReviews.find(review => review.user_review_uid)
 
-    const editReview = () => {
-
-	}
-
     const deleteFromReviews = async () => {
 		// delete from users collection of reviews
 		const usersReviewsRef = doc(db, `users/${currentUser.uid}/reviews`, data.uid)
@@ -36,8 +32,6 @@ const MyReviewPage = () => {
         await deleteDoc(ref)
 		console.log('deleted from reviews')
     }
-
-	console.log(data)
 
 	return (
 	<div>
