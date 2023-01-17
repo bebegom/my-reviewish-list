@@ -19,8 +19,6 @@ const MyReviewPage = () => {
     const [wannaEdit, setWannaEdit] = useState(false)
 	const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
 
-	const thisReview = allReviews.find(review => review.user_review_uid)
-
     const deleteFromReviews = async () => {
 		// delete from users collection of reviews
 		const usersReviewsRef = doc(db, `users/${currentUser.uid}/reviews`, data.uid)
@@ -28,6 +26,8 @@ const MyReviewPage = () => {
 		console.log('deleted from user')
 
 		// delete from reviews-collection
+		const thisReview = allReviews.find(review => review.user_review_uid == data.uid)
+
 		const ref = doc(db, `reviews`, thisReview.uid)
         await deleteDoc(ref)
 		console.log('deleted from reviews')
@@ -39,9 +39,9 @@ const MyReviewPage = () => {
 		{data && (
 			<>
 				<div className='d-flex'>
-					<img className='poster-img' src={`${baseIMG}${data.image}`} alt="poster" />
+					<img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="poster" />
 					<div className='d-flex flex-column justify-content-between'>
-						<h1>{data.title}</h1>
+						<h1>{data.is_movie ? data.title : data.name}</h1>
 						<p>{data.is_movie ? data.release_date.split('-')[0] : ''}</p>
 						<Rating myRating={data.my_rating} />
 					</div>

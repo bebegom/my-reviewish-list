@@ -21,14 +21,15 @@ const MoviePage = () => {
     const addToWishlist = async () => {
         // add movie to user's wishlist-collection on firestore
         await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {
+            ...data,
             is_movie: true,
             is_tvshow: false,
-            api_id: data.id,
-            title: data.title,
-            image: `${baseIMG}${data.poster_path}`,
-            overview: data.overview,
-            release_date: data.release_date,
-            genres: data.genres
+            // api_id: data.id,
+            // title: data.title,
+            // image: `${baseIMG}${data.poster_path}`,
+            // overview: data.overview,
+            // release_date: data.release_date,
+            // genres: data.genres
         }).then(async (cred) => {
             const ref = doc(db, `users/${currentUser.uid}/wishlist`, cred.id)
             updateDoc(ref, {uid: cred.id})
@@ -38,12 +39,13 @@ const MoviePage = () => {
                 user_email: currentUser.email,
                 is_movie: true,
                 is_tvshow: false,
-                api_id: data.id,
-                title: data.title,
-                image: `${baseIMG}${data.poster_path}`,
-                overview: data.overview,
-                release_date: data.release_date,
-                genres: data.genres
+                ...data,
+                // api_id: data.id,
+                // title: data.title,
+                // image: `${baseIMG}${data.poster_path}`,
+                // overview: data.overview,
+                // release_date: data.release_date,
+                // genres: data.genres
             }).then((credentials) => {
                 const ref = doc(db, 'wishlist', credentials.id)
                 updateDoc(ref, {uid: credentials.id})

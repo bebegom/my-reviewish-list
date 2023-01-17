@@ -1,14 +1,16 @@
 import Rating from '../components/Rating'
 import { useNavigate } from "react-router-dom"
+import { baseIMG } from '../services/tmdbAPI'
 
 const ReviewItemCard = ({ item }) => {
     const navigate = useNavigate()
+
     return (
         <div onClick={() => navigate(`/my-reviews/${item.uid}`)} className="review-card-item" key={item.uid}>
-                            {item.image && <img className="poster-img" src={item.image} alt='poster' width='100px'/>}
+                            {item.poster_path && <img className="poster-img" src={`${baseIMG}${item.poster_path}`} alt='poster' width='100px'/>}
                             <div className="review-card-item-overview">
                                 <div className="review-card-item-info">
-                                    <h2>{item.title}</h2>
+                                    <h2>{item.is_movie ? item.title : item.name}</h2>
                                     <p className="p-small">
                                         {item.genres.map((genre, index) => {
                                             if (index + 1 == item.genres.length) {

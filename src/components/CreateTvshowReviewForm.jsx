@@ -5,16 +5,17 @@ import Image from 'react-bootstrap/Image'
 import Form from 'react-bootstrap/Form'
 import { baseIMG } from '../services/tmdbAPI'
 import { useRef } from 'react'
-import { addDoc, doc, updateDoc, collection, setDoc } from 'firebase/firestore'
+import { addDoc, doc, updateDoc, collection, setDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import {useAuthContext} from '../contexts/AuthContext'
 import useGetCollection from '../hooks/useGetCollection'
 
-const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null }) => {
+const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFromWishlistUid = null }) => {
     const [myRating, setMyRating] = useState(null)
     const [loading, setLoading] = useState(false)
     const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
     const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
+    const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
     const [favoriteSeason, setFavoriteSeason] = useState('no favorite')
 
     const myReviewRef = useRef()
@@ -36,13 +37,14 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null }) => {
         if(tvshow) {
             // add review to the user's list of reviews
             await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
+                ...tvshow,
                 is_movie: false,
                 is_tvshow: true,
-                api_id: tvshow.id,
-                title: tvshow.name,
-                image: `${baseIMG}${tvshow.poster_path}`,
-                genres: tvshow.genres,
-                overview: tvshow.overview,
+                // api_id: tvshow.id,
+                // title: tvshow.name,
+                // image: `${baseIMG}${tvshow.poster_path}`,
+                // genres: tvshow.genres,
+                // overview: tvshow.overview,
                 my_rating: myRating,
                 favorite_character: favoriteCharacter,
                 favorite_season: favoriteSeason,
@@ -53,15 +55,16 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null }) => {
 
                 // add doc to reviews-collection
                 await addDoc(collection(db, 'reviews'), {
+                    ...tvshow,
                     user_id: currentUser.uid,
                     user_email: currentUser.email,
                     is_movie: false,
                     is_tvshow: true,
-                    api_id: tvshow.id,
-                    title: tvshow.name,
-                    image: `${baseIMG}${tvshow.poster_path}`,
-                    genres: tvshow.genres,
-                    overview: tvshow.overview,
+                    // api_id: tvshow.id,
+                    // title: tvshow.name,
+                    // image: `${baseIMG}${tvshow.poster_path}`,
+                    // genres: tvshow.genres,
+                    // overview: tvshow.overview,
                     my_rating: myRating,
                     favorite_character: favoriteCharacter,
                     favorite_season: favoriteSeason,
@@ -103,6 +106,18 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null }) => {
                 my_review: myReviewRef.current.value,
                 favorite_season: favoriteSeason,
             })
+        }
+
+        if (itemFromWishlistUid) {
+            // delete from users wishlist-collection 
+            const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, itemFromWishlistUid)
+            await deleteDoc(usersWishlistRef)
+
+            const foundWish = allWishes.find(wish => wish.user_wishlist_uid == itemFromWishlistUid)
+            
+            // delete from wishlist-collection
+            const ref = doc(db, `wishlist`, foundWish.uid)
+            await deleteDoc(ref)
         }
 
         // hide component

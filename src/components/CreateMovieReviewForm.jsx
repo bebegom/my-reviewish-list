@@ -5,16 +5,17 @@ import Form from 'react-bootstrap/Form'
 import { baseIMG } from '../services/tmdbAPI'
 import Rating from './Rating'
 import { useRef } from 'react'
-import { addDoc, doc, collection, updateDoc, setDoc } from 'firebase/firestore'
+import { addDoc, doc, collection, updateDoc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useEffect } from 'react'
 import useGetCollection from '../hooks/useGetCollection'
 
-const CreateMovieReviewForm = ({ showForm, movie = null, review = null }) => {
+const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmit = null, itemFromWishlistUid = null}) => {
     const [myRating, setMyRating] = useState(null)
     const [loading, setLoading] = useState(false)
     const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
+    const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
     const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
     const myReviewRef = useRef()
 
@@ -34,14 +35,15 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null }) => {
         if(movie) {
             // add review to the user's review-collection
             await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
+                ...movie,
                 is_movie: true,
                 is_tvshow: false,
-                api_id: movie.id,
-                title: movie.title,
-                image: `${baseIMG}${movie.poster_path}`,
-                release_date: movie.release_date,
-                genres: movie.genres,
-                overview: movie.overview,
+                // api_id: movie.id,
+                // title: movie.title,
+                // image: `${baseIMG}${movie.poster_path}`,
+                // release_date: movie.release_date,
+                // genres: movie.genres,
+                // overview: movie.overview,
                 my_rating: myRating,
                 favorite_character: favoriteCharacter,
                 my_review: myReviewRef.current.value
@@ -53,17 +55,18 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null }) => {
                 await addDoc(collection(db, 'reviews'), {
                     user_id: currentUser.uid,
                     user_email: currentUser.email,
-                    is_movie: true,
-                    is_tvshow: false,
-                    api_id: movie.id,
-                    title: movie.title,
-                    image: `${baseIMG}${movie.poster_path}`,
-                    release_date: movie.release_date,
-                    genres: movie.genres,
-                    overview: movie.overview,
-                    my_rating: myRating,
-                    favorite_character: favoriteCharacter,
-                    my_review: myReviewRef.current.value
+                    ...movie,
+                is_movie: true,
+                is_tvshow: false,
+                // api_id: movie.id,
+                // title: movie.title,
+                // image: `${baseIMG}${movie.poster_path}`,
+                // release_date: movie.release_date,
+                // genres: movie.genres,
+                // overview: movie.overview,
+                my_rating: myRating,
+                favorite_character: favoriteCharacter,
+                my_review: myReviewRef.current.value
                 }).then((credentials) => {
                     const ref = doc(db, 'reviews', credentials.id)
                     updateDoc(ref, {
@@ -99,6 +102,19 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null }) => {
                 favorite_character: favoriteCharacter, 
                 my_review: myReviewRef.current.value
             })
+        }
+
+        if (itemFromWishlistUid) {
+            // delete from wishlist
+            // delete from users wishlist-collection 
+            const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, itemFromWishlistUid)
+            await deleteDoc(usersWishlistRef)
+
+            const foundWish = allWishes.find(wish => wish.user_wishlist_uid == itemFromWishlistUid)
+            
+            // delete from wishlist-collection
+            const ref = doc(db, `wishlist`, foundWish.uid)
+            await deleteDoc(ref)
         }
 
         // hide component
