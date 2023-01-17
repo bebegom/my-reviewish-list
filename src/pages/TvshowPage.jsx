@@ -59,11 +59,21 @@ const TvshowPage = () => {
             {isError && (<p>ERROR: {error.message}</p>)}
             {data && (
                 <>
-                    <p>
-                        This tvshow: {data.name} ({reviewCount.length} reviews made on Mr.L)
+                    <div className='d-flex'>
+                        <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="" />
+                        <div className='d-flex- flex-column'>
+                            <h1>{data.name}</h1>
+                            <p>{data.number_of_seasons} seasons</p>
+                            {/** TODO: genres? **/}
+                            <button className='btn-primary' onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</button>
+                            <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
+                        </div>
+                    </div>
+                    <p className='p-small'>
+                        ({reviewCount.length} reviews made on Mr.L)
                     </p>
-                        <Button onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</Button>
-                        <Button onClick={addToWishlist}>Add to wishlist</Button>
+                    <h2>Overview</h2>
+                    <p>{data.overview}</p>
                 </>
             )}
 

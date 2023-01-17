@@ -53,7 +53,7 @@ const MoviePage = () => {
         
     }
 
-    console.log(data.genres)
+    // console.log(data.genres)
 
     return (
         <div>
@@ -66,7 +66,7 @@ const MoviePage = () => {
                         <div className='d-flex flex-column justify-content-between'>
                             <h1>{data.title}</h1>
                             <p>{data.release_date}</p>
-                            <p>
+                            {/* <p>
                                 {data.genres.map((genre, index) => {
                                     if(index + 1 == data.genres.length) {
                                         return `${genre.name}`
@@ -74,7 +74,7 @@ const MoviePage = () => {
                                         return `${genre.name} - `
                                     }
                                 })}
-                            </p>
+                            </p> */}
                             <button className='btn-primary' onClick={() => setShowCreateMovieReviewForm(true)}>Add review</button>
                             <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
                         </div>

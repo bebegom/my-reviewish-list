@@ -10,13 +10,13 @@ const TvshowCard = ({ tvshow }) => {
     const navigate = useNavigate()
     const [showCreateReviewForm, setShowCreateReviewForm] = useState(false)
 
-    // console.log(tvshow)
+    console.log(tvshow)
 
     return (
         <>
             <div onClick={(e) => {
                 if(e.target.tagName != "BUTTON") {
-                    return navigate(`/movies/${movieGenreId}/${movie.id}`)
+                    return navigate(`/tvshows/${tvshowGenreId}/${tvshow.id}`)
                 }
             }} className='movie-card' key={tvshow.id}>
                 <img className='poster-img' src={`${baseIMG}${tvshow.poster_path}`} />
