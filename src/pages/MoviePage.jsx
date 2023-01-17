@@ -53,18 +53,38 @@ const MoviePage = () => {
         
     }
 
+    console.log(data.genres)
+
     return (
         <div>
             {isLoading && (<p>loading...</p>)}
             {isError && (<p>ERROR: {error.message}</p>)}
             {data && (
                 <>
-                    <p>
-                        This movie: {data.title} ({reviewCount.length} reviews made on Mr.L)
-                    </p>
-                        <Button onClick={() => setShowCreateMovieReviewForm(true)}>Add review</Button>
-                        <Button onClick={addToWishlist}>Add to wishlist</Button>
+                    <div className='d-flex'>
+                        <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="" />
+                        <div className='d-flex flex-column justify-content-between'>
+                            <h1>{data.title}</h1>
+                            <p>{data.release_date}</p>
+                            <p>
+                                {data.genres.map((genre, index) => {
+                                    if(index + 1 == data.genres.length) {
+                                        return `${genre.name}`
+                                    } else {
+                                        return `${genre.name} - `
+                                    }
+                                })}
+                            </p>
+                            <button className='btn-primary' onClick={() => setShowCreateMovieReviewForm(true)}>Add review</button>
+                            <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
+                        </div>
+                    </div>
+                    <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
+                    <h2>Overview</h2>
+                    <p>{data.overview}</p>
+                    
                 </>
+                
             )}
 
             {showCreateMovieReviewForm && <CreateMovieReviewForm showForm={setShowCreateMovieReviewForm} movie={data} />}
