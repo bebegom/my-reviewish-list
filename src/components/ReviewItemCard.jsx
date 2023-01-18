@@ -13,7 +13,9 @@ const ReviewItemCard = ({ item }) => {
                                     <h2>{item.is_movie ? item.title : item.name}</h2>
                                     <p className="p-small">
                                         {item.genres.map((genre, index) => {
-                                            if (index + 1 == item.genres.length) {
+                                            if(item.genres[index].name == '') {
+                                                return
+                                            } else if (index + 1 == item.genres.length || item.genres[index + 1].name == '') {
                                                 return `${genre.name}`
                                             } else {
                                                 return `${genre.name} - `

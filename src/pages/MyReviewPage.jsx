@@ -39,10 +39,12 @@ const MyReviewPage = () => {
 		{data && (
 			<>
 				<div className='d-flex'>
-					<img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="poster" />
+					{data.poster_path && <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="poster" />}
 					<div className='d-flex flex-column justify-content-between'>
 						<h1>{data.is_movie ? data.title : data.name}</h1>
-						<p>{data.is_movie ? data.release_date.split('-')[0] : ''}</p>
+						{data.release_date && (
+							<p>{data.is_movie ? data.release_date.split('-')[0] : ''}</p>
+						)}
 						<Rating myRating={data.my_rating} />
 					</div>
 				</div>

@@ -20,6 +20,11 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
 
     const myReviewRef = useRef()
 
+    const titleRef = useRef()
+    const genreOneRef = useRef()
+    const genreTwoRef = useRef()
+    const genreThreeRef = useRef()
+
     const {currentUser} = useAuthContext()
 
     useEffect(() => {
@@ -33,6 +38,56 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
     const submitReview = async (e) => {
         e.preventDefault()
         setLoading(true)
+
+        if(tvshow == null && review == null && itemFromWishlistUid == null) {
+            await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
+                is_movie: false,
+                is_tvshow: true,
+                // api_id: tvshow.id,
+                name: titleRef.current.value,
+                my_rating: myRating,
+                my_review: myReviewRef.current.value,
+                favorite_character: favoriteCharacter,
+                favorite_season: favoriteSeason,
+                // overview: ,
+                genres: [
+                        {id: 0, name: genreOneRef.current.value},
+                        {id: 1, name: genreTwoRef.current.value},
+                        {id: 2, name: genreThreeRef.current.value},
+                    ],
+                // image: ,
+            }).then(async (cred) => {
+                const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+                updateDoc(ref, {uid: cred.id})
+
+                // add doc to reviews-collection
+                await addDoc(collection(db, 'reviews'), {
+                    is_movie: false,
+                    is_tvshow: true,
+                    // api_id: tvshow.id,
+                    name: titleRef.current.value,
+                    my_rating: myRating,
+                    my_review: myReviewRef.current.value,
+                    favorite_character: favoriteCharacter,
+                    favorite_season: favoriteSeason,
+                    // overview: ,
+                    genres: [
+                            {id: 0, name: genreOneRef.current.value},
+                            {id: 1, name: genreTwoRef.current.value},
+                            {id: 2, name: genreThreeRef.current.value},
+                        ],
+                    // image: ,
+                }).then((credentials) => {
+                    const ref = doc(db, 'reviews', credentials.id)
+                    updateDoc(ref, {
+                        uid: credentials.id
+                    })
+                    updateDoc(ref, {
+                        user_review_uid: cred.id
+                    })
+                })
+            })
+        }
 
         if(tvshow) {
             // add review to the user's list of reviews
@@ -133,7 +188,28 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
             }} className='lightbox'>
             <div className='lightbox-content p-3'>
             <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
-                <h1>create review</h1>
+                <h1>Create review</h1>
+
+                {tvshow == null && review == null && (
+                    <>
+                        {/* <Form.Group>
+                            <Form.Label>Poster</Form.Label>
+                            <Form.Control type='url' placeholder='https://'/>
+                        </Form.Group> */}
+                        <Form.Group>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control ref={titleRef} type='text' />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Genres</Form.Label>
+                            <Form.Control ref={genreOneRef} type='text' />
+                            <Form.Control ref={genreTwoRef} type='text' />
+                            <Form.Control ref={genreThreeRef} type='text' />
+                        </Form.Group>
+                    </>
+                    
+                )}
 
                 {tvshow && (
                     <>
@@ -154,7 +230,8 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                         {review.genres.map(genre => (
                             <p key={genre.id}>{genre.name}</p>
                         ))}
-                        <Image className='d-block' src={`${baseIMG}${review.poster_path}`} alt="poster" />
+                        {review.poster_path && <Image className='d-block' src={`${baseIMG}${review.poster_path}`} alt="poster" />}
+                        
                         <h3>Overview</h3>
                         <p>{review.overview}</p>
                     </>
@@ -177,6 +254,10 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                         {review && (
                             <Form.Control onChange={(e) => setFavoriteCharacter(e.target.value)} type='text' defaultValue={review.favorite_character} />
                         )}
+
+                        {tvshow == null && review == null && (
+                            <Form.Control onChange={(e) => setFavoriteCharacter(e.target.value)} type='text' />
+                        )}
                     </Form.Group>
 
                     <Form.Group>
@@ -192,6 +273,10 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
 
                         {review && (
                             <Form.Control onChange={(e) => setFavoriteSeason(e.target.value)} type='text' defaultValue={review.favorite_season} />
+                        )}
+
+                        {tvshow == null && review == null && (
+                            <Form.Control onChange={(e) => setFavoriteSeason(e.target.value)} type='text' />
                         )}
                     </Form.Group>
 
