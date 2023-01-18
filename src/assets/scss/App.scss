@@ -254,3 +254,17 @@ img {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
+
+.folder-radio {
+    // background-color: $card-background-color;
+    border-radius: $border-radius;
+    border: 2px solid $card-background-color;
+    margin-bottom: 0.5rem;
+
+}
+
+.folder-radio-checked {
+    background-color: $secondary-button-color;
+    border: none;
+    color: $white;
+}

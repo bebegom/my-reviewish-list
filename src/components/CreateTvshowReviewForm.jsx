@@ -11,10 +11,12 @@ import {useAuthContext} from '../contexts/AuthContext'
 import useGetCollection from '../hooks/useGetCollection'
 
 const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFromWishlistUid = null }) => {
+    const {currentUser} = useAuthContext()
     const [myRating, setMyRating] = useState(null)
     const [loading, setLoading] = useState(false)
     const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
     const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
+    const {data: allUsersFolders, loading: allUsersFoldersLoading} = useGetCollection(`users/${currentUser.uid}/folders`)
     const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
     const [favoriteSeason, setFavoriteSeason] = useState('no favorite')
 
@@ -25,13 +27,18 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
     const genreTwoRef = useRef()
     const genreThreeRef = useRef()
 
-    const {currentUser} = useAuthContext()
+    const [chosenFolder, setChosenFolder] = useState(null)
+
 
     useEffect(() => {
         if(review)  {
             setMyRating(review.my_rating)
             setFavoriteCharacter(review.favorite_character)
             setFavoriteSeason(review.favorite_season)
+
+            if(review.folder) {
+                setChosenFolder(review.folder)
+            }
         }
     }, [])
 
@@ -55,6 +62,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                         {id: 1, name: genreTwoRef.current.value},
                         {id: 2, name: genreThreeRef.current.value},
                     ],
+                folder: chosenFolder,
                 // image: ,
             }).then(async (cred) => {
                 const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
@@ -76,6 +84,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                             {id: 1, name: genreTwoRef.current.value},
                             {id: 2, name: genreThreeRef.current.value},
                         ],
+                    folder: chosenFolder,
                     // image: ,
                 }).then((credentials) => {
                     const ref = doc(db, 'reviews', credentials.id)
@@ -103,7 +112,8 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                 my_rating: myRating,
                 favorite_character: favoriteCharacter,
                 favorite_season: favoriteSeason,
-                my_review: myReviewRef.current.value
+                my_review: myReviewRef.current.value,
+                folder: chosenFolder,
             }).then(async (cred) => {
                 const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
                 updateDoc(ref, {uid: cred.id})
@@ -123,7 +133,8 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                     my_rating: myRating,
                     favorite_character: favoriteCharacter,
                     favorite_season: favoriteSeason,
-                    my_review: myReviewRef.current.value
+                    my_review: myReviewRef.current.value,
+                    folder: chosenFolder,
                 }).then((credentials) => {
                     const ref = doc(db, 'reviews', credentials.id)
                     updateDoc(ref, {
@@ -144,7 +155,8 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                 my_rating: myRating, 
                 favorite_character: favoriteCharacter,
                 favorite_season: favoriteSeason,
-                my_review: myReviewRef.current.value
+                my_review: myReviewRef.current.value,
+                folder: chosenFolder,
             })
 
             // find review in reviews-collection
@@ -160,6 +172,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                 favorite_character: favoriteCharacter, 
                 my_review: myReviewRef.current.value,
                 favorite_season: favoriteSeason,
+                folder: chosenFolder,
             })
         }
 
@@ -283,6 +296,40 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                     <Form.Group>
                         <Form.Label>Write something</Form.Label>
                         <Form.Control ref={myReviewRef} defaultValue={review ? review.my_review : ''} as='textarea' rows={7} />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Choose a folder</Form.Label>
+                        {allUsersFolders && (
+                            <>
+                                <Form.Check 
+                                    className={`folder-radio p-2 ${chosenFolder == null ? 'folder-radio-checked' : ''}`}
+                                    type={'radio'} 
+                                    key={'nofolder'} 
+                                    label={'no folder'} 
+                                    id={'nofolder'} 
+                                    name={'folder'} 
+                                    onChange={() => (
+                                        setChosenFolder(null)
+                                    )}
+                                    checked={chosenFolder == null ? true : false}
+                                />
+                                {allUsersFolders.map(folder => (
+                                    <Form.Check 
+                                    className={`folder-radio p-2 ${chosenFolder == folder ? 'folder-radio-checked' : ''}`}
+                                        type={'radio'} 
+                                        key={folder.uid} 
+                                        label={folder.name} 
+                                        id={folder.name} 
+                                        name={'folder'} 
+                                        onChange={() => (
+                                            setChosenFolder(folder)
+                                        )}
+                                        checked={chosenFolder == folder ? true : false}
+                                    />
+                                ))}
+                            </>
+                        )}
                     </Form.Group>
 
                     <Button disabled={loading} type='submit'>Submit</Button>

@@ -11,10 +11,12 @@ import { useAuthContext } from '../contexts/AuthContext'
 import { useEffect } from 'react'
 import useGetCollection from '../hooks/useGetCollection'
 
-const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmit = null, itemFromWishlistUid = null}) => {
+const CreateMovieReviewForm = ({ showForm, movie = null, review = null, itemFromWishlistUid = null}) => {
+    const {currentUser} = useAuthContext()
     const [myRating, setMyRating] = useState(null)
     const [loading, setLoading] = useState(false)
     const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
+    const {data: allUsersFolders, loading: allUsersFoldersLoading} = useGetCollection(`users/${currentUser.uid}/folders`)
     const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
     const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
     const myReviewRef = useRef()
@@ -24,12 +26,16 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
     const genreTwoRef = useRef()
     const genreThreeRef = useRef()
 
-    const {currentUser} = useAuthContext()
+    const [chosenFolder, setChosenFolder] = useState(null)
 
     useEffect(() => {
         if(review)  {
             setMyRating(review.my_rating)
             setFavoriteCharacter(review.favorite_character)
+
+            if(review.folder) {
+                setChosenFolder(review.folder)
+            }
         }
     }, [])
 
@@ -51,6 +57,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                     {id: 1, name: genreTwoRef.current.value},
                     {id: 2, name: genreThreeRef.current.value},
                 ],
+                folder: chosenFolder,
                 // image: ,
             }).then(async (cred) => {
                 const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
@@ -72,6 +79,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                         {id: 1, name: genreTwoRef.current.value},
                         {id: 2, name: genreThreeRef.current.value},
                     ],
+                    folder: chosenFolder,
                     // image: ,
                 }).then((credentials) => {
                     const ref = doc(db, 'reviews', credentials.id)
@@ -99,7 +107,8 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                 // overview: movie.overview,
                 my_rating: myRating,
                 favorite_character: favoriteCharacter,
-                my_review: myReviewRef.current.value
+                my_review: myReviewRef.current.value,
+                folder: chosenFolder,
             }).then(async (cred) => {
                 const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
                 updateDoc(ref, {uid: cred.id})
@@ -119,7 +128,8 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                     // overview: movie.overview,
                     my_rating: myRating,
                     favorite_character: favoriteCharacter,
-                    my_review: myReviewRef.current.value
+                    my_review: myReviewRef.current.value,
+                    folder: chosenFolder,
                 }).then((credentials) => {
                     const ref = doc(db, 'reviews', credentials.id)
                     updateDoc(ref, {
@@ -139,7 +149,8 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                 ...review, 
                 my_rating: myRating, 
                 favorite_character: favoriteCharacter, 
-                my_review: myReviewRef.current.value
+                my_review: myReviewRef.current.value,
+                folder: chosenFolder,
             })
 
             // find review in reviews-collection
@@ -153,7 +164,8 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                 user_review_uid: foundReview.user_review_uid, 
                 my_rating: myRating, 
                 favorite_character: favoriteCharacter, 
-                my_review: myReviewRef.current.value
+                my_review: myReviewRef.current.value,
+                folder: chosenFolder,
             })
         }
 
@@ -258,6 +270,40 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                     <Form.Group>
                         <Form.Label>Write something</Form.Label>
                         <Form.Control ref={myReviewRef} as='textarea' rows={7} defaultValue={review ? review.my_review : ''} />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Choose a folder</Form.Label>
+                        {allUsersFolders && (
+                            <>
+                                <Form.Check 
+                                    className={`folder-radio p-2 ${chosenFolder == null ? 'folder-radio-checked' : ''}`}
+                                    type={'radio'} 
+                                    key={'nofolder'} 
+                                    label={'no folder'} 
+                                    id={'nofolder'} 
+                                    name={'folder'} 
+                                    onChange={() => (
+                                        setChosenFolder(null)
+                                    )}
+                                    checked={chosenFolder == null ? true : false}
+                                />
+                                {allUsersFolders.map(folder => (
+                                    <Form.Check 
+                                    className={`folder-radio p-2 ${chosenFolder == folder ? 'folder-radio-checked' : ''}`}
+                                        type={'radio'} 
+                                        key={folder.uid} 
+                                        label={folder.name} 
+                                        id={folder.name} 
+                                        name={'folder'} 
+                                        onChange={() => (
+                                            setChosenFolder(folder)
+                                        )}
+                                        checked={chosenFolder == folder ? true : false}
+                                    />
+                                ))}
+                            </>
+                        )}
                     </Form.Group>
 
                     <Button disabled={loading} type='submit'>Submit</Button>
