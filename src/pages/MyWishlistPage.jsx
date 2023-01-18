@@ -20,7 +20,7 @@ const MyWishlistPage = () => {
                 <>
                     <p>We have your list</p>
                     {data.map(item => (
-                        <WishlistItemCard item={item} setShowMovieForm={setShowMovieForm} setShowTvshowForm={setShowTvshowForm} setClickedItem={setClickedItem} />
+                        <WishlistItemCard key={item.uid} item={item} setShowMovieForm={setShowMovieForm} setShowTvshowForm={setShowTvshowForm} setClickedItem={setClickedItem} />
                     ))}
                     {showMovieForm && <CreateMovieReviewForm movie={clickedItem} showForm={setShowMovieForm } itemFromWishlistUid={clickedItem.uid} />}
                     {showTvshowForm && <CreateTvshowReviewForm tvshow={clickedItem} showForm={setShowTvshowForm} itemFromWishlistUid={clickedItem.uid} />}

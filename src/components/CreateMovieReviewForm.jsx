@@ -153,7 +153,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, setSubmi
                         {review.genres.map(genre => (
                             <p key={genre.id}>{genre.name}</p>
                         ))}
-                        <Image className='d-block' src={`${baseIMG}${review.image}`} alt="poster" />
+                        <Image className='d-block' src={`${baseIMG}${review.poster_path}`} alt="poster" />
                         <h3>Overview</h3>
                         <p>{review.overview}</p>
                     </>

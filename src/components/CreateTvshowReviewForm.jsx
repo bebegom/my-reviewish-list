@@ -150,11 +150,11 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                 
                 {review && (
                     <>
-                        <h2>{review.title}</h2>
+                        <h2>{review.name}</h2>
                         {review.genres.map(genre => (
                             <p key={genre.id}>{genre.name}</p>
                         ))}
-                        <Image className='d-block' src={`${baseIMG}${review.image}`} alt="poster" />
+                        <Image className='d-block' src={`${baseIMG}${review.poster_path}`} alt="poster" />
                         <h3>Overview</h3>
                         <p>{review.overview}</p>
                     </>
