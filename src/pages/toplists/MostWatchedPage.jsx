@@ -15,7 +15,7 @@ const MostWatchedPage = () => {
         const result = getOccurrences(arrayOfTitles)
 
         const re = getSortedOccurrences([result[1], result[0]])
-        console.log(re)
+        // console.log(re)
         setArraysOfItemAndCount(re)
     }, [data])
 

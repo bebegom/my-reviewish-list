@@ -15,7 +15,7 @@ const MostActiveUserPage = () => {
         const result = getOccurrences(arrayOfEmails)
 
         const re = getSortedOccurrences([result[1], result[0]])
-        console.log(re)
+        // console.log(re)
         setArraysOfEmailAndCount(re)
     }, [data])
 

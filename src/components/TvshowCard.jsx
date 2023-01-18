@@ -14,8 +14,6 @@ const TvshowCard = ({ tvshow }) => {
     const { currentUser } = useAuthContext()
     const [showCreateReviewForm, setShowCreateReviewForm] = useState(false)
 
-    console.log(data)
-
     // const addToWishlist = async () => {
     //     // add tvshow to user's wishlist-collection on firestore
     //     await addDoc(collection(db, `users/${currentUser.uid}/wishlist`), {

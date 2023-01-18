@@ -6,6 +6,7 @@ import Review from '../components/Review'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import useGetDoc from '../hooks/useGetDoc'
+import ReceivedReviewCard from '../components/ReceivedReviewCard'
 
 const SharedPage = () => {
     const {currentUser} = useAuthContext()
@@ -31,12 +32,13 @@ const SharedPage = () => {
                 <>
                     <h1>Received reviews</h1>
                     {data.map(review => (
-                        <div key={review.uid}>
-                            <h2>{review.title}</h2>
-                            <p>from: {review.from_user}</p>
-                            <p>Have you read their review yet? {review.seen ? 'yes' : 'no'}</p>
-                            <Button onClick={() => handleSeeDetails(review)}>See details</Button>
-                        </div>
+                        // <div key={review.uid}>
+                        //     <h2>{review.is_movie ? review.title : review.name}</h2>
+                        //     <p>from: {review.from_user}</p>
+                        //     <p>Have you read their review yet? {review.seen ? 'yes' : 'no'}</p>
+                        //     <Button onClick={() => handleSeeDetails(review)}>See details</Button>
+                        // </div>
+                        <ReceivedReviewCard key={review.uid} review={review} handleSeeDetails={handleSeeDetails} />
                     ))}
 
                     {clickedReview && <Review setClickedReview={setClickedReview} review={clickedReview} />}

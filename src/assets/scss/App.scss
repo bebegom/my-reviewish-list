@@ -246,3 +246,11 @@ img {
     width: 1rem;
     height: 1rem;
 }
+
+.received-review-card {
+    background-color: $card-background-color;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}

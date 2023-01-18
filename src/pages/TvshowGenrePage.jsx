@@ -34,7 +34,7 @@ const TvshowGenrePage = () => {
                 <>
                     <h1>Tvshows - {nameOfThisGenre}</h1>
                     {data.results.map(tvshow => (
-                        <TvshowCard tvshow={tvshow} />
+                        <TvshowCard key={tvshow.id} tvshow={tvshow} />
                     ))}
 
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>

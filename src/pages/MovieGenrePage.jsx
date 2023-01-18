@@ -34,7 +34,7 @@ const MovieGenrePage = () => {
                 <>
                 <h1>Movies - {nameOfThisGenre}</h1>
                     {data.results.map(movie => (
-                        <MovieCard movie={movie} />
+                        <MovieCard key={movie.id} movie={movie} />
                     ))}
 
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
