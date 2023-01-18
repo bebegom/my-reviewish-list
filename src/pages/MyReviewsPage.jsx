@@ -7,6 +7,7 @@ import { useRef, useState } from "react"
 import Form from 'react-bootstrap/Form'
 import { addDoc, doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
+import { useNavigate } from "react-router-dom"
 
 const MyReviewsPage = () => {
     const { currentUser } = useAuthContext()
@@ -16,6 +17,7 @@ const MyReviewsPage = () => {
     const [showTvshowForm, setShowTvshowForm] = useState(false)
     const [wannaCreateNewFolder, setWannaCreateNewFolder] = useState(false)
     const newFolderNameRef = useRef()
+    const navigate = useNavigate()
 
     // const createNewFolder = () =>{
 
@@ -56,7 +58,7 @@ const MyReviewsPage = () => {
 
                     <h2>Folders</h2>
                     {folders.map(folder => (
-                            <p key={folder.uid}>{folder.name}</p>
+                            <div onClick={() => navigate(`/my-reviews/folders/${folder.uid}`)} key={folder.uid}>{folder.name}</div>
                     ))}
                     
                     <h2>All reviews</h2>
