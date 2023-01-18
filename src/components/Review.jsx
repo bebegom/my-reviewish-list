@@ -1,8 +1,18 @@
 import React from 'react'
 import Rating from './Rating'
+import { doc, deleteDoc, } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useAuthContext } from '../contexts/AuthContext'
 
 const Review = ({ review, setClickedReview }) => {
+    const { currentUser } = useAuthContext()
 	console.log(review)
+	const deleteReceivedReview = async () => {
+		const ref = doc(db, `users/${currentUser.uid}/received`, review.received_uid)
+
+		await deleteDoc(ref)
+	}
+
 	return (
 		<div onClick={() => setClickedReview(null)} className='lightbox h-100'>
 			<div className='lightbox-content'>
@@ -18,6 +28,8 @@ const Review = ({ review, setClickedReview }) => {
 				<p>
 					{review.my_review}
 				</p>
+
+				<button onClick={deleteReceivedReview} className='btn-primary'>Delete</button>
 			</div>
 		</div>
 	)
