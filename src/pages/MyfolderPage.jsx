@@ -7,6 +7,7 @@ import { db } from '../firebase'
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { useRef, useState } from 'react'
 import Form from 'react-bootstrap/Form'
+import ErrorMessage from "../components/ErrorMessage"
 
 const MyfolderPage = () => {
     const { folderId } = useParams()
@@ -16,6 +17,7 @@ const MyfolderPage = () => {
     const navigate = useNavigate()
     const [wannaEditFolder, setWannaEditFolder] = useState(false)
     const newFolderNameRef = useRef()
+    const [errorOccurred, setErrorOccurred] = useState(null)
 
     const reviewsInFolder = reviews.filter((review) => {
         if(review.folder) {
@@ -23,16 +25,19 @@ const MyfolderPage = () => {
                 return review
             }
         }
-        
     })
     
     const handleDeleteFolder = async () => {
-        // delete folder from firstore
-        const ref = doc(db, `users/${currentUser.uid}/folders`, folder.id)
-        await deleteDoc(ref)
+        try {
+            // delete folder from firstore
+            const ref = doc(db, `users/${currentUser.uid}/folders`, folder.id)
+            await deleteDoc(ref)
 
-        // navigate to my-reviews
-        navigate('/my-reviews')
+            // navigate to my-reviews
+            navigate('/my-reviews')
+        } catch (e) {
+            setErrorOccurred("Couldn't delete your folder")
+        }
     }
 
     const handleEditFolderSubmit = (e) => {
@@ -47,6 +52,7 @@ const MyfolderPage = () => {
 
     return (
         <div>
+            {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             <h1>
                 {folder.name}
             </h1>

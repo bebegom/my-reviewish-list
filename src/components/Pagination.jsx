@@ -1,5 +1,3 @@
-import Button from "react-bootstrap/Button"
-
 const Pagination = ({ page, changePage, isPreviousData}) => {
     return (
         <div className="pagination">

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
+import ErrorMessage from "../components/ErrorMessage"
 
 const LogoutPage = () => {
     const { logout } = useAuthContext()
@@ -11,14 +12,12 @@ const LogoutPage = () => {
     useEffect(()=> {
         setError(null)
         const logoutUser = async () => {
-
             try {
                 await logout()
                 navigate('/')
             } catch (e) {
                 setError(e.message)
             }
-            
         }
         logoutUser()
     }, [])
@@ -26,7 +25,7 @@ const LogoutPage = () => {
     return (
         <Container>
             {error
-                ? <p>ERROR: {error}</p>
+                ? < ErrorMessage msg={error} setError={setError} />
                 : <p>Logging out...</p>
             }
         </Container>

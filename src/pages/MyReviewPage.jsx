@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import useGetDoc from '../hooks/useGetDoc'
 import useGetCollection from '../hooks/useGetCollection'
@@ -10,6 +10,7 @@ import { db } from '../firebase'
 import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 import Rating from '../components/Rating'
+import ErrorMessage from '../components/ErrorMessage'
 
 const MyReviewPage = () => {
     const { myReviewId } = useParams()
@@ -19,24 +20,30 @@ const MyReviewPage = () => {
     const [wannaEdit, setWannaEdit] = useState(false)
 	const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
 	const navigate = useNavigate()
+    const [errorOccurred, setErrorOccurred] = useState(null)
 
     const deleteFromReviews = async () => {
-		// delete from users collection of reviews
-		const usersReviewsRef = doc(db, `users/${currentUser.uid}/reviews`, data.uid)
-        await deleteDoc(usersReviewsRef)
+		try {
+			// delete from users collection of reviews
+			const usersReviewsRef = doc(db, `users/${currentUser.uid}/reviews`, data.uid)
+			await deleteDoc(usersReviewsRef)
 
-		// delete from reviews-collection
-		const thisReview = allReviews.find(review => review.user_review_uid == data.uid)
+			// delete from reviews-collection
+			const thisReview = allReviews.find(review => review.user_review_uid == data.uid)
 
-		const ref = doc(db, `reviews`, thisReview.uid)
-        await deleteDoc(ref)
+			const ref = doc(db, `reviews`, thisReview.uid)
+			await deleteDoc(ref)
 
-		navigate('/my-reviews')
+			navigate('/my-reviews')
+		} catch (e) {
+			setErrorOccurred("Couldn't delete your review")
+		}
     }
 
 	return (
 	<div>
 		{loading && <p>loading...</p>}
+		{errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
 		{data && (
 			<>
 				<div className='d-flex'>

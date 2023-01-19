@@ -11,11 +11,8 @@ const MostWatchedPage = () => {
 
     useEffect(() => {
         const arrayOfTitles = data.map((doc) => doc.title || doc.name)
-
         const result = getOccurrences(arrayOfTitles)
-
         const re = getSortedOccurrences([result[1], result[0]])
-        // console.log(re)
         setArraysOfItemAndCount(re)
     }, [data])
 
@@ -25,7 +22,6 @@ const MostWatchedPage = () => {
             {data && (
                 <>
                     <h1>Most watched</h1>
-
                     {arraysOfItemAndCount && (
                         <>
                             {arraysOfItemAndCount[1].map((i, index) => {

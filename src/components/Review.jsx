@@ -1,21 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Rating from './Rating'
 import { doc, deleteDoc, } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
+import ErrorMessage from './ErrorMessage'
 
 const Review = ({ review, setClickedReview }) => {
     const { currentUser } = useAuthContext()
-	console.log(review)
-	const deleteReceivedReview = async () => {
-		const ref = doc(db, `users/${currentUser.uid}/received`, review.received_uid)
+	const [errorOccurred, setErrorOccurred] = useState(null)
 
-		await deleteDoc(ref)
+	const deleteReceivedReview = async () => {
+		try {
+			const ref = doc(db, `users/${currentUser.uid}/received`, review.received_uid)
+			await deleteDoc(ref)
+
+			setClickedReview(null)
+		} catch (e) {
+			setErrorOccurred("Couldn't delete review")
+		}
 	}
 
 	return (
 		<div onClick={() => setClickedReview(null)} className='lightbox h-100'>
 			<div className='lightbox-content'>
+				{errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
 				<h1>
 					{review.is_movie ? review.title : review.name}
 				</h1>

@@ -12,6 +12,8 @@ const MovieCard = ({ movie }) => {
 
     return (
         <> 
+            {isError && <p>ERROR: {error.message}</p>}
+            {isLoading && <p>Loading...</p>}
             {data && (
                 <>
                     <div onClick={(e) => {
@@ -23,16 +25,12 @@ const MovieCard = ({ movie }) => {
                         <div className='movie-card-overview'>
                             <h2>{data.title}</h2>
                             <p className='p-small'>{data.release_date}</p>
-                            {/* <button className='btn-primary' onClick={() => setShowCreateReviewForm(true)}>Add review</button>
-                            
-                            <button className='btn-secondary' onClick={() => console.log('clicked')}>Add to wishlist</button>  */}
                         </div>
                     </div>
 
                     {showCreateReviewForm && <CreateMovieReviewForm showForm={setShowCreateReviewForm} movie={data} />}
                 </>
             )}
-           
         </>
         
     )

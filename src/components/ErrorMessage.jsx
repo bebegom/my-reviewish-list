@@ -7,7 +7,6 @@ const ErrorMessage = ({ msg, setError }) => {
             <p className='my-3'>{msg}</p>
             <div className='d-flex justify-content-end'>
                 <button onClick={() => setError(null)} className='btn-error '>OK</button>
-
             </div>
         </div>
     )

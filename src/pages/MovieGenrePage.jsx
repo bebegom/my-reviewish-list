@@ -12,11 +12,17 @@ const MovieGenrePage = () => {
     const [searchParams, setSearchParams] = useSearchParams({ query: '', page: 1 })
     const page = searchParams.get('page')
     const { data, isLoading, error, isError, isPreviousdata } = useQuery(['movieGenre', movieGenreId, page], () => getMovieGenre(movieGenreId, page), { keepPreviousData: true })
+    const [errorOccurred, setErrorOccurred] = useState(null)
 
     const getNameOfThisMovieGenre = async () => {
-        const allMovieGenresData = await getMovieGenres()
-        const thisMovieGenre = allMovieGenresData.genres.find(i => i.id == movieGenreId)
-        setNameOfThisGenre(thisMovieGenre.name)
+        try {
+            const allMovieGenresData = await getMovieGenres()
+            const thisMovieGenre = allMovieGenresData.genres.find(i => i.id == movieGenreId)
+            setNameOfThisGenre(thisMovieGenre.name)
+        } catch (e) {
+            setErrorOccurred('Could not get the name of genre')
+        }
+        
     }
 
     useEffect(() => {
@@ -32,7 +38,8 @@ const MovieGenrePage = () => {
 
             {data && (
                 <>
-                <h1>Movies - {nameOfThisGenre}</h1>
+                    {errorOccurred && <h1>{errorOccurred}</h1>}
+                    {!errorOccurred && <h1>Movies - {nameOfThisGenre}</h1>}
                     {data.results.map(movie => (
                         <MovieCard key={movie.id} movie={movie} />
                     ))}

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContext'
+import ErrorMessage from "../components/ErrorMessage"
 
 const LoginPage = () => {
     const emailRef = useRef()
@@ -13,7 +14,6 @@ const LoginPage = () => {
     const [error, setError] = useState(null)
 
     const { login, currentUser } = useAuthContext()
-    // console.log('logging ', currentUser.email)
     
     const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ const LoginPage = () => {
             <Container>
                 <p>Current user: {currentUser ? currentUser.email : 'null'}</p>
                 {error && (
-                    <div>ERROR: {error}</div>
+                    <ErrorMessage msg={error} setError={setError} />
                 )}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group id='email'>

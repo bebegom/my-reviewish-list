@@ -11,12 +11,8 @@ const MostWantedPage = () => {
 
     useEffect(() => {
         const arrayOfTitles = data.map((doc) => doc.title || doc.name)
-
         const result = getOccurrences(arrayOfTitles)
-        // console.log('result', result)
-
         const re = getSortedOccurrences([result[1], result[0]])
-        // console.log('re', re)
         setArraysOfItemAndCount(re)
     }, [data])
 

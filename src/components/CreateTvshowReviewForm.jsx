@@ -9,6 +9,7 @@ import { addDoc, doc, updateDoc, collection, setDoc, deleteDoc } from 'firebase/
 import { db } from '../firebase'
 import {useAuthContext} from '../contexts/AuthContext'
 import useGetCollection from '../hooks/useGetCollection'
+import ErrorMessage from './ErrorMessage'
 
 const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFromWishlistUid = null }) => {
     const {currentUser} = useAuthContext()
@@ -19,6 +20,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
     const {data: allUsersFolders, loading: allUsersFoldersLoading} = useGetCollection(`users/${currentUser.uid}/folders`)
     const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
     const [favoriteSeason, setFavoriteSeason] = useState('no favorite')
+    const [errorOccurred, setErrorOccurred] = useState(null)
 
     const myReviewRef = useRef()
 
@@ -28,7 +30,6 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
     const genreThreeRef = useRef()
 
     const [chosenFolder, setChosenFolder] = useState(null)
-
 
     useEffect(() => {
         if(review)  {
@@ -47,106 +48,106 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
         setLoading(true)
 
         if(tvshow == null && review == null && itemFromWishlistUid == null) {
-            await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
-                is_movie: false,
-                is_tvshow: true,
-                // api_id: tvshow.id,
-                name: titleRef.current.value,
-                my_rating: myRating,
-                my_review: myReviewRef.current.value,
-                favorite_character: favoriteCharacter,
-                favorite_season: favoriteSeason,
-                // overview: ,
-                genres: [
-                        {id: 0, name: genreOneRef.current.value},
-                        {id: 1, name: genreTwoRef.current.value},
-                        {id: 2, name: genreThreeRef.current.value},
-                    ],
-                folder: chosenFolder,
-                // image: ,
-            }).then(async (cred) => {
-                const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
-                updateDoc(ref, {uid: cred.id})
-
-                // add doc to reviews-collection
-                await addDoc(collection(db, 'reviews'), {
-                    user_id: currentUser.uid,
-                    user_email: currentUser.email,
+            try {
+                await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
                     is_movie: false,
                     is_tvshow: true,
-                    // api_id: tvshow.id,
                     name: titleRef.current.value,
                     my_rating: myRating,
                     my_review: myReviewRef.current.value,
                     favorite_character: favoriteCharacter,
                     favorite_season: favoriteSeason,
-                    // overview: ,
                     genres: [
                             {id: 0, name: genreOneRef.current.value},
                             {id: 1, name: genreTwoRef.current.value},
                             {id: 2, name: genreThreeRef.current.value},
                         ],
                     folder: chosenFolder,
-                    // image: ,
-                }).then((credentials) => {
-                    const ref = doc(db, 'reviews', credentials.id)
-                    updateDoc(ref, {
-                        uid: credentials.id
+                }).then(async (cred) => {
+                    const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+                    updateDoc(ref, {uid: cred.id})
+
+                    try {
+                        // add doc to reviews-collection
+                    await addDoc(collection(db, 'reviews'), {
+                        user_id: currentUser.uid,
+                        user_email: currentUser.email,
+                        is_movie: false,
+                        is_tvshow: true,
+                        name: titleRef.current.value,
+                        my_rating: myRating,
+                        my_review: myReviewRef.current.value,
+                        favorite_character: favoriteCharacter,
+                        favorite_season: favoriteSeason,
+                        genres: [
+                                {id: 0, name: genreOneRef.current.value},
+                                {id: 1, name: genreTwoRef.current.value},
+                                {id: 2, name: genreThreeRef.current.value},
+                            ],
+                        folder: chosenFolder,
+                    }).then((credentials) => {
+                        const ref = doc(db, 'reviews', credentials.id)
+                        updateDoc(ref, {
+                            uid: credentials.id
+                        })
+                        updateDoc(ref, {
+                            user_review_uid: cred.id
+                        })
                     })
-                    updateDoc(ref, {
-                        user_review_uid: cred.id
-                    })
+                    } catch (e) {
+                        setErrorOccurred("Couldn't create your review")
+                    }
                 })
-            })
+            } catch (e) {
+                setErrorOccurred("Couldn't create your review")
+            }
         }
 
         if(tvshow) {
-            // add review to the user's list of reviews
-            await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
-                ...tvshow,
-                is_movie: false,
-                is_tvshow: true,
-                // api_id: tvshow.id,
-                // title: tvshow.name,
-                // image: `${baseIMG}${tvshow.poster_path}`,
-                // genres: tvshow.genres,
-                // overview: tvshow.overview,
-                my_rating: myRating,
-                favorite_character: favoriteCharacter,
-                favorite_season: favoriteSeason,
-                my_review: myReviewRef.current.value,
-                folder: chosenFolder,
-            }).then(async (cred) => {
-                const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
-                updateDoc(ref, {uid: cred.id})
-
-                // add doc to reviews-collection
-                await addDoc(collection(db, 'reviews'), {
+            try {
+                // add review to the user's list of reviews
+                await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
                     ...tvshow,
-                    user_id: currentUser.uid,
-                    user_email: currentUser.email,
                     is_movie: false,
                     is_tvshow: true,
-                    // api_id: tvshow.id,
-                    // title: tvshow.name,
-                    // image: `${baseIMG}${tvshow.poster_path}`,
-                    // genres: tvshow.genres,
-                    // overview: tvshow.overview,
                     my_rating: myRating,
                     favorite_character: favoriteCharacter,
                     favorite_season: favoriteSeason,
                     my_review: myReviewRef.current.value,
                     folder: chosenFolder,
-                }).then((credentials) => {
-                    const ref = doc(db, 'reviews', credentials.id)
-                    updateDoc(ref, {
-                        uid: credentials.id
-                    })
-                    updateDoc(ref, {
-                        user_review_uid: cred.id
-                    })
+                }).then(async (cred) => {
+                    const ref = doc(db, `users/${currentUser.uid}/reviews`, cred.id)
+                    updateDoc(ref, {uid: cred.id})
+
+                    try {
+                        // add doc to reviews-collection
+                        await addDoc(collection(db, 'reviews'), {
+                            ...tvshow,
+                            user_id: currentUser.uid,
+                            user_email: currentUser.email,
+                            is_movie: false,
+                            is_tvshow: true,
+                            my_rating: myRating,
+                            favorite_character: favoriteCharacter,
+                            favorite_season: favoriteSeason,
+                            my_review: myReviewRef.current.value,
+                            folder: chosenFolder,
+                        }).then((credentials) => {
+                            const ref = doc(db, 'reviews', credentials.id)
+                            updateDoc(ref, {
+                                uid: credentials.id
+                            })
+                            updateDoc(ref, {
+                                user_review_uid: cred.id
+                            })
+                        })
+                    } catch(e) {
+                        setErrorOccurred("Couldn't create your review")
+                    }
                 })
-            })
+            } catch (e) {
+                setErrorOccurred("Couldn't create your review")
+            }
         }
 
         if(review) {
@@ -179,15 +180,19 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
         }
 
         if (itemFromWishlistUid) {
-            // delete from users wishlist-collection 
-            const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, itemFromWishlistUid)
-            await deleteDoc(usersWishlistRef)
+            try {
+                // delete from users wishlist-collection 
+                const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, itemFromWishlistUid)
+                await deleteDoc(usersWishlistRef)
 
-            const foundWish = allWishes.find(wish => wish.user_wishlist_uid == itemFromWishlistUid)
-            
-            // delete from wishlist-collection
-            const ref = doc(db, `wishlist`, foundWish.uid)
-            await deleteDoc(ref)
+                const foundWish = allWishes.find(wish => wish.user_wishlist_uid == itemFromWishlistUid)
+                
+                // delete from wishlist-collection
+                const ref = doc(db, `wishlist`, foundWish.uid)
+                await deleteDoc(ref)
+            } catch (e) {
+                setErrorOccurred("The tvshow didn't get removed from your wishlist while creating your review")
+            }
         }
 
         // hide component
@@ -200,17 +205,15 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
             if(e.target.classList.contains('lightbox')) {
                 showForm(false)
             }
-            }} className='lightbox'>
+            }} className='lightbox'
+        >
+            {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             <div className='lightbox-content p-3'>
             <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
                 <h1>Create review</h1>
 
                 {tvshow == null && review == null && (
                     <>
-                        {/* <Form.Group>
-                            <Form.Label>Poster</Form.Label>
-                            <Form.Control type='url' placeholder='https://'/>
-                        </Form.Group> */}
                         <Form.Group>
                             <Form.Label>Title</Form.Label>
                             <Form.Control ref={titleRef} type='text' />

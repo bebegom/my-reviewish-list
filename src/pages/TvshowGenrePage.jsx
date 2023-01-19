@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { getTvshowGenre, getTvshowGenres } from '../services/tmdbAPI'
-import Button from 'react-bootstrap/Button'
 import Pagination from '../components/Pagination'
 import TvshowCard from '../components/TvshowCard'
 
@@ -12,11 +11,18 @@ const TvshowGenrePage = () => {
     const [searchParams, setSearchParams] = useSearchParams({ query: '', page: 1 })
     const page = searchParams.get('page')
     const { data, isLoading, error, isError, isPreviousdata } = useQuery(['tvshowGenre', tvshowGenreId, page], () => getTvshowGenre(tvshowGenreId, page), { keepPreviousData: true })
+    const [errorOccurred, setErrorOccurred] = useState(null)
+
 
     const getNameOfThisTvshowGenre = async () => {
-        const allTvshowGenresData = await getTvshowGenres()
-        const thisTvshowGenre = allTvshowGenresData.genres.find(i => i.id == tvshowGenreId)
-        setNameOfThisGenre(thisTvshowGenre.name)
+        try {
+            const allTvshowGenresData = await getTvshowGenres()
+            const thisTvshowGenre = allTvshowGenresData.genres.find(i => i.id == tvshowGenreId)
+            setNameOfThisGenre(thisTvshowGenre.name)
+        } catch (e) {
+            setErrorOccurred('Could not get the name of genre')
+        }
+        
     }
 
     useEffect(() => {
@@ -32,7 +38,8 @@ const TvshowGenrePage = () => {
 
             {data && (
                 <>
-                    <h1>Tvshows - {nameOfThisGenre}</h1>
+                    {errorOccurred && <h1>{errorOccurred}</h1>}
+                    {!errorOccurred && <h1>Tvshows - {nameOfThisGenre}</h1>}
                     {data.results.map(tvshow => (
                         <TvshowCard key={tvshow.id} tvshow={tvshow} />
                     ))}

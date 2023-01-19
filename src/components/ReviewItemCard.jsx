@@ -24,7 +24,6 @@ const ReviewItemCard = ({ item }) => {
                                     </p>
                                 </div>
                                     <Rating myRating={item.my_rating} />
-                                    {/* <button className="btn-primary full-width" as={Link} to={`/my-reviews/${item.uid}`}>Details</button> */}
                             </div>
                         </div>
     )

@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form'
 import { addDoc, doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useNavigate } from "react-router-dom"
+import ErrorMessage from "../components/ErrorMessage"
 
 const MyReviewsPage = () => {
     const { currentUser } = useAuthContext()
@@ -18,28 +19,32 @@ const MyReviewsPage = () => {
     const [wannaCreateNewFolder, setWannaCreateNewFolder] = useState(false)
     const newFolderNameRef = useRef()
     const navigate = useNavigate()
-
-    // const createNewFolder = () =>{
-
-    // }
+    const [errorOccurred, setErrorOccurred] = useState(null)
 
     const handleNewFolderSubmit = async (e) => {
         e.preventDefault()
 
-        await addDoc(collection( db, `users/${currentUser.uid}/folders`), {
-            name: newFolderNameRef.current.value,
-        }).then(async (cred) => {
-            const ref = doc(db, `users/${currentUser.uid}/folders`, cred.id)
-            updateDoc(ref, {uid: cred.id})
-        })
+        if(newFolderNameRef.current.value == '') {
+            setErrorOccurred("Please enter a name for your folder")
+        }
 
-        setWannaCreateNewFolder(false)
+        try {
+            await addDoc(collection( db, `users/${currentUser.uid}/folders`), {
+                name: newFolderNameRef.current.value,
+            }).then(async (cred) => {
+                const ref = doc(db, `users/${currentUser.uid}/folders`, cred.id)
+                updateDoc(ref, {uid: cred.id})
+            })
+            setWannaCreateNewFolder(false)
+        } catch (e) {
+            setErrorOccurred("Couldn't create folder")
+        }
     }
 
     return (
         <>
             {loading && <p>loading...</p>}
-
+            {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             {data && (
                 <>
                     <h1>My reviews</h1>

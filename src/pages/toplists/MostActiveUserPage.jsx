@@ -11,16 +11,11 @@ const MostActiveUserPage = () => {
 
     useEffect(() => {
         const arrayOfEmails = data.map((doc) => doc.user_email)
-        console.log('arrayOfEmails: ', arrayOfEmails)
-
         const result = getOccurrences(arrayOfEmails)
-        console.log('result: ', result)
-
         const re = getSortedOccurrences([result[1], result[0]])
         console.log(re)
         setArraysOfEmailAndCount(re)
     }, [data])
-
 
     return (
         <div>
