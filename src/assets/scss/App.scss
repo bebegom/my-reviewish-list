@@ -93,9 +93,23 @@ p {
 
 .btn-tertiary {
     border: none;
-    background-color: $white;
+    background-color: transparent;
     text-decoration: underline;
     color: $primary-button-color;
+}
+
+.btn-error {
+    background-color: $white;
+    border: none;
+    border-radius: $border-radius;
+
+    font-size: 0.9rem;
+    font-weight: $font-weight-bold;
+    
+    padding-left: 2.5rem;
+    padding-top: 1rem;
+    padding-right: 2.5rem;
+    padding-bottom: 1rem;
 }
 
 .dropdown {
@@ -267,4 +281,18 @@ img {
     background-color: $secondary-button-color;
     border: none;
     color: $white;
+}
+
+.error {
+    background-color: rgb(221, 55, 61);
+    color: $white;
+    border-radius: $border-radius;
+    width: fit-content;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 1px 2px 7px rgb(113, 102, 102);
 }
