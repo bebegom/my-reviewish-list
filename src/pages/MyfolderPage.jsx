@@ -4,7 +4,7 @@ import { useAuthContext } from '../contexts/AuthContext'
 import useGetCollection from '../hooks/useGetCollection'
 import useGetDoc from '../hooks/useGetDoc'
 import { db } from '../firebase'
-import { addDoc, doc, updateDoc, collection, setDoc, deleteDoc } from 'firebase/firestore'
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { useRef, useState } from 'react'
 import Form from 'react-bootstrap/Form'
 
@@ -64,7 +64,7 @@ const MyfolderPage = () => {
             {reviewsInFolder && (
                 <>
                     {reviewsInFolder.map(review => (
-                        <ReviewItemCard item={review} />
+                        <ReviewItemCard key={review.uid} item={review} />
                     ))}
                 </>
             )}
