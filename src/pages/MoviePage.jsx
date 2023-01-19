@@ -15,6 +15,8 @@ const MoviePage = () => {
     const { data, isLoading, error: dataError, isError: dataIsError } = useQuery(['movie', movieId], () => getMovie(movieId))
     const [showCreateMovieReviewForm, setShowCreateMovieReviewForm] = useState(false)
     const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
+    const { data: usersReviewsData, loading: usersReviewsLoading} = useGetCollection(`users/${currentUser.uid}/reviews`)
+    const { data: usersWishlistData, loading: UsersWishlistLoading } = useGetCollection(`users/${currentUser.uid}/wishlist`)
     const [reviewCount, setReviewCount] = useState(null)
     const [error, setError] = useState(null)
 
@@ -66,8 +68,8 @@ const MoviePage = () => {
                             <h1>{data.title}</h1>
                             <p>{data.release_date}</p>
 
-                            <button className='btn-primary' onClick={() => setShowCreateMovieReviewForm(true)}>Add review</button>
-                            <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
+                            <button disabled={usersReviewsData.find(movie => movie.id == data.id)} className='btn-primary' onClick={() => setShowCreateMovieReviewForm(true)}>{usersReviewsData.find(movie => movie.id == data.id) ? 'Already reviewed' : 'Add review'}</button>
+                            <button disabled={usersWishlistData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : 'Add to wishlist'}</button>
                         </div>
                     </div>
                     {reviewCount && (

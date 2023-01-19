@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import Button from 'react-bootstrap/Button'
 import { useQuery } from 'react-query'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import MovieCard from '../components/MovieCard'
 import Pagination from '../components/Pagination'
 import { getMovieGenre, getMovieGenres } from '../services/tmdbAPI'
@@ -22,7 +21,6 @@ const MovieGenrePage = () => {
         } catch (e) {
             setErrorOccurred('Could not get the name of genre')
         }
-        
     }
 
     useEffect(() => {

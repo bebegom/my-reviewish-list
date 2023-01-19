@@ -74,6 +74,10 @@ p {
         background-color: $primary-button-color;
         color: $white;
     }
+
+    &:disabled {
+        background-color: $btn-disabled-color;
+    }
 }
 
 .btn-secondary {
@@ -89,6 +93,10 @@ p {
     padding-top: 1rem;
     padding-right: 2.5rem;
     padding-bottom: 1rem;
+
+    &:disabled {
+        background-color: $btn-disabled-color;
+    }
 }
 
 .btn-tertiary {
