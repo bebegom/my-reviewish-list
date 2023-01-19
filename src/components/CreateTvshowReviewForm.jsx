@@ -70,6 +70,8 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
 
                 // add doc to reviews-collection
                 await addDoc(collection(db, 'reviews'), {
+                    user_id: currentUser.uid,
+                    user_email: currentUser.email,
                     is_movie: false,
                     is_tvshow: true,
                     // api_id: tvshow.id,

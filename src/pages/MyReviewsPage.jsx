@@ -34,8 +34,6 @@ const MyReviewsPage = () => {
         })
 
         setWannaCreateNewFolder(false)
-        
-        console.log('folder created')
     }
 
     return (

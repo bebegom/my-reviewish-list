@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContext'
 import useGetDoc from '../hooks/useGetDoc'
@@ -18,19 +18,20 @@ const MyReviewPage = () => {
     const [wannaShare, setWannaShare] = useState(false)
     const [wannaEdit, setWannaEdit] = useState(false)
 	const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
+	const navigate = useNavigate()
 
     const deleteFromReviews = async () => {
 		// delete from users collection of reviews
 		const usersReviewsRef = doc(db, `users/${currentUser.uid}/reviews`, data.uid)
         await deleteDoc(usersReviewsRef)
-		console.log('deleted from user')
 
 		// delete from reviews-collection
 		const thisReview = allReviews.find(review => review.user_review_uid == data.uid)
 
 		const ref = doc(db, `reviews`, thisReview.uid)
         await deleteDoc(ref)
-		console.log('deleted from reviews')
+
+		navigate('/my-reviews')
     }
 
 	return (
