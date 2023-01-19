@@ -15,6 +15,8 @@ const TvshowPage = () => {
     const { currentUser } = useAuthContext()
     const [showCreateTvshowReviewForm, setShowCreateTvshowReviewForm] = useState()
     const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
+    const { data: usersReviewsData, loading: usersReviewsLoading} = useGetCollection(`users/${currentUser.uid}/reviews`)
+    const { data: usersWishlistData, loading: UsersWishlistLoading } = useGetCollection(`users/${currentUser.uid}/wishlist`)
     const [reviewCount, setReviewCount] = useState(null)
     const [errorOccurred, setErrorOccurred] = useState(null)
 
@@ -64,8 +66,8 @@ const TvshowPage = () => {
                         <div className='d-flex- flex-column'>
                             <h1>{data.name}</h1>
                             <p>{data.number_of_seasons} seasons</p>
-                            <button className='btn-primary' onClick={() => setShowCreateTvshowReviewForm(true)}>Add review</button>
-                            <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
+                            <button disabled={usersReviewsData.find(movie => movie.id == data.id)} className='btn-primary' onClick={() => setShowCreateTvshowReviewForm(true)}>{usersReviewsData.find(movie => movie.id == data.id) ? 'Already reviewed' : 'Add review'}</button>
+                            <button disabled={usersWishlistData.find(movie => movie.id == data.id) || usersReviewsData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : usersReviewsData.find(movie => movie.id == data.id) ? 'Already reviewed' : 'Add to wishlist'}</button>
                         </div>
                     </div>
                     {reviewCount && (
