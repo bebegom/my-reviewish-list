@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import {useAuthContext} from '../contexts/AuthContext'
 import { db } from '../firebase'
 import { addDoc, doc, updateDoc, collection } from 'firebase/firestore'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 import useGetCollection from '../hooks/useGetCollection'
 
@@ -15,8 +15,14 @@ const MoviePage = () => {
     const { data, isLoading, error, isError } = useQuery(['movie', movieId], () => getMovie(movieId))
     const [showCreateMovieReviewForm, setShowCreateMovieReviewForm] = useState(false)
     const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
+    const [reviewCount, setReviewCount] = useState(null)
 
-    const reviewCount = allReviews.filter(review => review.api_id == movieId) 
+    useEffect(()=> {
+
+        const countArray = allReviews.filter(review => review.id == movieId) 
+        setReviewCount(countArray)
+
+    }, [allReviewsLoading])
     
     const addToWishlist = async () => {
         // add movie to user's wishlist-collection on firestore
@@ -81,7 +87,9 @@ const MoviePage = () => {
                             <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
                         </div>
                     </div>
-                    <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
+                    {reviewCount && (
+                        <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
+                    )}
                     <h2>Overview</h2>
                     <p>{data.overview}</p>
                     

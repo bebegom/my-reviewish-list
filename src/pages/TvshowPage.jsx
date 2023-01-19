@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import { addDoc, doc, updateDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 import useGetCollection from '../hooks/useGetCollection'
 
@@ -15,9 +15,17 @@ const TvshowPage = () => {
     const { currentUser } = useAuthContext()
     const [showCreateTvshowReviewForm, setShowCreateTvshowReviewForm] = useState()
     const { data: allReviews, loading: allReviewsLoading } = useGetCollection('reviews')
+    const [reviewCount, setReviewCount] = useState(null)
 
-    const reviewCount = allReviews.filter(review => review.api_id == tvshowId) 
-    console.log(reviewCount)
+    // const reviewCount = allReviews.filter(review => review.id == tvshowId) 
+    // console.log(reviewCount)
+
+    useEffect(()=> {
+
+        const countArray = allReviews.filter(review => review.id == tvshowId) 
+        setReviewCount(countArray)
+
+    }, [allReviewsLoading])
 
     const addToWishlist = async () => {
         // add tvshow to user's wishlist-collection on firestore
@@ -71,9 +79,9 @@ const TvshowPage = () => {
                             <button className='btn-secondary' onClick={addToWishlist}>Add to wishlist</button>
                         </div>
                     </div>
-                    <p className='p-small'>
-                        ({reviewCount.length} reviews made on Mr.L)
-                    </p>
+                    {reviewCount && (
+                        <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
+                    )}
                     <h2>Overview</h2>
                     <p>{data.overview}</p>
                 </>
