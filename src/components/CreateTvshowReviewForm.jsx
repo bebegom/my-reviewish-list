@@ -220,143 +220,147 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
     }
 
     return (
-        <div onClick={(e) => {
-            if(e.target.classList.contains('lightbox')) {
-                showForm(false)
-            }
-            }} className='lightbox'
-        >
-            {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
-            <div className='lightbox-content p-3'>
-                <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
-                <h1>Create review</h1>
-
-                {tvshow == null && review == null && (
-                    <>
-                        <Form.Group>
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control ref={titleRef} type='text' />
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Genres</Form.Label>
-                            <Form.Control ref={genreOneRef} type='text' />
-                            <Form.Control ref={genreTwoRef} type='text' />
-                            <Form.Control ref={genreThreeRef} type='text' />
-                        </Form.Group>
-                    </>
-                    
-                )}
-
-                {tvshow && (
-                    <>
-                        <h2>{tvshow.name}</h2>
-                        <p>{tvshow.in_production ? 'In production' : ''}</p>
-                        <Image className='d-block' src={`${baseIMG}${tvshow.poster_path}`} alt="poster" />
-                        <h3>Overview</h3>
-                        <p>{tvshow.overview}</p>
-                    </>
-                )}
-                
-                {review && (
-                    <>
-                        <h2>{review.name}</h2>
-                        {review.genres.map(genre => (
-                            <p key={genre.id}>{genre.name}</p>
-                        ))}
-                        {review.poster_path && <Image className='d-block' src={`${baseIMG}${review.poster_path}`} alt="poster" />}
-                        
-                        <h3>Overview</h3>
-                        <p>{review.overview}</p>
-                    </>
-                )}
-
-                <Form onSubmit={submitReview}>
-                    <Rating myRating={myRating} setMyRating={setMyRating} />
-
-                    <Form.Group>
-                        <Form.Label>Favorite character</Form.Label>
-                        {tvshow && (
-                            <Form.Select onChange={(e) => setFavoriteCharacter(e.target.value)}>
-                                <option value={'no favorite'}>No favorite</option>
-                               {tvshow.credits.cast.map(i => (
-                                <option value={`${i.character}-${i.name}`} key={i.id}>{i.character} ({i.name})</option>
-                               ))}
-                            </Form.Select>
-                        )}
-
-                        {review && (
-                            <Form.Control onChange={(e) => setFavoriteCharacter(e.target.value)} type='text' defaultValue={review.favorite_character} />
-                        )}
-
+        <>
+            {!allReviewsLoading && !allUsersFoldersLoading && !allWishesLoading && !usersWishlistLoading && (
+                <div onClick={(e) => {
+                    if(e.target.classList.contains('lightbox')) {
+                        showForm(false)
+                    }
+                    }} className='lightbox'
+                >
+                    {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
+                    <div className='lightbox-content p-3'>
+                        <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
+                        <h1>Create review</h1>
+        
                         {tvshow == null && review == null && (
-                            <Form.Control onChange={(e) => setFavoriteCharacter(e.target.value)} type='text' />
-                        )}
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>Favorite season</Form.Label>
-                        {tvshow && (
-                            <Form.Select onChange={(e) => setFavoriteSeason(e.target.value)}>
-                                <option value={'no favorite'}>No favorite</option>
-                               {[...Array(tvshow.number_of_seasons)].map((season, index) => (
-                                <option value={index+1} key={index}>{index+1}</option>
-                               ))}
-                            </Form.Select>
-                        )}
-
-                        {review && (
-                            <Form.Control onChange={(e) => setFavoriteSeason(e.target.value)} type='text' defaultValue={review.favorite_season} />
-                        )}
-
-                        {tvshow == null && review == null && (
-                            <Form.Control onChange={(e) => setFavoriteSeason(e.target.value)} type='text' />
-                        )}
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>Write something</Form.Label>
-                        <Form.Control ref={myReviewRef} defaultValue={review ? review.my_review : ''} as='textarea' rows={7} />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>Choose a folder</Form.Label>
-                        {allUsersFolders && (
                             <>
-                                <Form.Check 
-                                    className={`folder-radio p-2 ${chosenFolder == null ? 'folder-radio-checked' : ''}`}
-                                    type={'radio'} 
-                                    key={'nofolder'} 
-                                    label={'no folder'} 
-                                    id={'nofolder'} 
-                                    name={'folder'} 
-                                    onChange={() => (
-                                        setChosenFolder(null)
-                                    )}
-                                    checked={chosenFolder == null ? true : false}
-                                />
-                                {allUsersFolders.map(folder => (
-                                    <Form.Check 
-                                    className={`folder-radio p-2 ${chosenFolder == folder ? 'folder-radio-checked' : ''}`}
-                                        type={'radio'} 
-                                        key={folder.uid} 
-                                        label={folder.name} 
-                                        id={folder.name} 
-                                        name={'folder'} 
-                                        onChange={() => (
-                                            setChosenFolder(folder)
-                                        )}
-                                        checked={chosenFolder == folder ? true : false}
-                                    />
-                                ))}
+                                <Form.Group>
+                                    <Form.Label>Title</Form.Label>
+                                    <Form.Control ref={titleRef} type='text' />
+                                </Form.Group>
+        
+                                <Form.Group>
+                                    <Form.Label>Genres</Form.Label>
+                                    <Form.Control ref={genreOneRef} type='text' />
+                                    <Form.Control ref={genreTwoRef} type='text' />
+                                    <Form.Control ref={genreThreeRef} type='text' />
+                                </Form.Group>
+                            </>
+                            
+                        )}
+        
+                        {tvshow && (
+                            <>
+                                <h2>{tvshow.name}</h2>
+                                <p>{tvshow.in_production ? 'In production' : ''}</p>
+                                <Image className='d-block' src={`${baseIMG}${tvshow.poster_path}`} alt="poster" />
+                                <h3>Overview</h3>
+                                <p>{tvshow.overview}</p>
                             </>
                         )}
-                    </Form.Group>
-
-                    <Button disabled={loading} type='submit'>Submit</Button>
-                </Form>
-            </div>
-        </div>
+                        
+                        {review && (
+                            <>
+                                <h2>{review.name}</h2>
+                                {review.genres.map(genre => (
+                                    <p key={genre.id}>{genre.name}</p>
+                                ))}
+                                {review.poster_path && <Image className='d-block' src={`${baseIMG}${review.poster_path}`} alt="poster" />}
+                                
+                                <h3>Overview</h3>
+                                <p>{review.overview}</p>
+                            </>
+                        )}
+        
+                        <Form onSubmit={submitReview}>
+                            <Rating myRating={myRating} setMyRating={setMyRating} />
+        
+                            <Form.Group>
+                                <Form.Label>Favorite character</Form.Label>
+                                {tvshow && (
+                                    <Form.Select onChange={(e) => setFavoriteCharacter(e.target.value)}>
+                                        <option value={'no favorite'}>No favorite</option>
+                                       {tvshow.credits.cast.map(i => (
+                                        <option value={`${i.character}-${i.name}`} key={i.id}>{i.character} ({i.name})</option>
+                                       ))}
+                                    </Form.Select>
+                                )}
+        
+                                {review && (
+                                    <Form.Control onChange={(e) => setFavoriteCharacter(e.target.value)} type='text' defaultValue={review.favorite_character} />
+                                )}
+        
+                                {tvshow == null && review == null && (
+                                    <Form.Control onChange={(e) => setFavoriteCharacter(e.target.value)} type='text' />
+                                )}
+                            </Form.Group>
+        
+                            <Form.Group>
+                                <Form.Label>Favorite season</Form.Label>
+                                {tvshow && (
+                                    <Form.Select onChange={(e) => setFavoriteSeason(e.target.value)}>
+                                        <option value={'no favorite'}>No favorite</option>
+                                       {[...Array(tvshow.number_of_seasons)].map((season, index) => (
+                                        <option value={index+1} key={index}>{index+1}</option>
+                                       ))}
+                                    </Form.Select>
+                                )}
+        
+                                {review && (
+                                    <Form.Control onChange={(e) => setFavoriteSeason(e.target.value)} type='text' defaultValue={review.favorite_season} />
+                                )}
+        
+                                {tvshow == null && review == null && (
+                                    <Form.Control onChange={(e) => setFavoriteSeason(e.target.value)} type='text' />
+                                )}
+                            </Form.Group>
+        
+                            <Form.Group>
+                                <Form.Label>Write something</Form.Label>
+                                <Form.Control ref={myReviewRef} defaultValue={review ? review.my_review : ''} as='textarea' rows={7} />
+                            </Form.Group>
+        
+                            <Form.Group>
+                                <Form.Label>Choose a folder</Form.Label>
+                                {allUsersFolders && (
+                                    <>
+                                        <Form.Check 
+                                            className={`folder-radio p-2 ${chosenFolder == null ? 'folder-radio-checked' : ''}`}
+                                            type={'radio'} 
+                                            key={'nofolder'} 
+                                            label={'no folder'} 
+                                            id={'nofolder'} 
+                                            name={'folder'} 
+                                            onChange={() => (
+                                                setChosenFolder(null)
+                                            )}
+                                            checked={chosenFolder == null ? true : false}
+                                        />
+                                        {allUsersFolders.map(folder => (
+                                            <Form.Check 
+                                            className={`folder-radio p-2 ${chosenFolder == folder ? 'folder-radio-checked' : ''}`}
+                                                type={'radio'} 
+                                                key={folder.uid} 
+                                                label={folder.name} 
+                                                id={folder.name} 
+                                                name={'folder'} 
+                                                onChange={() => (
+                                                    setChosenFolder(folder)
+                                                )}
+                                                checked={chosenFolder == folder ? true : false}
+                                            />
+                                        ))}
+                                    </>
+                                )}
+                            </Form.Group>
+        
+                            <Button disabled={loading} type='submit'>Submit</Button>
+                        </Form>
+                    </div>
+                </div>
+            )}
+        </>
     )
 }
 

@@ -10,7 +10,6 @@ import { db } from '../firebase'
 import { useNavigate } from "react-router-dom"
 import ErrorMessage from "../components/ErrorMessage"
 import { Container } from "react-bootstrap"
-import CardLink from "../components/CardLink"
 
 const MyReviewsPage = () => {
     const { currentUser } = useAuthContext()
