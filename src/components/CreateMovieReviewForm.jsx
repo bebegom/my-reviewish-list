@@ -19,6 +19,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, itemFrom
     const {data: allReviews, loading: allReviewsLoading} = useGetCollection('reviews')
     const {data: allUsersFolders, loading: allUsersFoldersLoading} = useGetCollection(`users/${currentUser.uid}/folders`)
     const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
+    const {data: usersWishlist, loading: usersWishlistLoading} = useGetCollection(`users/${currentUser.uid}/wishlist`)
     const [favoriteCharacter, setFavoriteCharacter] = useState('no favorite')
     const myReviewRef = useRef()
     const [errorOccurred, setErrorOccurred] = useState(null)
@@ -140,6 +141,24 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, itemFrom
                         setErrorOccurred("Couldn't create your review")
                     }
                 })
+
+                // check if movie exists in user's wishlist and if so - delete it
+                const foundInWishlist = usersWishlist.find(i => i.id == movie.id)
+                if (foundInWishlist) {
+                    try {
+                        // delete from users wishlist-collection 
+                        const usersWishlistRef = doc(db, `users/${currentUser.uid}/wishlist`, foundInWishlist.uid)
+                        await deleteDoc(usersWishlistRef)
+        
+                        const foundWish = allWishes.find(wish => wish.user_wishlist_uid == foundInWishlist.uid)
+                        
+                        // delete from wishlist-collection
+                        const ref = doc(db, `wishlist`, foundWish.uid)
+                        await deleteDoc(ref)
+                    } catch (e) {
+                        setErrorOccurred("The movie didn't get removed from your wishlist while creating your review")
+                    }
+                }
             } catch (e) {
                 setErrorOccurred("Couldn't create your review")
             }
