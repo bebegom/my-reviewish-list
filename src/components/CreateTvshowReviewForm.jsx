@@ -252,9 +252,6 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                     <>
                         <h2>{tvshow.name}</h2>
                         <p>{tvshow.in_production ? 'In production' : ''}</p>
-                        {tvshow.genres.map(genre => (
-                            <p key={genre.id}>{genre.name}</p>
-                        ))}
                         <Image className='d-block' src={`${baseIMG}${tvshow.poster_path}`} alt="poster" />
                         <h3>Overview</h3>
                         <p>{tvshow.overview}</p>

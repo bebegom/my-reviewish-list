@@ -1,5 +1,4 @@
 import React from 'react'
-import Container from 'react-bootstrap/Container'
 import { useNavigate } from 'react-router-dom'
 
 const CardLink = ({ endpoint, icon = null, text }) => {
