@@ -35,8 +35,8 @@ const LoginPage = () => {
 
     return (
         <>
-            <Container>
-                <p>Current user: {currentUser ? currentUser.email : 'null'}</p>
+            <Container className='responsive-width my-3'>
+                <h1>Login</h1>
                 {error && (
                     <ErrorMessage msg={error} setError={setError} />
                 )}
@@ -51,11 +51,11 @@ const LoginPage = () => {
                         <Form.Control type="password" ref={passwordRef} required />
                     </Form.Group>
 
-                    <Button disabled={loading} type='submit'>Log in</Button>
+                    <Button disabled={loading} type='submit'>Login</Button>
                 </Form>
 
                 <div className="text-center mt-3">
-                    Need an account? <Link to="/signup">Sign Up</Link>
+                    Need an account? <Link to="/signup">Sign up</Link>
                 </div>
             </Container>
         </>

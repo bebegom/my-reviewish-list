@@ -8,7 +8,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: $font-weight-bold;
-    margin: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 h1 {
@@ -66,6 +67,8 @@ p {
 
     margin-bottom: 0.5rem;
 
+    width: 100%;
+
     &:hover {
         background-color: $primary-button-color;
     }
@@ -93,6 +96,8 @@ p {
     padding-top: 1rem;
     padding-right: 2.5rem;
     padding-bottom: 1rem;
+
+    width: 100%;
 
     &:disabled {
         background-color: $btn-disabled-color;
@@ -151,7 +156,7 @@ p {
         border-radius: $border-radius;
         margin-top: 50px;
         margin-bottom: 50px;
-        width: 100%;
+        // width: 80%;
     }
 }
 
@@ -177,8 +182,6 @@ img {
 
 .full-width {
     width: 100%;
-    // margin-left: 3rem;
-    // margin-right: 3rem;
 }
 
 .card-link {
@@ -188,12 +191,32 @@ img {
     margin-bottom: 1rem;
     border-radius: $border-radius;
     cursor: pointer;
+    width: 100%;
+
+    &:hover {
+        background-color: $secondary-button-color;
+    }
+}
+
+.folders-section {
+    display: grid;
+    grid-template-columns: 100%;
+    column-gap: 0.5rem;
+    justify-content: space-between;
+}
+
+.folder-card {
+    background-color: $card-background-color;
+    padding: 0.5rem;
+    border-radius: $border-radius;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .wishlist-card-item {
     background-color: $card-background-color;
     padding: 1rem;
-    margin: 1rem;
+    margin-bottom: 1rem;
     border-radius: $border-radius;
     cursor: pointer;
     display: flex;
@@ -219,10 +242,9 @@ img {
 .review-card-item {
     background-color: $card-background-color;
     padding: 1rem;
-    margin: 1rem;
+    margin-bottom: 1rem;
     border-radius: $border-radius;
     display: flex;
-    // align-items: flex-start;
 
     .review-card-item-overview {
         margin-left: 0.5rem;
@@ -244,19 +266,17 @@ img {
     }
 }
 
-.review-content {
+.my-review-content {
     background-color: $card-background-color;
     border-radius: $border-radius;
     padding: 0.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
 }
 
 .toplist-card {
     background-color: $card-background-color;
     border-radius: $border-radius;
     padding: 0.5rem;
-    margin: 0.5rem;
+    margin-bottom: 1rem;
     display: flex;
 
     .toplist-place {
@@ -273,12 +293,10 @@ img {
     background-color: $card-background-color;
     border-radius: $border-radius;
     padding: 0.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .folder-radio {
-    // background-color: $card-background-color;
     border-radius: $border-radius;
     border: 2px solid $card-background-color;
     margin-bottom: 0.5rem;
@@ -303,4 +321,107 @@ img {
     margin-top: 0.5rem;
     padding: 0.5rem;
     box-shadow: 1px 2px 7px rgb(113, 102, 102);
+}
+
+@media screen and (min-width: 576px) {
+    .folders-section {
+        grid-template-columns: 47% 47%;
+    }
+
+    .pagination {
+        & > * {
+            width: 32%;
+        }
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        text-align: center;
+    }
+
+    .lightbox-content {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .three-link-cards {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-link {
+        width: 32%;
+    }
+
+    .folders-section {
+        grid-template-columns: 30% 30% 30%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+
+    .responsive-width {
+        width: 50%;
+    }
+
+    .card-link {
+        padding-top: 5em;
+        padding-bottom: 5em;
+    }
+
+    .btns-container {
+        display: flex;
+        justify-content: space-between;
+
+        & > * {
+            width: 32%;
+            height: 3.5rem;
+        }
+    }
+
+    .folders-section {
+        grid-template-columns: 22% 22% 22% 22%;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 49% 49%;
+        justify-content: space-between;
+    }
+
+    .review-content {
+        display: flex;
+        justify-content: space-between;
+
+        & > * {
+            width: 45%;
+        }
+    }
+
+    .my-review-content {
+        width: 100%;
+    }
+
+    .lightbox-content {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .responsive-width {
+        width: 40%;
+    }
+
+    .folders-section {
+        grid-template-columns: 19% 19% 19% 19% 19%;
+    }
+
+    .grid {
+        grid-template-columns: 32% 32% 32%;
+    }
+
+    .lightbox-content {
+        width: 40%;
+    }
 }

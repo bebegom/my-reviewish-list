@@ -59,7 +59,7 @@ const Navigation = () => {
                         {!currentUser && (
                             <>
                                 <Nav.Link as={NavLink} to="/">Login</Nav.Link>
-                                <Nav.Link as={NavLink} to="/signup">Signup</Nav.Link>
+                                <Nav.Link as={NavLink} to="/signup">Sign up</Nav.Link>
                             </>
                         )}
 

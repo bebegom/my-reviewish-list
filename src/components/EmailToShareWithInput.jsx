@@ -49,7 +49,7 @@ const EmailToShareWithInput = ({ setWannaShare, review }) => {
             }
         }}>
             {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
-            <div className='lightbox-content'>
+            <div className='lightbox-content p-3'>
                 <Form onSubmit={(e)=> handleSubmit(e)}>
                     <Form.Group id='email'>
                         <Form.Label>Who you wanna send to</Form.Label>

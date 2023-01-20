@@ -9,6 +9,8 @@ import { addDoc, doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useNavigate } from "react-router-dom"
 import ErrorMessage from "../components/ErrorMessage"
+import { Container } from "react-bootstrap"
+import CardLink from "../components/CardLink"
 
 const MyReviewsPage = () => {
     const { currentUser } = useAuthContext()
@@ -42,15 +44,17 @@ const MyReviewsPage = () => {
     }
 
     return (
-        <>
+        <Container className="my-3">
             {loading && <p>loading...</p>}
             {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             {data && (
                 <>
-                    <h1>My reviews</h1>
-                    <button onClick={() => setShowMovieForm(true)} className="btn-primary">Create new movie-review</button>
-                    <button onClick={() => setShowTvshowForm(true)} className="btn-primary">Create new tvshow-review</button>
-                    <button onClick={() => setWannaCreateNewFolder(!wannaCreateNewFolder)}>{wannaCreateNewFolder ? 'Cancel' : 'Create new folder'}</button>
+                    {/* <h1>My reviews</h1> */}
+                    <div className="btns-container">
+                        <button onClick={() => setShowMovieForm(true)} className="btn-primary">Create new movie-review</button>
+                        <button onClick={() => setShowTvshowForm(true)} className="btn-primary">Create new tvshow-review</button>
+                        <button onClick={() => setWannaCreateNewFolder(!wannaCreateNewFolder)} className="btn-secondary">{wannaCreateNewFolder ? 'Cancel' : 'Create new folder'}</button>
+                    </div>
 
                     {wannaCreateNewFolder && (
                         <Form onSubmit={handleNewFolderSubmit}>
@@ -60,22 +64,32 @@ const MyReviewsPage = () => {
                     )}
 
                     <h2>Folders</h2>
+                    <section className="folders-section">
                     {folders.map(folder => (
-                            <div onClick={() => navigate(`/my-reviews/folders/${folder.uid}`)} key={folder.uid}>{folder.name}</div>
+                            <div className="folder-card p-3" onClick={() => navigate(`/my-reviews/folders/${folder.uid}`)} key={folder.uid}>
+                                <h5>
+                                    {folder.name}
+                                </h5>
+                            </div>
                     ))}
+                    </section>
+                    
                     
                     <h2>All reviews</h2>
-                    {data.map(item => {
-                        if(item.is_movie || item.is_tvshow) {
-                            return <ReviewItemCard item={item} key={item.id} />
-                        }
-                    })}
+                    <section className="grid">
+                        {data.map(item => {
+                            if(item.is_movie || item.is_tvshow) {
+                                return <ReviewItemCard item={item} key={item.id} />
+                            }
+                        })}
+                    </section>
+                    
                 </>
             )}
 
             {showMovieForm && <CreateMovieReviewForm showForm={setShowMovieForm} />}
             {showTvshowForm && <CreateTvshowReviewForm showForm={setShowTvshowForm} />}
-        </>
+        </Container>
     )
 }
 

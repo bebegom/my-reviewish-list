@@ -38,9 +38,11 @@ const MovieGenrePage = () => {
                 <>
                     {errorOccurred && <h1>{errorOccurred}</h1>}
                     {!errorOccurred && <h1>Movies - {nameOfThisGenre}</h1>}
-                    {data.results.map(movie => (
-                        <MovieCard key={movie.id} movie={movie} />
-                    ))}
+                    <section className='grid'>
+                        {data.results.map(movie => (
+                            <MovieCard key={movie.id} movie={movie} />
+                        ))}
+                    </section>
 
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
                 </>

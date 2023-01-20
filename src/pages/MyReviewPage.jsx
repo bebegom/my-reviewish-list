@@ -11,6 +11,7 @@ import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 import Rating from '../components/Rating'
 import ErrorMessage from '../components/ErrorMessage'
+import { Container } from 'react-bootstrap'
 
 const MyReviewPage = () => {
     const { myReviewId } = useParams()
@@ -41,53 +42,60 @@ const MyReviewPage = () => {
     }
 
 	return (
-	<div>
-		{loading && <p>loading...</p>}
-		{errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
-		{data && (
-			<>
-				<div className='d-flex'>
-					{data.poster_path && <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="poster" />}
-					<div className='d-flex flex-column justify-content-between'>
-						<h1>{data.is_movie ? data.title : data.name}</h1>
-						{data.release_date && (
-							<p>{data.is_movie ? data.release_date.split('-')[0] : ''}</p>
-						)}
-						<Rating myRating={data.my_rating} />
+		<Container className='my-3'>
+			{loading && <p>loading...</p>}
+			{errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
+			{data && (
+				<>
+					<div className='review-content my-3'>
+						<div>
+							<div className='d-flex'>
+								{data.poster_path && <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="poster" />}
+								<div className='d-flex flex-column mx-2'>
+									<h1>{data.is_movie ? data.title : data.name}</h1>
+									{data.release_date && (
+										<p>{data.is_movie ? data.release_date.split('-')[0] : ''}</p>
+									)}
+									<Rating myRating={data.my_rating} />
+								</div>
+							</div>
+							<div>
+								<h2>Favorite character</h2>
+								<p>{data.favorite_character}</p>
+							</div>
+							{data.is_tvshow && (
+								<div>
+									<h2>Favorite season</h2>
+									<p>season {data.favorite_season}</p>
+								</div>
+							)}
+						</div>
+					
+						<div>
+							<h2>Review</h2>
+							<div className='my-review-content'>
+								{data.my_review}
+							</div>
+						</div>
 					</div>
-				</div>
-				<div>
-					<h2>Favorite character</h2>
-					<p>{data.favorite_character}</p>
-				</div>
-				{data.is_tvshow && (
-					<div>
-						<h2>Favorite season</h2>
-						<p>season {data.favorite_season}</p>
+
+					<div className='btns-container'>
+						<button	className='btn-secondary' onClick={() => setWannaShare(true)}>Share</button>
+						<button className='btn-secondary' onClick={() => setWannaEdit(true)}>Edit</button>
+						<button className='btn-primary' onClick={deleteFromReviews}>Delete</button>
 					</div>
-				)}
-				<div>
-					<h2>Review</h2>
-					<div className='review-content'>
-						{data.my_review}
-					</div>
-				</div>
 
-				<button	className='btn-secondary full-width' onClick={() => setWannaShare(true)}>Share</button>
-				<button className='btn-secondary full-width' onClick={() => setWannaEdit(true)}>Edit</button>
-				<button className='btn-primary full-width' onClick={deleteFromReviews}>Delete</button>
+					{wannaShare && <EmailToShareWithInput 
+					setWannaShare={setWannaShare} review={data} />}
 
-				{wannaShare && <EmailToShareWithInput 
-				setWannaShare={setWannaShare} review={data} />}
+					{wannaEdit && data.is_movie && <CreateMovieReviewForm
+					showForm={setWannaEdit} review={data} />}
 
-				{wannaEdit && data.is_movie && <CreateMovieReviewForm
-				showForm={setWannaEdit} review={data} />}
-
-				{wannaEdit && data.is_tvshow && <CreateTvshowReviewForm
-				showForm={setWannaEdit} review={data} />}
-			</>
-		)}
-	</div>
+					{wannaEdit && data.is_tvshow && <CreateTvshowReviewForm
+					showForm={setWannaEdit} review={data} />}
+				</>
+			)}
+		</Container>
 	)
 }
 

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import CreateMovieReviewForm from '../components/CreateMovieReviewForm'
 import useGetCollection from '../hooks/useGetCollection'
 import ErrorMessage from '../components/ErrorMessage'
+import { Container } from 'react-bootstrap'
 
 const MoviePage = () => {
     const {currentUser} = useAuthContext()
@@ -55,7 +56,7 @@ const MoviePage = () => {
     }
 
     return (
-        <div>
+        <Container className='my-3'>
             {isLoading && (<p>loading...</p>)}
             {dataIsError && (<p>ERROR: {dataError.message}</p>)}
             {error && (<ErrorMessage setError={setError} msg={error} />)}
@@ -81,7 +82,7 @@ const MoviePage = () => {
             )}
 
             {showCreateMovieReviewForm && <CreateMovieReviewForm showForm={setShowCreateMovieReviewForm} movie={data} />}
-        </div>
+        </Container>
     )
 }
 

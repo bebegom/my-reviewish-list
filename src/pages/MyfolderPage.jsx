@@ -7,6 +7,7 @@ import { db } from '../firebase'
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { useRef, useState } from 'react'
 import Form from 'react-bootstrap/Form'
+import Container from 'react-bootstrap/Container'
 import ErrorMessage from "../components/ErrorMessage"
 
 const MyfolderPage = () => {
@@ -51,7 +52,7 @@ const MyfolderPage = () => {
     }
 
     return (
-        <div>
+        <Container className='my-3'>
             {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             <h1>
                 {folder.name}
@@ -65,16 +66,18 @@ const MyfolderPage = () => {
                     </Form.Group>
                 </Form>
             )}
-            <button onClick={handleDeleteFolder}>Delete folder</button>
-            <button onClick={() => setWannaEditFolder(!wannaEditFolder)}>{wannaEditFolder ? 'Cancel' : 'Change name of folder'}</button>
+            <div className='btns-container'>
+                <button className='btn-secondary' onClick={() => setWannaEditFolder(!wannaEditFolder)}>{wannaEditFolder ? 'Cancel' : 'Change name of folder'}</button>
+                <button className='btn-primary' onClick={handleDeleteFolder}>Delete folder</button>
+            </div>
             {reviewsInFolder && (
-                <>
+                <section className='grid'>
                     {reviewsInFolder.map(review => (
                         <ReviewItemCard key={review.uid} item={review} />
                     ))}
-                </>
+                </section>
             )}
-        </div>
+        </Container>
     )
 }
 

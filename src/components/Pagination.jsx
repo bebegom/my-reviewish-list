@@ -1,6 +1,7 @@
+import Container from 'react-bootstrap/Container'
 const Pagination = ({ page, changePage, isPreviousData}) => {
     return (
-        <div className="pagination">
+        <Container className="pagination">
             <button className="btn-primary" disabled={isPreviousData || page <= 1} onClick={() => changePage({
                 page: Number(page) - 1,
                 })}>
@@ -12,7 +13,7 @@ const Pagination = ({ page, changePage, isPreviousData}) => {
             })}>
                 Next
             </button>
-        </div>
+        </Container>
     )
 }
 

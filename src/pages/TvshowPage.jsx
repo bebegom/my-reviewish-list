@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
 import useGetCollection from '../hooks/useGetCollection'
 import ErrorMessage from '../components/ErrorMessage'
+import { Container } from 'react-bootstrap'
 
 const TvshowPage = () => {
     const { tvshowId } = useParams()
@@ -55,7 +56,7 @@ const TvshowPage = () => {
     }
 
     return (
-        <div>
+        <Container className='my-3'>
             {isLoading && (<p>loading...</p>)}
             {isError && (<p>ERROR: {error.message}</p>)}
             {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
@@ -79,7 +80,7 @@ const TvshowPage = () => {
             )}
 
             {showCreateTvshowReviewForm && <CreateTvshowReviewForm showForm={setShowCreateTvshowReviewForm} tvshow={data} />}
-        </div>
+        </Container>
     )
 }
 

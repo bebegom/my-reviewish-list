@@ -209,7 +209,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
         >
             {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             <div className='lightbox-content p-3'>
-            <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
+                <button onClick={() => showForm(false)} className='p-small btn-tertiary'>Go back</button>
                 <h1>Create review</h1>
 
                 {tvshow == null && review == null && (

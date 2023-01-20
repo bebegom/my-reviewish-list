@@ -4,6 +4,7 @@ import getOccurrences from '../../helpers/getOccurences'
 import getSortedOccurrences from '../../helpers/getSortedOccurrences'
 import useGetCollection from '../../hooks/useGetCollection'
 import MostActiveUserCard from '../../components/ToplistCard'
+import { Container } from 'react-bootstrap'
 
 const MostWatchedPage = () => {
     const {data, loading} = useGetCollection('reviews')
@@ -17,7 +18,7 @@ const MostWatchedPage = () => {
     }, [data])
 
     return (
-        <div>
+        <Container className='my-3'>
             {loading && <p>loading...</p>}
             {data && (
                 <>
@@ -33,7 +34,7 @@ const MostWatchedPage = () => {
                     )}
                 </>
             )}
-        </div>
+        </Container>
     )
 }
 

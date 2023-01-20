@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { Container } from 'react-bootstrap'
 import MostActiveUserCard from '../../components/ToplistCard'
 import getOccurrences from '../../helpers/getOccurences'
 import getSortedOccurrences from '../../helpers/getSortedOccurrences'
@@ -17,7 +18,7 @@ const MostWantedPage = () => {
     }, [data])
 
     return (
-        <div>
+        <Container className='my-3'>
             {loading && <p>loading...</p>}
             {data && (
                 <>
@@ -33,7 +34,7 @@ const MostWantedPage = () => {
                     )}
                 </>
             )}
-        </div>
+        </Container>
     )
 }
 

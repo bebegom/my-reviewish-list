@@ -40,35 +40,33 @@ const SignupPage = () => {
         }
     }
     return (
-        <>
-            <Container>
-                {error && (
-                    <ErrorMessage msg={error} setError={setError} />
-                )}
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group id='email'>
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type='email' ref={emailRef} required />
-                    </Form.Group>
+        <Container className='my-3 responsive-width'>
+            {error && (
+                <ErrorMessage msg={error} setError={setError} />
+            )}
+            <Form onSubmit={handleSubmit}>
+                <Form.Group id='email'>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type='email' ref={emailRef} required />
+                </Form.Group>
 
-                    <Form.Group id="password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" ref={passwordRef} required />
-                    </Form.Group>
+                <Form.Group id="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" ref={passwordRef} required />
+                </Form.Group>
 
-                    <Form.Group id="passwordConfirm">
-                        <Form.Label>Confirm password</Form.Label>
-                        <Form.Control type="password" ref={passwordConfirmRef} required />
-                    </Form.Group>
+                <Form.Group id="passwordConfirm">
+                    <Form.Label>Confirm password</Form.Label>
+                    <Form.Control type="password" ref={passwordConfirmRef} required />
+                </Form.Group>
 
-                    <Button disabled={loading} type='submit'>Sign up</Button>
-                </Form>
+                <Button disabled={loading} type='submit'>Sign up</Button>
+            </Form>
 
-                <div className="text-center mt-3">
-                    already have an account? <Link to="/">Log in</Link>
-                </div>
-            </Container>
-        </>
+            <div className="text-center mt-3">
+                already have an account? <Link to="/">Log in</Link>
+            </div>
+        </Container>
     )
 }
 

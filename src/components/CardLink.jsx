@@ -6,10 +6,10 @@ const CardLink = ({ endpoint, icon, text }) => {
     const navigate = useNavigate()
 
     return (
-        <Container onClick={() => navigate(endpoint)} className='card-link'>
+        <div onClick={() => navigate(endpoint)} className='card-link'>
             <img src={icon} alt="icon" />
             <h3>{text}</h3>
-        </Container>
+        </div>
     )
 }
 

@@ -5,6 +5,7 @@ import Review from '../components/Review'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import ReceivedReviewCard from '../components/ReceivedReviewCard'
+import { Container } from 'react-bootstrap'
 
 const SharedPage = () => {
     const {currentUser} = useAuthContext()
@@ -22,19 +23,22 @@ const SharedPage = () => {
     }
     
     return (
-        <div>
+        <Container>
             {loading && <p>loading...</p>}
             {data && (
                 <>
                     <h1>Received reviews</h1>
-                    {data.map(review => (
-                        <ReceivedReviewCard key={review.uid} review={review} handleSeeDetails={handleSeeDetails} />
-                    ))}
+                    <section className='grid'>
+                        {data.map(review => (
+                            <ReceivedReviewCard key={review.uid} review={review} handleSeeDetails={handleSeeDetails} />
+                        ))}
+                    </section>
+                    
 
                     {clickedReview && <Review setClickedReview={setClickedReview} review={clickedReview} />}
                 </>
             )}
-        </div>
+        </Container>
     )
 }
 

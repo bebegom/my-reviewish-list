@@ -40,9 +40,11 @@ const TvshowGenrePage = () => {
                 <>
                     {errorOccurred && <h1>{errorOccurred}</h1>}
                     {!errorOccurred && <h1>Tvshows - {nameOfThisGenre}</h1>}
-                    {data.results.map(tvshow => (
-                        <TvshowCard key={tvshow.id} tvshow={tvshow} />
-                    ))}
+                    <section className='grid'>
+                        {data.results.map(tvshow => (
+                            <TvshowCard key={tvshow.id} tvshow={tvshow} />
+                        ))}
+                    </section>
 
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
                 </>

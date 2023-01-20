@@ -9,7 +9,6 @@ const WishlistItemCard = ({ item, setShowMovieForm, setShowTvshowForm, setClicke
     const { data: allWishes, loading: allWishesLoading } = useGetCollection('wishlist')
     const { currentUser } = useAuthContext()
 
-    // TODO: create funtion 
     const addReview = (item) => {
         setClickedItem(item)
 
@@ -35,11 +34,6 @@ const WishlistItemCard = ({ item, setShowMovieForm, setShowTvshowForm, setClicke
 
     }
 
-    // useEffect(()=> {
-    //     // delete from wishlist
-    //     deleteFromWishlist(item)
-    // }, [submit])
-
     return (
         <div className="wishlist-card-item" key={item.uid}>
             <div className="wishlist-card-item-info">
@@ -47,20 +41,10 @@ const WishlistItemCard = ({ item, setShowMovieForm, setShowTvshowForm, setClicke
                 <div className="wishlist-card-item-title-and-year">
                     <h2>{item.is_movie ? item.title : item.name}</h2>
                     <p>{item.is_movie ? item.release_date : item.number_of_seasons }</p>
-                    {/* <p className="p-small">
-                    {item.genres.map((genre, index) => {
-                        if (index + 1 == item.genres.length) {
-                            return `${genre.name}`
-                        } else {
-                            return `${genre.name} - `
-                        }
-                    })}
-                    </p> */}
                 </div>
             </div>
             <div className="card-item-btns">
                 <button className="btn-primary" onClick={() => deleteFromWishlist(item)}>Delete</button>
-
                 <button onClick={() => addReview(item)} className="btn-secondary">Add review</button>
             </div>
             
