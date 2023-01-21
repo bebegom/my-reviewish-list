@@ -53,7 +53,7 @@ const EmailToShareWithInput = ({ setWannaShare, review }) => {
                 <Form onSubmit={(e)=> handleSubmit(e)}>
                     <Form.Group id='email'>
                         <Form.Label>Who you wanna send to</Form.Label>
-                        <Form.Control ref={emailRef} type='email' required />
+                        <Form.Control placeholder='example@gmail.com' ref={emailRef} type='email' required />
                     </Form.Group>
                     <Button disabled={loading} type='submit'>Send</Button>
                 </Form>

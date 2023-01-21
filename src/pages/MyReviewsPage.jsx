@@ -27,6 +27,7 @@ const MyReviewsPage = () => {
 
         if(newFolderNameRef.current.value == '') {
             setErrorOccurred("Please enter a name for your folder")
+            return
         }
 
         try {
