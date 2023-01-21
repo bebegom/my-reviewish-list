@@ -46,7 +46,19 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, itemFrom
         e.preventDefault()
         setLoading(true)
 
+        if(myRating == null) {
+            setErrorOccurred("You didn't give the movie a rating")
+            setLoading(false)
+            return
+        }
+
         if(movie == null && review == null && itemFromWishlistUid == null) {
+            if (titleRef.current.value == '') {
+                setErrorOccurred("You need to give the movie a title")
+                setLoading(false)
+                return
+            }
+
             try {
                 await addDoc(collection( db, `users/${currentUser.uid}/reviews`), {
                     is_movie: true,
@@ -326,7 +338,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, itemFrom
                                 )}
                             </Form.Group>
         
-                            <Button disabled={loading} type='submit'>Submit</Button>
+                            <Button disabled={loading || errorOccurred} type='submit'>Submit</Button>
                         </Form>
                     </div>
                 </div>

@@ -48,7 +48,19 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
         e.preventDefault()
         setLoading(true)
 
+        if(myRating == null) {
+            setErrorOccurred("You didn't give the show a rating")
+            setLoading(false)
+            return
+        }
+
         if(tvshow == null && review == null && itemFromWishlistUid == null) {
+            if (titleRef.current.value == '') {
+                setErrorOccurred("You need to give the show a title")
+                setLoading(false)
+                return
+            }
+
             try {
                 await addDoc(collection(db, `users/${currentUser.uid}/reviews`), {
                     is_movie: false,
@@ -355,7 +367,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                                 )}
                             </Form.Group>
         
-                            <Button disabled={loading} type='submit'>Submit</Button>
+                            <Button disabled={loading || errorOccurred} type='submit'>Submit</Button>
                         </Form>
                     </div>
                 </div>
