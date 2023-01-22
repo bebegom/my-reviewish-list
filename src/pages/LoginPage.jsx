@@ -51,7 +51,7 @@ const LoginPage = () => {
                         <Form.Control type="password" ref={passwordRef} required />
                     </Form.Group>
 
-                    <Button disabled={loading} type='submit'>Login</Button>
+                    <Button className='mt-3' disabled={loading} type='submit'>Login</Button>
                 </Form>
 
                 <div className="text-center mt-3">

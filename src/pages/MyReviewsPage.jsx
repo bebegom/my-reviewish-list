@@ -57,9 +57,9 @@ const MyReviewsPage = () => {
                     </div>
 
                     {wannaCreateNewFolder && (
-                        <Form onSubmit={handleNewFolderSubmit}>
+                        <Form className="mt-3" onSubmit={handleNewFolderSubmit}>
                             <Form.Control type='text' placeholder='Name your folder' ref={newFolderNameRef} />
-                            <button type="submit">Create</button>
+                            <button className="btn-primary mt-2" type="submit">Create</button>
                         </Form>
                     )}
 

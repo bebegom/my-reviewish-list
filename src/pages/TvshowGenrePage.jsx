@@ -4,6 +4,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { getTvshowGenre, getTvshowGenres } from '../services/tmdbAPI'
 import Pagination from '../components/Pagination'
 import TvshowCard from '../components/TvshowCard'
+import Container from 'react-bootstrap/Container'
 
 const TvshowGenrePage = () => {
     const [nameOfThisGenre, setNameOfThisGenre] = useState('')
@@ -31,7 +32,7 @@ const TvshowGenrePage = () => {
     }, [page, tvshowGenreId])
 
     return (
-        <div>
+        <Container>
 
             {isLoading && (<p>Loading movies...</p>)}
             {isError && (<p>ERROR {error.message}</p>)}
@@ -49,7 +50,7 @@ const TvshowGenrePage = () => {
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
                 </>
             )}
-        </div>
+        </Container>
     )
 }
 

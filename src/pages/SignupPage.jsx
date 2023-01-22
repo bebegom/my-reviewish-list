@@ -60,7 +60,7 @@ const SignupPage = () => {
                     <Form.Control type="password" ref={passwordConfirmRef} required />
                 </Form.Group>
 
-                <Button disabled={loading} type='submit'>Sign up</Button>
+                <Button className='mt-3' disabled={loading} type='submit'>Sign up</Button>
             </Form>
 
             <div className="text-center mt-3">

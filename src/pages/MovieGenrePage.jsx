@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Container } from 'react-bootstrap'
 import { useQuery } from 'react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
 import MovieCard from '../components/MovieCard'
@@ -29,7 +30,7 @@ const MovieGenrePage = () => {
     }, [page, movieGenreId])
 
     return (
-        <div>
+        <Container>
 
             {isLoading && (<p>Loading movies...</p>)}
             {isError && (<p>ERROR {error.message}</p>)}
@@ -47,7 +48,7 @@ const MovieGenrePage = () => {
                     <Pagination page={page} changePage={setSearchParams} isPreviousData={isPreviousdata}/>
                 </>
             )}
-        </div>
+        </Container>
     )
 }
 

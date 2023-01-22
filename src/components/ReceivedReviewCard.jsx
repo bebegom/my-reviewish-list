@@ -6,7 +6,7 @@ const ReceivedReviewCard = ({ review, handleSeeDetails }) => {
             <h2>{review.is_movie ? review.title : review.name}</h2>
             <p>from: {review.from_user}</p>
             <p>Have you read their review yet? {review.seen ? 'yes' : 'no'}</p>
-            <button className='btn-primary' onClick={() => handleSeeDetails(review)}>See details</button>
+            <button className='btn-primary mt-3' onClick={() => handleSeeDetails(review)}>See details</button>
         </div>
     )
 }

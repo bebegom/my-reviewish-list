@@ -288,7 +288,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                         <Form onSubmit={submitReview}>
                             <Rating myRating={myRating} setMyRating={setMyRating} />
         
-                            <Form.Group>
+                            <Form.Group className='mb-3'>
                                 <Form.Label>Favorite character</Form.Label>
                                 {tvshow && (
                                     <Form.Select onChange={(e) => setFavoriteCharacter(e.target.value)}>
@@ -308,7 +308,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                                 )}
                             </Form.Group>
         
-                            <Form.Group>
+                            <Form.Group className='mb-3'>
                                 <Form.Label>Favorite season</Form.Label>
                                 {tvshow && (
                                     <Form.Select onChange={(e) => setFavoriteSeason(e.target.value)}>
@@ -328,12 +328,12 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                                 )}
                             </Form.Group>
         
-                            <Form.Group>
+                            <Form.Group className='mb-3'>
                                 <Form.Label>Write something</Form.Label>
                                 <Form.Control ref={myReviewRef} defaultValue={review ? review.my_review : ''} as='textarea' rows={7} />
                             </Form.Group>
         
-                            <Form.Group>
+                            <Form.Group className='mb-3'>
                                 <Form.Label>Choose a folder</Form.Label>
                                 {allUsersFolders && (
                                     <>
@@ -367,7 +367,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
                                 )}
                             </Form.Group>
         
-                            <Button disabled={loading || errorOccurred} type='submit'>Submit</Button>
+                            <Button className='mt-3' disabled={loading || errorOccurred} type='submit'>Submit</Button>
                         </Form>
                     </div>
                 </div>

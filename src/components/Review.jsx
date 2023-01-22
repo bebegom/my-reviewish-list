@@ -22,7 +22,7 @@ const Review = ({ review, setClickedReview }) => {
 
 	return (
 		<div onClick={() => setClickedReview(null)} className='lightbox h-100'>
-			<div className='lightbox-content'>
+			<div className='lightbox-content p-3'>
 				{errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
 				<h1>
 					{review.is_movie ? review.title : review.name}
@@ -37,7 +37,7 @@ const Review = ({ review, setClickedReview }) => {
 					{review.my_review}
 				</p>
 
-				<button onClick={deleteReceivedReview} className='btn-primary'>Delete</button>
+				<button onClick={deleteReceivedReview} className='btn-primary mt-3'>Delete</button>
 			</div>
 		</div>
 	)
