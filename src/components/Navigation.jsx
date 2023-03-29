@@ -28,7 +28,7 @@ const Navigation = () => {
                                     {movieGenresData && (
                                         <Dropdown.Menu className='dropdaown-menu'>
                                             {movieGenresData.genres.map(i => (
-                                                <Dropdown.Item key={i.id} as={NavLink} to={`/movies/${i.id}`}>
+                                                <Dropdown.Item key={i.id} as={NavLink} to={`/movies/genres/${i.id}`}>
                                                     {i.name}
                                                 </Dropdown.Item>
                                             ))}
@@ -43,7 +43,7 @@ const Navigation = () => {
                                     {tvshowGenreData && (
                                         <Dropdown.Menu>
                                             {tvshowGenreData.genres.map(i => (
-                                                <Dropdown.Item key={i.id} as={NavLink} to={`/tvshows/${i.id}`}>
+                                                <Dropdown.Item key={i.id} as={NavLink} to={`/tvshows/genres/${i.id}`}>
                                                     {i.name}
                                                 </Dropdown.Item>
                                             ))}
