@@ -51,6 +51,7 @@ const Navigation = () => {
                                     )}
                                 </Dropdown>
 
+                                <Nav.Link as={NavLink} to="/search">Search</Nav.Link>
                                 <Nav.Link as={NavLink} to="/toplists">Toplists</Nav.Link>
                                 <Nav.Link as={NavLink} to="/logout">Log out</Nav.Link>
                             </>

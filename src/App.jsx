@@ -22,6 +22,7 @@ import MostWantedPage from './pages/toplists/MostWantedPage'
 import MostActiveUserPage from './pages/toplists/MostActiveUserPage'
 import MyReviewPage from './pages/MyReviewPage'
 import MyfolderPage from './pages/MyfolderPage'
+import SearchPage from './pages/SearchPage'
 
 function App() {
 	const { currentUser } = useAuthContext()
@@ -126,6 +127,12 @@ function App() {
 				<RequireAuth>
 					<TvshowPage />
 				</RequireAuth>
+				} />
+				
+				<Route path={"/search"} element={
+					<RequireAuth>
+						<SearchPage />
+					</RequireAuth>
 				} />
 
 			</Routes>

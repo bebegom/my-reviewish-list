@@ -63,6 +63,7 @@ const MoviePage = () => {
 
             {data && (
                 <>
+                
                     <div className='d-flex'>
                         <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="" />
                         <div className='d-flex flex-column justify-content-between'>

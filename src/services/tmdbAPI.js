@@ -32,3 +32,11 @@ export const getMovie = (id) => {
 export const getTvshow = (id) => {
     return get(`/tv/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
 }
+
+export const searchMovie = (searchQuery, page) => {
+    return get(`/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`)
+}
+
+export const searchTvshow = (searchQuery, page) => {
+    return get(`/search/tv?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`)
+}
