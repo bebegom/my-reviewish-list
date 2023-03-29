@@ -34,7 +34,7 @@ const MostWatchedPage = () => {
                                 const type = i.substring(firstIndex + 1, lastIndex)
 
                                 if(index < 10) {
-                                    return <div onClick={() => navigate(`/${type == 'movie' ? 'movies' : 'tvshows'}/${iId}`)} ><MostActiveUserCard key={index} email={i.substring(0, firstIndex)} index={index} arraysOfEmailAndCount={arraysOfItemAndCount} /></div>
+                                    return <div key={index} onClick={() => navigate(`/${type == 'movie' ? 'movies' : 'tvshows'}/${iId}`)} ><MostActiveUserCard email={i.substring(0, firstIndex)} index={index} arraysOfEmailAndCount={arraysOfItemAndCount} /></div>
                                 }
                             })}
                         </>
