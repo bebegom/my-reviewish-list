@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Container, Form } from 'react-bootstrap'
 import MovieCard from '../components/MovieCard'
-import { searchMovie } from '../services/tmdbAPI'
+import { searchMovie, searchTvshow } from '../services/tmdbAPI'
 import Pagination from '../components/Pagination'
+import TvshowCard from '../components/TvshowCard'
 
 const SearchPage = () => {
     const searchRef = useRef()
     const [loading, setLoading] = useState(false)
     const [searchPage, setSearchPage] = useState(1)
     const [searchResult, setSearchResult] = useState(null)
+    const [selectedType, setSelectedType] = useState('movies')
 
     const getNewPage = async () => {
         setLoading(true)
-        const res = await searchMovie(searchRef.current.value, searchPage)
+        const res = await searchMovie(searchRef.current.value, searchPage, selectedType)
         setSearchResult(res)
         setLoading(false)
     }
@@ -33,7 +35,7 @@ const SearchPage = () => {
         
         setSearchPage(1)
         console.log('searching with ' + searchRef.current.value)
-        const res = await searchMovie(searchRef.current.value, searchPage)
+        const res = await searchMovie(searchRef.current.value, searchPage, selectedType)
         setSearchResult(res)
         console.log(res)
 
@@ -44,8 +46,12 @@ const SearchPage = () => {
   return (
     <Container>
       <Form onSubmit={handleSubmit} className="my-3">
-        <Form.Label>Search</Form.Label>
-        <Form.Control ref={searchRef} type="text" placeholder='search' />
+        
+        <Form.Select onChange={(value) => setSelectedType(value.currentTarget.value)}>
+            <option value="movies">Movies</option>
+            <option value="tvshows">Tvshows</option>
+        </Form.Select>
+        <Form.Control ref={searchRef} type="text" placeholder={`search for ${selectedType}`} className="my-2" />
       </Form>
 
       {loading && (
@@ -55,9 +61,20 @@ const SearchPage = () => {
       {searchResult && (
         <>
             <section className='grid'>
-                {searchResult.results.map(movie => (
-                    <MovieCard key={movie.id} movie={movie} />
-                    ))}
+                {selectedType == 'movies' && (
+
+                    searchResult.results.map(item => (
+                        <MovieCard key={item.id} movie={item} />
+                        ))
+                )}
+
+                {selectedType == 'tvshows' && (
+
+                searchResult.results.map(item => (
+                    <TvshowCard key={item.id} tvshow={item} />
+                    ))
+                )}
+                
             </section>
 
             <Pagination changePage={setSearchPage} page={searchPage} isPreviousData={loading} totalPages={searchResult.total_pages} />

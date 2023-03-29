@@ -40,3 +40,4 @@ export const searchMovie = (searchQuery, page) => {
 export const searchTvshow = (searchQuery, page) => {
     return get(`/search/tv?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&query=${searchQuery}&page=${page}&include_adult=false`)
 }
+
