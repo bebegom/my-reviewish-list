@@ -128,14 +128,27 @@ p {
 .nav-link {
     font-size: 15px;
     margin: 0;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .dropdown {
     background-color: $card-background-color;
-    color: $black;
+    color: $black !important;
     border: none;
+
+    &:hover {
+        background-color: $card-background-color;
+        color: $black !important;
+    }
+
+    &:active, &:focus, .dropdown-toggle {
+        background-color: $card-background-color !important;
+    }
+
+    &:active, &:focus, &:focus-visible {
+        color: $primary-button-color !important;
+    }
 }
 
 .dropdown-menu {
