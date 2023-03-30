@@ -104,26 +104,22 @@ function App() {
 					</RequireAuth>
 				} />
 
-				{/* <Route path={"/create/movie"} element={<CreateMoviePage />} /> */}
-				{/* <Route path={"/create/tvshow"} element={<CreateTvshowPage />} /> */}
-				{/* <Route path={"/edit-review"} element={<EditReviewPage />} /> */}
-
-				<Route path={"/movies/:movieGenreId"} element={
+				<Route path={"/movies/genres/:movieGenreId"} element={
 					<RequireAuth>
 						<MovieGenrePage />
 					</RequireAuth>
 				} />
-				<Route path={"/movies/:movieGenreId/:movieId"} element={
+				<Route path={"/movies/:movieId"} element={
 					<RequireAuth>
 						<MoviePage />
 					</RequireAuth>
 				} />
-				<Route path={"/tvshows/:tvshowGenreId"} element={
+				<Route path={"/tvshows/genres/:tvshowGenreId"} element={
 					<RequireAuth>
 						<TvshowGenrePage />
 					</RequireAuth>
 				} />
-				<Route path={"/tvshows/:tvshowGenreId/:tvshowId"} element={
+				<Route path={"/tvshows/:tvshowId"} element={
 				<RequireAuth>
 					<TvshowPage />
 				</RequireAuth>

@@ -18,11 +18,11 @@ const TvshowCard = ({ tvshow }) => {
                 <>
                     <div onClick={(e) => {
                         if(e.target.tagName != "BUTTON") {
-                            return navigate(`/tvshows/${tvshowGenreId}/${data.id}`)
+                            return navigate(`/tvshows/${data.id}`)
                         }
                     }} className='movie-card' key={data.id}>
-                        <img className='poster-img' src={`${baseIMG}${data.poster_path}`} />
-                        <div>
+                        <img className='poster-img movie-card-poster' src={`${baseIMG}${data.poster_path}`} />
+                        <div className='movie-card-overview'>
                             <h2>{data.name}</h2>
                         </div>
                     </div>

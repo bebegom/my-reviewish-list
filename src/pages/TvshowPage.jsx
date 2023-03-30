@@ -6,6 +6,7 @@ import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useState, useEffect } from 'react'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
+import Rating from '../components/Rating'
 import useGetCollection from '../hooks/useGetCollection'
 import ErrorMessage from '../components/ErrorMessage'
 import { Container } from 'react-bootstrap'
@@ -62,20 +63,31 @@ const TvshowPage = () => {
             {errorOccurred && <ErrorMessage msg={errorOccurred} setError={setErrorOccurred} />}
             {data && (
                 <>
-                    <div className='d-flex'>
-                        <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="" />
-                        <div className='d-flex- flex-column'>
+                    <div className='d-flex poster-container'>
+                        <img className='poster-detail-page' src={`${baseIMG}${data.poster_path}`} alt="" />
+                        <div className='d-flex- flex-column mx-2'>
                             <h1>{data.name}</h1>
                             <p>{data.number_of_seasons} seasons</p>
                             <button disabled={usersReviewsData.find(movie => movie.id == data.id)} className='btn-primary' onClick={() => setShowCreateTvshowReviewForm(true)}>{usersReviewsData.find(movie => movie.id == data.id) ? 'Already reviewed' : 'Add review'}</button>
-                            <button disabled={usersWishlistData.find(movie => movie.id == data.id) || usersReviewsData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : usersReviewsData.find(movie => movie.id == data.id) ? 'Already reviewed' : 'Add to wishlist'}</button>
+                            <button disabled={usersWishlistData.find(movie => movie.id == data.id) || usersReviewsData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : usersReviewsData.find(movie => movie.id == data.id) ? 'Already seen' : 'Add to wishlist'}</button>
                         </div>
                     </div>
-                    {reviewCount && (
-                        <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
-                    )}
+                   
                     <h2>Overview</h2>
                     <p>{data.overview}</p>
+                    <h2>Reviews</h2>
+                    {reviewCount && (
+                        <>
+                            <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
+                            {reviewCount.map(i => 
+                                <div key={i.uid} className='review'>
+                                    <Rating myRating={i.my_rating} />
+                                    <p>{i.my_review}</p>
+                                </div>
+                            )}
+                        </>
+                    )}
+
                 </>
             )}
 

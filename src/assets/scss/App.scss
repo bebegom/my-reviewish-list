@@ -125,6 +125,13 @@ p {
     padding-bottom: 1rem;
 }
 
+.nav-link {
+    font-size: 15px;
+    margin: 0;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
 .dropdown {
     background-color: $card-background-color;
     color: $black;
@@ -156,7 +163,6 @@ p {
         border-radius: $border-radius;
         margin-top: 50px;
         margin-bottom: 50px;
-        // width: 80%;
     }
 }
 
@@ -173,9 +179,17 @@ img {
     border-radius: $border-radius;
 }
 
+.poster-container {
+    height: 400px;
+}
+
 .poster-img {
     width: auto;
     height: 7rem;
+}
+
+.poster-detail-page {
+    height: 400px;
 }
 
 .full-width {
@@ -258,6 +272,11 @@ img {
     margin: 1rem;
     padding: 0.5rem;
     display: flex;
+    height: 130px;
+
+    .movie-card-poster {
+        align-self: center;
+    }
 
     .movie-card-overview {
         margin-left: 0.5rem;
@@ -319,6 +338,19 @@ img {
     margin-top: 0.5rem;
     padding: 0.5rem;
     box-shadow: 1px 2px 7px rgb(113, 102, 102);
+}
+
+.review {
+    background-color: $card-background-color;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.015%;
+    margin-bottom: 0.5rem;
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
 }
 
 @media screen and (min-width: 576px) {
