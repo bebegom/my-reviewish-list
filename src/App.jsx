@@ -103,10 +103,6 @@ function App() {
 					</RequireAuth>
 				} />
 
-				{/* <Route path={"/create/movie"} element={<CreateMoviePage />} /> */}
-				{/* <Route path={"/create/tvshow"} element={<CreateTvshowPage />} /> */}
-				{/* <Route path={"/edit-review"} element={<EditReviewPage />} /> */}
-
 				<Route path={"/movies/genres/:movieGenreId"} element={
 					<RequireAuth>
 						<MovieGenrePage />

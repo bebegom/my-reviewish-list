@@ -22,7 +22,7 @@ const Navigation = () => {
                         {currentUser && (
                             <>
                                 <Dropdown>
-                                   <Dropdown.Toggle className='dropdown'>
+                                   <Dropdown.Toggle className='dropdown nav-link'>
                                         Movies
                                     </Dropdown.Toggle>
                                     {movieGenresData && (
@@ -37,7 +37,7 @@ const Navigation = () => {
                                 </Dropdown>
 
                                 <Dropdown>
-                                   <Dropdown.Toggle className='dropdown'>
+                                   <Dropdown.Toggle className='dropdown nav-link'>
                                         Tvshows
                                     </Dropdown.Toggle>
                                     {tvshowGenreData && (
@@ -51,8 +51,8 @@ const Navigation = () => {
                                     )}
                                 </Dropdown>
 
-                                <Nav.Link as={NavLink} to="/toplists">Toplists</Nav.Link>
-                                <Nav.Link as={NavLink} to="/logout">Log out</Nav.Link>
+                                <Nav.Link className='nav-link' as={NavLink} to="/toplists">Toplists</Nav.Link>
+                                <Nav.Link className='nav-link' as={NavLink} to="/logout">Log out</Nav.Link>
                             </>
                         )}
 

@@ -21,7 +21,7 @@ const MovieCard = ({ movie }) => {
                             return navigate(`/movies/${data.id}`)
                         }
                         }} className='movie-card' key={data.id}>
-                        <img className="poster-img" src={`${baseIMG}${data.poster_path}`} alt='poster' />
+                        <img className="poster-img movie-card-poster" src={`${baseIMG}${data.poster_path}`} alt='poster' />
                         <div className='movie-card-overview'>
                             <h2>{data.title}</h2>
                             <p className='p-small'>{data.release_date}</p>

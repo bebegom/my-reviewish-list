@@ -64,9 +64,9 @@ const MoviePage = () => {
 
             {data && (
                 <>
-                    <div className='d-flex'>
-                        <img className='poster-img' src={`${baseIMG}${data.poster_path}`} alt="" />
-                        <div className='d-flex flex-column justify-content-between'>
+                    <div className='d-flex poster-container'>
+                        <img className='poster-detail-page' src={`${baseIMG}${data.poster_path}`} alt="" />
+                        <div className='d-flex flex-column mx-2'>
                             <h1>{data.title}</h1>
                             <p>{data.release_date}</p>
 
@@ -74,9 +74,7 @@ const MoviePage = () => {
                             <button disabled={usersWishlistData.find(movie => movie.id == data.id) || usersReviewsData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : usersReviewsData.find(movie => movie.id == data.id) ? 'Already seen and reviewed' : 'Add to wishlist'}</button>
                         </div>
                     </div>
-                    {reviewCount && (
-                        <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
-                    )}
+                    
                     <h2>Overview</h2>
                     <p>{data.overview}</p>
 
