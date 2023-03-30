@@ -6,6 +6,7 @@ import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 import { useState, useEffect } from 'react'
 import CreateTvshowReviewForm from '../components/CreateTvshowReviewForm'
+import Rating from '../components/Rating'
 import useGetCollection from '../hooks/useGetCollection'
 import ErrorMessage from '../components/ErrorMessage'
 import { Container } from 'react-bootstrap'
@@ -76,6 +77,19 @@ const TvshowPage = () => {
                     )}
                     <h2>Overview</h2>
                     <p>{data.overview}</p>
+                    <h2>Reviews</h2>
+                    {reviewCount && (
+                        <>
+                            <p className='p-small'>({reviewCount.length} reviews made on Mr.L)</p>
+                            {reviewCount.map(i => 
+                                <div key={i.uid} className='review'>
+                                    <Rating myRating={i.my_rating} />
+                                    <p>{i.my_review}</p>
+                                </div>
+                            )}
+                        </>
+                    )}
+
                 </>
             )}
 

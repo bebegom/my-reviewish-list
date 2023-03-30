@@ -321,6 +321,19 @@ img {
     box-shadow: 1px 2px 7px rgb(113, 102, 102);
 }
 
+.review {
+    background-color: $card-background-color;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.015%;
+    margin-bottom: 0.5rem;
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+
 @media screen and (min-width: 576px) {
     .folders-section {
         grid-template-columns: 47% 47%;
