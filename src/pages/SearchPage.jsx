@@ -34,10 +34,8 @@ const SearchPage = () => {
         }
         
         setSearchPage(1)
-        console.log('searching with ' + searchRef.current.value)
         const res = await searchMovie(searchRef.current.value, searchPage, selectedType)
         setSearchResult(res)
-        console.log(res)
 
         setLoading(false)
        
@@ -76,8 +74,9 @@ const SearchPage = () => {
                 )}
                 
             </section>
-
-            <Pagination changePage={setSearchPage} page={searchPage} isPreviousData={loading} totalPages={searchResult.total_pages} />
+            {searchResult.results.length > 0 && (
+              <Pagination changePage={setSearchPage} page={searchPage} isPreviousData={loading} totalPages={searchResult.total_pages} />
+            )}
         </>
       )}
     </Container>
