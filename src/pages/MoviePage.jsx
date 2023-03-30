@@ -71,7 +71,7 @@ const MoviePage = () => {
                             <p>{data.release_date}</p>
 
                             <button disabled={usersReviewsData.find(movie => movie.id == data.id)} className='btn-primary' onClick={() => setShowCreateMovieReviewForm(true)}>{usersReviewsData.find(movie => movie.id == data.id) ? 'Already reviewed' : 'Add review'}</button>
-                            <button disabled={usersWishlistData.find(movie => movie.id == data.id) || usersReviewsData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : usersReviewsData.find(movie => movie.id == data.id) ? 'Already seen and reviewed' : 'Add to wishlist'}</button>
+                            <button disabled={usersWishlistData.find(movie => movie.id == data.id) || usersReviewsData.find(movie => movie.id == data.id)} className='btn-secondary' onClick={addToWishlist}>{usersWishlistData.find(movie => movie.id == data.id) ? 'Already in wishlist' : usersReviewsData.find(movie => movie.id == data.id) ? 'Already seen' : 'Add to wishlist'}</button>
                         </div>
                     </div>
                     
