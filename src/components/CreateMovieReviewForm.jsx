@@ -220,6 +220,7 @@ const CreateMovieReviewForm = ({ showForm, movie = null, review = null, itemFrom
         }
 
         // hide component
+        window.location.reload()
         showForm(false)
         setLoading(false)
     }
