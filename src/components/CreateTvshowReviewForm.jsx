@@ -227,6 +227,7 @@ const CreateTvshowReviewForm = ({ showForm, tvshow = null, review = null, itemFr
         }
 
         // hide component
+        window.location.reload()
         showForm(false)
         setLoading(false)
     }
