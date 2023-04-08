@@ -10,7 +10,6 @@ const SearchPage = () => {
     const searchRef = useRef()
     const [loading, setLoading] = useState(false)
     const [isSearching, setIsSearching] = useState(false)
-    // const [searchPage, setSearchPage] = useState(1)
     const [searchResult, setSearchResult] = useState(null)
     const [selectedType, setSelectedType] = useState('movies')
 
@@ -52,7 +51,7 @@ const SearchPage = () => {
         }
         
         setIsSearching(true)
-        // setSearchPage(1)
+
         if(selectedType === 'tvshows') {
           const res = await searchTvshow(searchRef.current.value, page)
           setSearchResult(res)
