@@ -4,23 +4,27 @@ import MovieCard from '../components/MovieCard'
 import { searchMovie, searchTvshow } from '../services/tmdbAPI'
 import Pagination from '../components/Pagination'
 import TvshowCard from '../components/TvshowCard'
+import { useSearchParams } from 'react-router-dom'
 
 const SearchPage = () => {
     const searchRef = useRef()
     const [loading, setLoading] = useState(false)
     const [isSearching, setIsSearching] = useState(false)
-    const [searchPage, setSearchPage] = useState(1)
+    // const [searchPage, setSearchPage] = useState(1)
     const [searchResult, setSearchResult] = useState(null)
     const [selectedType, setSelectedType] = useState('movies')
+
+    const [searchParams, setSearchParams] = useSearchParams({ query: '', page: 1 })
+    const page = searchParams.get('page')
     
     const getNewPage = async () => {
         setLoading(true)
         if(selectedType === 'tvshows') {
-          const res = await searchTvshow(searchRef.current.value, searchPage)
+          const res = await searchTvshow(searchRef.current.value, page)
           setSearchResult(res)
           setLoading(false)
         } else {
-          const res = await searchMovie(searchRef.current.value, searchPage)
+          const res = await searchMovie(searchRef.current.value, page)
           setSearchResult(res)
           setLoading(false)
         }
@@ -28,7 +32,7 @@ const SearchPage = () => {
 
     useEffect( ()=> {
         getNewPage()
-    }, [searchPage])
+    }, [page])
 
     useEffect(() => {
       searchRef.current.value = '';
@@ -48,13 +52,13 @@ const SearchPage = () => {
         }
         
         setIsSearching(true)
-        setSearchPage(1)
+        // setSearchPage(1)
         if(selectedType === 'tvshows') {
-          const res = await searchTvshow(searchRef.current.value, searchPage)
+          const res = await searchTvshow(searchRef.current.value, page)
           setSearchResult(res)
           setLoading(false)
         } else {
-          const res = await searchMovie(searchRef.current.value, searchPage)
+          const res = await searchMovie(searchRef.current.value, page)
           setSearchResult(res)
           setLoading(false)
         }
@@ -103,7 +107,7 @@ const SearchPage = () => {
                 
             </section>
             {searchResult.results.length > 0 && (
-              <Pagination changePage={setSearchPage} page={searchPage} isPreviousData={loading} totalPages={searchResult.total_pages} />
+              <Pagination changePage={setSearchParams} page={page} isPreviousData={loading} totalPages={searchResult.total_pages} />
             )}
         </>
       )}
