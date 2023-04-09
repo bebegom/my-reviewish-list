@@ -14,7 +14,6 @@ const MostActiveUserPage = () => {
         const arrayOfEmails = data.map((doc) => doc.user_email)
         const result = getOccurrences(arrayOfEmails)
         const re = getSortedOccurrences([result[1], result[0]])
-        console.log(re)
         setArraysOfEmailAndCount(re)
     }, [data])
 

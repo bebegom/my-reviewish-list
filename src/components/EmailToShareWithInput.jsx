@@ -22,7 +22,6 @@ const EmailToShareWithInput = ({ setWannaShare, review }) => {
         try {
             // find user with email in firestore
             const userToSendTo = users.find(user => user.email == emailRef.current.value)
-            console.log(userToSendTo)
 
             // add new doc to the collection 'shared with me' for the other user
             await addDoc(collection(db, `users/${userToSendTo.id}/received`), {

@@ -13,8 +13,10 @@ const SearchPage = () => {
     const [searchResult, setSearchResult] = useState(null)
     const [selectedType, setSelectedType] = useState('movies')
 
-    const [searchParams, setSearchParams] = useSearchParams({ query: '', page: 1 })
+    const [searchParams, setSearchParams] = useSearchParams({type: 'movies', query: '', page: 1})
     const page = searchParams.get('page')
+    const query = searchParams.get('query')
+    const type = searchParams.get('type')
     
     const getNewPage = async () => {
         setLoading(true)
@@ -28,42 +30,44 @@ const SearchPage = () => {
           setLoading(false)
         }
     }
-
+    
     useEffect( ()=> {
-        getNewPage()
+      getNewPage()
     }, [page])
-
+    
     useEffect(() => {
-      searchRef.current.value = '';
+      searchRef.current.value = ''
       setSearchResult(null)
       setIsSearching(false)
     }, [selectedType])
-
+    
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setLoading(true)
-
-        if(searchRef.current.value === '') {
-          setSearchResult(null)
-          setIsSearching(false)
-          setLoading(false)
-          return
-        }
-        
-        setIsSearching(true)
-
-        if(selectedType === 'tvshows') {
-          const res = await searchTvshow(searchRef.current.value, page)
-          setSearchResult(res)
-          setLoading(false)
-        } else {
-          const res = await searchMovie(searchRef.current.value, page)
-          setSearchResult(res)
-          setLoading(false)
-        }
-        
+      e.preventDefault()
+      setLoading(true)
+      
+      if(searchRef.current.value === '') {
+        setSearchResult(null)
+        setIsSearching(false)
+        setLoading(false)
+        return
+      }
+      
+      setIsSearching(true)
+      
+      setSearchParams({type: selectedType, query: searchRef.current.value, page: 1})
+      
+      if(selectedType === 'tvshows') {
+        const res = await searchTvshow(searchRef.current.value, page)
+        setSearchResult(res)
+        setLoading(false)
+      } else {
+        const res = await searchMovie(searchRef.current.value, page)
+        setSearchResult(res)
+        setLoading(false)
+      }
+      
     }
-
+    
   return (
     <Container>
       <Form onSubmit={handleSubmit} className="my-3">
@@ -81,7 +85,7 @@ const SearchPage = () => {
         <p>loading...</p>
       )}
 
-      {!searchResult || !isSearching && (
+      {!isSearching && (
         <div className='d-flex align-items-center justify-content-center text-muted'>Start searching</div>
       )}
 
@@ -106,7 +110,7 @@ const SearchPage = () => {
                 
             </section>
             {searchResult.results.length > 0 && (
-              <Pagination changePage={setSearchParams} page={page} isPreviousData={loading} totalPages={searchResult.total_pages} />
+              <Pagination changePage={setSearchParams} page={page} isPreviousData={loading} totalPages={searchResult.total_pages} query={query} type={type} />
             )}
         </>
       )}

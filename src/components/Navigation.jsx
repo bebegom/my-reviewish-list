@@ -26,7 +26,7 @@ const Navigation = () => {
                                         Movies
                                     </Dropdown.Toggle>
                                     {movieGenresData && (
-                                        <Dropdown.Menu className='dropdaown-menu'>
+                                        <Dropdown.Menu className='dropdown-menu'>
                                             {movieGenresData.genres.map(i => (
                                                 <Dropdown.Item key={i.id} as={NavLink} to={`/movies/genres/${i.id}`}>
                                                     {i.name}
